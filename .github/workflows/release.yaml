@@ -1,0 +1,36 @@
+name: Release
+on:
+  push:
+    tags:
+    - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release on GitHub
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - run: git fetch --force --tags
+    - uses: actions/setup-go@v3
+      with:
+        go-version-file: go.mod
+        cache: true
+    - uses: bufbuild/buf-setup-action@b5ee8ca8d082edeeb8b0fc7fe1178ae0d671816a # v1.15.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: bufbuild/buf-push-action@1c45f6a21ec277ee4c1fa2772e49b9541ea17f38 # v1.1.1
+      with:
+        buf_token: ${{ secrets.BSR_TOKEN }}
+    - name: GoReleaser
+      uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4.2.0
+      with:
+        distribution: goreleaser
+        version: latest
+        args: release --clean
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,11 @@
+version: v1
+name: buf.build/cybozu/protobuf
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - BASIC
+  except:
+    - ENUM_PASCAL_CASE
+    - ENUM_NO_ALLOW_ALIAS

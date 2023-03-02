@@ -1,0 +1,299 @@
+syntax = "proto3";
+
+// Custom extensions to generate code for gRPC request validation/normalization.
+//
+// The custom options defined here are:
+// - `cybozu.validate.ignored` message option.
+// - `cybozu.validate.required` oneof option.
+// - `cybozu.validate.rules` field option.
+//
+// To generate normalization/validation code, use `protoc-gen-$LANG-cybozu-validate`
+// for the target language.
+package cybozu.validate;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/cybozu/protobuf/cybozu/validate";
+
+extend google.protobuf.MessageOptions {
+  // `ignored` stops generating `Validate()` method for this message.
+  bool ignored = 401000;
+}
+
+extend google.protobuf.OneofOptions {
+  // `required` ensures that a field in this oneof is set.
+  bool required = 401000;
+}
+
+extend google.protobuf.FieldOptions {
+  // `rules` specify the validations/normalizations to be performed on this field.
+  // Note that a string field will always be normalized to the UNICODE NFC form
+  // even if there is no rule specified.
+  FieldRules rules = 401000;
+}
+
+// FieldRules encapsulates the rules for each type of field.
+// Depending on the field type, one or two rule sets can be specified.
+message FieldRules {
+  // One of these constraints can be specified for a field.
+  //
+  // If the field is `optional` and not set, the specified rule will not be applied.
+  // For a map type field like `map<string, int64>`, you may specify a rule for the value type, here `int64`.
+  oneof type {
+    // `float` can be specified for a float type field.
+    FloatRules float = 1;
+
+    // `double` can be specified for a double type field.
+    DoubleRules double = 2;
+
+    // `int32` can be specified for an int32 type field.
+    Int32Rules int32 = 3;
+
+    // `int64` can be specified for an int64 type field.
+    Int64Rules int64 = 4;
+
+    // `uint32` can be specified for a uint32 type field.
+    Uint32Rules uint32 = 5;
+
+    // `uint64` can be specified for a uint64 type field.
+    Uint64Rules uint64 = 6;
+
+    // `sint32` can be specified for a sint32 type field.
+    Int32Rules sint32 = 7;
+
+    // `sint64` can be specified for a sint64 type field.
+    Int64Rules sint64 = 8;
+
+    // `fixed32` can be specified for a fixed32 type field.
+    Uint32Rules fixed32 = 9;
+
+    // `fixed64` can be specified for a fixed64 type field.
+    Uint64Rules fixed64 = 10;
+
+    // `sfixed32` can be specified for an sfixed32 type field.
+    Int32Rules sfixed32 = 11;
+
+    // `sfixed64` can be specified for an sfixed64 type field.
+    Int64Rules sfixed64 = 12;
+
+    // `bool` can be specified for a bool type field.
+    BoolRules bool = 13;
+
+    // `string` can be specified for a string type field.
+    StringRules string = 14;
+
+    // `bytes` can be specified for a bytes type field.
+    BytesRules bytes = 15;
+
+    // `enum` can be specified for an enum type field.
+    EnumRules enum = 16;
+
+    // `message` can be specified for a message type field except for the well-known types.
+    MessageRules message = 17;
+  }
+
+  // One of these constraints can be specified for a repeated field or a map field.
+  oneof items {
+    // `repeated` can be specified for any field with `repeated` specifier.
+    ItemsRules repeated = 1000;
+
+    // `map` can be specified for any map type field.
+    ItemsRules map = 1001;
+  }
+}
+
+// ItemsRules are optional message to specify the constraints on the number
+// of items in a repeated field or a map type.
+message ItemsRules {
+  // `min_items` specifies that this field must have the specified number of items at a minimum.
+  optional uint32 min_items = 1;
+
+  // `max_items` specifies that this field must have the specified number of items at a maximum.
+  optional uint32 max_items = 2;
+}
+
+// FloatRules provides rules for `float` field.
+message FloatRules {
+  // `lt` specifies that this field must be less than the specified value.
+  optional float lt = 1;
+
+  // `lte` specifies that this field must be less than or equal to the specified value.
+  optional float lte = 2;
+
+  // `gt` specifies that this field must be greater than the specified value.
+  optional float gt = 3;
+
+  // `gte` specifies that this field must be greater than or equal to the specified value.
+  optional float gte = 4;
+}
+
+// DoubleRules provides rules for `double` field.
+message DoubleRules {
+  // `lt` specifies that this field must be less than the specified value.
+  optional double lt = 1;
+
+  // `lte` specifies that this field must be less than or equal to the specified value.
+  optional double lte = 2;
+
+  // `gt` specifies that this field must be greater than the specified value.
+  optional double gt = 3;
+
+  // `gte` specifies that this field must be greater than or equal to the specified value.
+  optional double gte = 4;
+}
+
+// Int32Rules provides rules for `int32`, `sint32`, `sfixed32` fields.
+message Int32Rules {
+  // `lt` specifies that this field must be less than the specified value.
+  optional int32 lt = 1;
+
+  // `lte` specifies that this field must be less than or equal to the specified value.
+  optional int32 lte = 2;
+
+  // `gt` specifies that this field must be greater than the specified value.
+  optional int32 gt = 3;
+
+  // `gte` specifies that this field must be greater than or equal to the specified value.
+  optional int32 gte = 4;
+}
+
+// Int64Rules provides rules for `int64`, `sint64`, `sfixed64` fields.
+message Int64Rules {
+  // `lt` specifies that this field must be less than the specified value.
+  optional int64 lt = 1;
+
+  // `lte` specifies that this field must be less than or equal to the specified value.
+  optional int64 lte = 2;
+
+  // `gt` specifies that this field must be greater than the specified value.
+  optional int64 gt = 3;
+
+  // `gte` specifies that this field must be greater than or equal to the specified value.
+  optional int64 gte = 4;
+}
+
+// Uint32Rules provides rules for `uint32` and `fixed32` fields.
+message Uint32Rules {
+  // `lt` specifies that this field must be less than the specified value.
+  optional uint32 lt = 1;
+
+  // `lte` specifies that this field must be less than or equal to the specified value.
+  optional uint32 lte = 2;
+
+  // `gt` specifies that this field must be greater than the specified value.
+  optional uint32 gt = 3;
+
+  // `gte` specifies that this field must be greater than or equal to the specified value.
+  optional uint32 gte = 4;
+}
+
+// Uint64Rules provides rules for `uint64` and `fixed64` fields.
+message Uint64Rules {
+  // `lt` specifies that this field must be less than the specified value.
+  optional uint64 lt = 1;
+
+  // `lte` specifies that this field must be less than or equal to the specified value.
+  optional uint64 lte = 2;
+
+  // `gt` specifies that this field must be greater than the specified value.
+  optional uint64 gt = 3;
+
+  // `gte` specifies that this field must be greater than or equal to the specified value.
+  optional uint64 gte = 4;
+}
+
+// BoolRules provides rules for `bool` field.
+// Currently, no rule is available.
+message BoolRules {}
+
+// StringRules provides rules for `string` field.
+message StringRules {
+  // UNICODE normalization forms.
+  // In addition to the forms defined by https://www.unicode.org/reports/tr15/,
+  // we include PRECIS profiles as they are considered a variant of the NFC form.
+  enum UnicodeNormalizationForm {
+    // NFC form as defined by https://www.unicode.org/reports/tr15/
+    NFC = 0;
+
+    // NFD form as defined by https://www.unicode.org/reports/tr15/
+    NFD = 1;
+
+    // NFKC form as defined by https://www.unicode.org/reports/tr15/
+    NFKC = 2;
+
+    // NFKD form as defined by https://www.unicode.org/reports/tr15/
+    NFKD = 3;
+
+    // PRECIS UsernameCaseMapped profile as defined by RFC 8265
+    PRECIS_USERNAME_CASE_MAPPED = 100;
+
+    // PRECIS UsernameCasePreserved profile as defined by RFC 8265
+    PRECIS_USERNAME_CASE_PRESERVED = 101;
+
+    // PRECIS OpaqueString profile as defined by RFC 8265
+    PRECIS_OPAQUE_STRING = 102;
+  }
+
+  // `norm` specifies which normalization is to be applied to the string.
+  // By default, strings are normalized into the NFC form.
+  UnicodeNormalizationForm norm = 1;
+
+  // `ignore_empty` specifies whether to ignore validation rules when the string is empty.
+  bool ignore_empty = 2;
+
+  // `min_length` specifies the minimum string length.
+  // The length is counted as the number of UNICODE codepoints after normalization is applied.
+  optional uint32 min_length = 3;
+
+  // `max_length` specifies the maximum string length.
+  // The length is counted as the number of UNICODE codepoints after normalization is applied.
+  optional uint32 max_length = 4;
+
+  // `regex` specifies a regular expression that the string must match.
+  // The syntax of the regular expression is the same as google/re2.
+  // https://github.com/google/re2/wiki/Syntax
+  optional string regex = 5;
+
+  // For convenience, one of the following well-known pattern can be specified.
+  oneof predefined {
+    // `email` specifies that the field must be canonicalized and validated as an email address as defined by Section 3.4.1 in RFC 5322.
+    // See https://www.rfc-editor.org/rfc/rfc5322#section-3.4.1
+    bool email = 100;
+
+    // `uri` specifies that the field must be canonicalized and validated as an absolute URI as defined by RFC 3986.
+    bool uri = 101;
+
+    // `e164` specifies that the field must be canonicalized and validated as a telephone number as defined by E.164
+    // with a prefixing `+` sign and optional hyphen separators. E.g., "+81-3-1111-1111".
+    // See https://en.wikipedia.org/wiki/E.164
+    bool e164 = 102;
+  }
+}
+
+// BytesRules provides rules for `bytes` field.
+message BytesRules {
+  // `min_length` specifies the minimum length.
+  // The length is counted as the number of bytes.
+  optional uint32 min_length = 3;
+
+  // `max_length` specifies the maximum length.
+  // The length is counted as the number of bytes.
+  optional uint32 max_length = 4;
+}
+
+// EnumRules provides rules for `enum` field.
+message EnumRules {
+  // `required` specifies that this field must not be zero (usually, zero means unspecified).
+  bool required = 1;
+
+  // `defined_only` specifies that this field must be only one of the defined
+  // values for this enum, failing on any undefined value.
+  bool defined_only = 2;
+}
+
+// MessageRules provides rules for `message` field.
+// For a message field, validation/normalization will be done recursively.
+message MessageRules {
+  // `required` specifies that this field must be set.
+  bool required = 1;
+}
