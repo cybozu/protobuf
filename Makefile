@@ -16,7 +16,6 @@ PWD := $(shell pwd)
 BUF = $(PWD)/bin/buf
 RUN_BUF = PATH=$(PWD)/bin:$$PATH ./bin/buf
 PROTOC_GEN_GO = $(PWD)/bin/protoc-gen-go
-PROTOC_GEN_GO_CYBOZU_VALIDATE = $(PWD)/bin/protoc-gen-go-validate
 
 help:
 	@echo 'Available targets:'
@@ -38,15 +37,11 @@ $(PROTOC_GEN_GO):
 	mkdir -p bin
 	GOBIN=$(PWD)/bin go install google.golang.org/protobuf/cmd/protoc-gen-go@v$(PROTOC_GEN_GO_VERSION)
 
-$(PROTOC_GEN_GO_CYBOZU_VALIDATE):
-	mkdir -p bin
-	go build -o $@ ./cmd/protoc-gen-go-cybozu-validate
-
 .PHONY: all
 all:
 	$(MAKE) format
 	$(MAKE) go
-	echo skip this for now $(MAKE) validate
+	$(MAKE) validate
 
 .PHONY: test
 test:
@@ -76,8 +71,12 @@ format: $(BUF)
 go: $(BUF) $(PROTOC_GEN_GO)
 	$(RUN_BUF) generate --template buf.go.gen.yaml
 
+# We build protoc-gen-go-cybozu-validate everytime to
+# make sure it is up-to-date.
 .PHONY: validate
-validate: $(BUF) $(PROTOC_GEN_GO_CYBOZU_VALIDATE)
+validate: $(BUF)
+	mkdir -p bin
+	go build -o bin/protoc-gen-go-cybozu-validate ./cmd/protoc-gen-go-cybozu-validate
 	$(RUN_BUF) generate --template buf.go-cybozu-validate.gen.yaml
 
 .PHONY: create-tag

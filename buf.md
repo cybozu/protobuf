@@ -6,4 +6,4 @@ Currently, following packages are available:
 - `cybozu.validate`: custom options for generating normalization & validation code.
 - `examples`: usage examples of our custom Protocol Buffer options.
 
-The source code is available on https://github.com/cybozu/protobuf
+The source code and prebuilt code generators are available on [https://github.com/cybozu/protobuf](https://github.com/cybozu/protobuf).

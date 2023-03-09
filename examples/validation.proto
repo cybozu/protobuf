@@ -58,7 +58,7 @@ message Scalars {
     min_length: 3
     ignore_empty: true
   }];
-  bytes bytes = 15 [(cybozu.validate.rules).string = {max_length: 10}];
+  bytes bytes = 15 [(cybozu.validate.rules).bytes = {max_length: 10}];
 }
 
 // rules for optional fields are enforced only if the field is set.
@@ -88,23 +88,23 @@ message OptionalScalars {
     lt: 5
   }];
   optional fixed64 fixed64 = 10 [(cybozu.validate.rules).fixed64 = {
-    gt: 1
-    lt: 5
+    gte: 1
+    lte: 5
   }];
   optional sfixed32 sfixed32 = 11 [(cybozu.validate.rules).sfixed32 = {
     gt: 1
     lt: 5
   }];
   optional sfixed64 sfixed64 = 12 [(cybozu.validate.rules).sfixed64 = {
-    gt: 1
-    lt: 5
+    gte: 1
+    lte: 5
   }];
   optional bool bool = 13; // no available rules for bool
   optional string string = 14 [(cybozu.validate.rules).string = {
     min_length: 3
     ignore_empty: true
   }];
-  optional bytes bytes = 15 [(cybozu.validate.rules).string = {max_length: 10}];
+  optional bytes bytes = 15 [(cybozu.validate.rules).bytes = {max_length: 10}];
 }
 
 message RepeatedScalars {
@@ -129,23 +129,28 @@ message Strings {
   // normalize into the NFD form.
   string s2 = 2 [(cybozu.validate.rules).string = {norm: NFD}];
   // enforce the minimum length of the string if the string is NOT empty.
+  // This check is done after NFC normalization.
   string s3 = 3 [(cybozu.validate.rules).string = {
     min_length: 10
     ignore_empty: true
   }];
   // normalize and validate the string with a PRECIS profile.
   string s4 = 4 [(cybozu.validate.rules).string = {norm: PRECIS_USERNAME_CASE_MAPPED}];
+  // normalize and validate the string with a PRECIS profile.
+  string s5 = 5 [(cybozu.validate.rules).string = {norm: PRECIS_USERNAME_CASE_PRESERVED}];
+  // normalize and validate the string with a PRECIS profile.
+  string s6 = 6 [(cybozu.validate.rules).string = {norm: PRECIS_OPAQUE_STRING}];
   // enforce that the string matches a regular expresson. The regular expression syntax is RE2.
   // See https://github.com/google/re2/wiki/Syntax
-  string s5 = 5 [(cybozu.validate.rules).string = {regex: '^abc'}];
+  string s7 = 7 [(cybozu.validate.rules).string = {regex: '^abc'}];
   // enforce that the string is a valid email address as defined in RFC 5322.
-  string s6 = 6 [(cybozu.validate.rules).string = {email: true}];
+  string s8 = 8 [(cybozu.validate.rules).string = {email: true}];
   // enforce that the string is a valid URI as defined in RFC 3986.
   // The string will also be canonicalized.
-  string s7 = 7 [(cybozu.validate.rules).string = {uri: true}];
+  string s9 = 9 [(cybozu.validate.rules).string = {uri: true}];
   // enforce that the string is a valid telephone number as defined by E.164.
   // An example is "+81-80-0000-0000".
-  string s8 = 8 [(cybozu.validate.rules).string = {e164: true}];
+  string s10 = 10 [(cybozu.validate.rules).string = {e164: true}];
 }
 
 // In addition to the validation code generated from the protobuf options,
@@ -163,13 +168,17 @@ message Maps {
 
   // string values are normalized into the NFC form even if there's no rules specified.
   map<uint32, string> map3 = 3;
+
+  // if the map key is a string, it is normalized into the NFC.
+  // if the map vakue is a message, fields in it are always normalized/validated.
+  map<string, Scalars> map4 = 4;
 }
 
 message Enums {
   enum Enum {
-    E1_UNSPECIFIED = 0;
-    E1_VAL1 = 1;
-    E2_VAL100 = 100;
+    E_UNSPECIFIED = 0;
+    E_VAL1 = 1;
+    E_VAL100 = 100;
   }
 
   // enforces that `e1` is not the zero value.
@@ -177,7 +186,12 @@ message Enums {
   // enforces that `e2` is one of the defined enum value.
   Enum e2 = 2 [(cybozu.validate.rules).enum.defined_only = true];
   // enforces that `e3` is one of the defined enum value other than zero.
-  Enum e3 = 3 [(cybozu.validate.rules).enum = {
+  repeated Enum e3 = 3 [(cybozu.validate.rules) = {
+    enum: {required: true}
+    repeated: {min_items: 2}
+  }];
+  // enforces that `e4` is, if given, one of the defined enum value other than zero.
+  optional Enum e4 = 4 [(cybozu.validate.rules).enum = {
     required: true
     defined_only: true
   }];
@@ -198,6 +212,7 @@ message Oneofs {
   }
 }
 
+// message type fields are normalized/validated recursively.
 message Composed {
   // enforces that `ignored` is set.
   Ignored ignored = 1 [(cybozu.validate.rules).message.required = true];

@@ -24,6 +24,8 @@ You can get the code generator for Go as follows:
 $ go install github.com/cybozu/protobuf/cmd/protoc-gen-go-cybozu-validate@latest
 ```
 
+or download prebuilt binaries from [Releases](https://github.com/cybozu/protobuf/releases/latest).
+
 The following is an example `buf.gen.yaml` to generate validation code:
 
 ```yaml
