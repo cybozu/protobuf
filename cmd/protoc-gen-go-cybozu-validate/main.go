@@ -26,6 +26,10 @@ func pluginMain(p *protogen.Plugin) error {
 		if !f.Generate {
 			continue
 		}
+		if len(f.Messages) == 0 {
+			// nothing to generate
+			continue
+		}
 		if f.Desc.Package() == "cybozu.validate" {
 			continue
 		}
