@@ -126,6 +126,8 @@ func TestValidation(t *testing.T) {
 		{"composed/maps/invalid", false, &examples.Composed{Ignored: &examples.Ignored{}, Maps: []*examples.Maps{{Map1: map[string]int32{"a": 3}}}}},
 		{"composed/enums/invalid/1", false, &examples.Composed{Ignored: &examples.Ignored{}, Enums: []*examples.Enums{nil}}},
 		{"composed/enums/invalid/2", false, &examples.Composed{Ignored: &examples.Ignored{}, Enums: []*examples.Enums{{}}}},
+		{"inner/valid", true, &examples.Nested{Inner: &examples.Nested_Inner{Int32: 4}}},
+		{"inner/invalid", false, &examples.Nested{Inner: &examples.Nested_Inner{Int32: 3}}},
 	}
 
 	for _, tt := range tests {

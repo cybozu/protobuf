@@ -998,6 +998,101 @@ func (x *Composed) GetEnums() []*Enums {
 	return nil
 }
 
+type Nested struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Inner *Nested_Inner `protobuf:"bytes,1,opt,name=inner,proto3" json:"inner,omitempty"`
+}
+
+func (x *Nested) Reset() {
+	*x = Nested{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_examples_validation_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Nested) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Nested) ProtoMessage() {}
+
+func (x *Nested) ProtoReflect() protoreflect.Message {
+	mi := &file_examples_validation_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Nested.ProtoReflect.Descriptor instead.
+func (*Nested) Descriptor() ([]byte, []int) {
+	return file_examples_validation_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *Nested) GetInner() *Nested_Inner {
+	if x != nil {
+		return x.Inner
+	}
+	return nil
+}
+
+// Inner will also be validated.
+type Nested_Inner struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Int32 int32 `protobuf:"varint,1,opt,name=int32,proto3" json:"int32,omitempty"`
+}
+
+func (x *Nested_Inner) Reset() {
+	*x = Nested_Inner{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_examples_validation_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Nested_Inner) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Nested_Inner) ProtoMessage() {}
+
+func (x *Nested_Inner) ProtoReflect() protoreflect.Message {
+	mi := &file_examples_validation_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Nested_Inner.ProtoReflect.Descriptor instead.
+func (*Nested_Inner) Descriptor() ([]byte, []int) {
+	return file_examples_validation_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (x *Nested_Inner) GetInt32() int32 {
+	if x != nil {
+		return x.Int32
+	}
+	return 0
+}
+
 var File_examples_validation_proto protoreflect.FileDescriptor
 
 var file_examples_validation_proto_rawDesc = []byte{
@@ -1195,10 +1290,17 @@ var file_examples_validation_proto_rawDesc = []byte{
 	0x73, 0x52, 0x04, 0x6d, 0x61, 0x70, 0x73, 0x12, 0x31, 0x0a, 0x05, 0x65, 0x6e, 0x75, 0x6d, 0x73,
 	0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65,
 	0x73, 0x2e, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x42, 0x0a, 0xc2, 0xe6, 0xc3, 0x01, 0x05, 0x8a, 0x01,
-	0x02, 0x08, 0x01, 0x52, 0x05, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x42, 0x22, 0x5a, 0x20, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x79, 0x62, 0x6f, 0x7a, 0x75, 0x2f,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x73, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x02, 0x08, 0x01, 0x52, 0x05, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x22, 0x6c, 0x0a, 0x06, 0x4e, 0x65,
+	0x73, 0x74, 0x65, 0x64, 0x12, 0x38, 0x0a, 0x05, 0x69, 0x6e, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x73, 0x2e, 0x4e,
+	0x65, 0x73, 0x74, 0x65, 0x64, 0x2e, 0x49, 0x6e, 0x6e, 0x65, 0x72, 0x42, 0x0a, 0xc2, 0xe6, 0xc3,
+	0x01, 0x05, 0x8a, 0x01, 0x02, 0x08, 0x01, 0x52, 0x05, 0x69, 0x6e, 0x6e, 0x65, 0x72, 0x1a, 0x28,
+	0x0a, 0x05, 0x49, 0x6e, 0x6e, 0x65, 0x72, 0x12, 0x1f, 0x0a, 0x05, 0x69, 0x6e, 0x74, 0x33, 0x32,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x42, 0x09, 0xc2, 0xe6, 0xc3, 0x01, 0x04, 0x1a, 0x02, 0x18,
+	0x03, 0x52, 0x05, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x42, 0x22, 0x5a, 0x20, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x79, 0x62, 0x6f, 0x7a, 0x75, 0x2f, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2f, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1214,7 +1316,7 @@ func file_examples_validation_proto_rawDescGZIP() []byte {
 }
 
 var file_examples_validation_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_examples_validation_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_examples_validation_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_examples_validation_proto_goTypes = []interface{}{
 	(Enums_Enum)(0),               // 0: examples.Enums.Enum
 	(*Ignored)(nil),               // 1: examples.Ignored
@@ -1226,33 +1328,36 @@ var file_examples_validation_proto_goTypes = []interface{}{
 	(*Enums)(nil),                 // 7: examples.Enums
 	(*Oneofs)(nil),                // 8: examples.Oneofs
 	(*Composed)(nil),              // 9: examples.Composed
-	nil,                           // 10: examples.Maps.Map1Entry
-	nil,                           // 11: examples.Maps.Map2Entry
-	nil,                           // 12: examples.Maps.Map3Entry
-	nil,                           // 13: examples.Maps.Map4Entry
-	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
+	(*Nested)(nil),                // 10: examples.Nested
+	nil,                           // 11: examples.Maps.Map1Entry
+	nil,                           // 12: examples.Maps.Map2Entry
+	nil,                           // 13: examples.Maps.Map3Entry
+	nil,                           // 14: examples.Maps.Map4Entry
+	(*Nested_Inner)(nil),          // 15: examples.Nested.Inner
+	(*timestamppb.Timestamp)(nil), // 16: google.protobuf.Timestamp
 }
 var file_examples_validation_proto_depIdxs = []int32{
-	10, // 0: examples.Maps.map1:type_name -> examples.Maps.Map1Entry
-	11, // 1: examples.Maps.map2:type_name -> examples.Maps.Map2Entry
-	12, // 2: examples.Maps.map3:type_name -> examples.Maps.Map3Entry
-	13, // 3: examples.Maps.map4:type_name -> examples.Maps.Map4Entry
+	11, // 0: examples.Maps.map1:type_name -> examples.Maps.Map1Entry
+	12, // 1: examples.Maps.map2:type_name -> examples.Maps.Map2Entry
+	13, // 2: examples.Maps.map3:type_name -> examples.Maps.Map3Entry
+	14, // 3: examples.Maps.map4:type_name -> examples.Maps.Map4Entry
 	0,  // 4: examples.Enums.e1:type_name -> examples.Enums.Enum
 	0,  // 5: examples.Enums.e2:type_name -> examples.Enums.Enum
 	0,  // 6: examples.Enums.e3:type_name -> examples.Enums.Enum
 	0,  // 7: examples.Enums.e4:type_name -> examples.Enums.Enum
-	14, // 8: examples.Oneofs.ts:type_name -> google.protobuf.Timestamp
+	16, // 8: examples.Oneofs.ts:type_name -> google.protobuf.Timestamp
 	1,  // 9: examples.Composed.ignored:type_name -> examples.Ignored
 	2,  // 10: examples.Composed.scalars:type_name -> examples.Scalars
 	6,  // 11: examples.Composed.maps:type_name -> examples.Maps
 	7,  // 12: examples.Composed.enums:type_name -> examples.Enums
-	14, // 13: examples.Maps.Map2Entry.value:type_name -> google.protobuf.Timestamp
-	2,  // 14: examples.Maps.Map4Entry.value:type_name -> examples.Scalars
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	15, // 13: examples.Nested.inner:type_name -> examples.Nested.Inner
+	16, // 14: examples.Maps.Map2Entry.value:type_name -> google.protobuf.Timestamp
+	2,  // 15: examples.Maps.Map4Entry.value:type_name -> examples.Scalars
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_examples_validation_proto_init() }
@@ -1369,6 +1474,30 @@ func file_examples_validation_proto_init() {
 				return nil
 			}
 		}
+		file_examples_validation_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Nested); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_examples_validation_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Nested_Inner); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_examples_validation_proto_msgTypes[2].OneofWrappers = []interface{}{}
 	file_examples_validation_proto_msgTypes[6].OneofWrappers = []interface{}{}
@@ -1384,7 +1513,7 @@ func file_examples_validation_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_examples_validation_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   13,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
