@@ -96,7 +96,6 @@ func (r *Renderer) Execute(pkg protogen.GoPackageName, msgs []*protogen.Message)
 	r.PL("package ", pkg)
 
 	for _, m := range msgs {
-		r.L()
 		if err := r.renderMessage(m); err != nil {
 			r.gen.Skip()
 			return err
@@ -125,6 +124,7 @@ func (r *Renderer) renderMessage(m *protogen.Message) error {
 		return nil
 	}
 
+	r.L()
 	r.FL(`func (x *%s) Validate() error {`, m.GoIdent.GoName)
 	r.PL(`var el []error`)
 	for _, f := range m.Fields {
