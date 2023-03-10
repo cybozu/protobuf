@@ -574,6 +574,58 @@ func (x *Composed) Validate() error {
 	return errors.Join(el...)
 }
 
+func (x *Nested) Validate() error {
+	var el []error
+	if v := x.Inner; true {
+		if v == nil {
+			el = append(el, errors.New("required field inner of examples.Nested is missing"))
+		}
+		if v != nil {
+			if err := validate.CallValidate(v); err != nil {
+				if v, ok := err.(interface{ Unwrap() []error }); ok {
+					el = append(el, v.Unwrap()...)
+				} else {
+					el = append(el, err)
+				}
+			}
+		}
+	}
+
+	if err := validate.CallValidateCustom(x); err != nil {
+		if v, ok := err.(interface{ Unwrap() []error }); ok {
+			el = append(el, v.Unwrap()...)
+		} else {
+			el = append(el, err)
+		}
+	}
+
+	if len(el) == 0 {
+		return nil
+	}
+	return errors.Join(el...)
+}
+func (x *Nested_Inner) Validate() error {
+	var el []error
+	if v := x.Int32; true {
+		if v <= 3 {
+			el = append(el, fmt.Errorf("invalid value for int32 of examples.Nested.Inner: %v", v))
+		}
+	}
+
+	if err := validate.CallValidateCustom(x); err != nil {
+		if v, ok := err.(interface{ Unwrap() []error }); ok {
+			el = append(el, v.Unwrap()...)
+		} else {
+			el = append(el, err)
+		}
+	}
+
+	if len(el) == 0 {
+		return nil
+	}
+	return errors.Join(el...)
+}
+
 var (
 	regex_Strings_S7 = regexp.MustCompile("^abc")
 )

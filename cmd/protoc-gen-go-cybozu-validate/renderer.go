@@ -116,8 +116,12 @@ func (r *Renderer) Execute(pkg protogen.GoPackageName, msgs []*protogen.Message)
 }
 
 func (r *Renderer) renderMessage(m *protogen.Message) error {
-	ext := proto.GetExtension(m.Desc.Options(), validate.E_Ignored).(bool)
-	if ext {
+	md := m.Desc
+	if md.IsMapEntry() {
+		return nil
+	}
+	ignored := proto.GetExtension(md.Options(), validate.E_Ignored).(bool)
+	if ignored {
 		return nil
 	}
 
@@ -151,6 +155,12 @@ func (r *Renderer) renderMessage(m *protogen.Message) error {
 	r.PL(`}`)
 	r.FL(`return %s(el...)`, identErrorsJoin)
 	r.PL(`}`)
+
+	for _, inner := range m.Messages {
+		if err := r.renderMessage(inner); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 

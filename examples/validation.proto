@@ -221,3 +221,12 @@ message Composed {
   // enforces that all messages in `enums` are set.
   repeated Enums enums = 4 [(cybozu.validate.rules).message.required = true];
 }
+
+message Nested {
+  // Inner will also be validated.
+  message Inner {
+    int32 int32 = 1 [(cybozu.validate.rules).int32 = {gt: 3}];
+  }
+
+  Inner inner = 1 [(cybozu.validate.rules).message = {required: true}];
+}
