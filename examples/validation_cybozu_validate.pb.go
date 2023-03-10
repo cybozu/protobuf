@@ -604,6 +604,7 @@ func (x *Nested) Validate() error {
 	}
 	return errors.Join(el...)
 }
+
 func (x *Nested_Inner) Validate() error {
 	var el []error
 	if v := x.Int32; true {
