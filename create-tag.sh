@@ -11,7 +11,7 @@ echo "Running git pull to be up-to-date."
 git fetch origin --prune --prune-tags
 
 MAJOR=0
-MINOR=$(date '+%Y%m%d')
+MINOR=$(TZ=Etc/UTC date '+%Y%m%d')
 REV=0
 
 while true; do
