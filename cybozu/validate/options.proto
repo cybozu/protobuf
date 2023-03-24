@@ -17,19 +17,19 @@ option go_package = "github.com/cybozu/protobuf/cybozu/validate";
 
 extend google.protobuf.MessageOptions {
   // `ignored` stops generating `Validate()` method for this message.
-  bool ignored = 401000;
+  bool ignored = 1179;
 }
 
 extend google.protobuf.OneofOptions {
   // `required` ensures that a field in this oneof is set.
-  bool required = 401000;
+  bool required = 1179;
 }
 
 extend google.protobuf.FieldOptions {
   // `rules` specify the validations/normalizations to be performed on this field.
   // Note that a string field will always be normalized to the UNICODE NFC form
   // even if there is no rule specified.
-  FieldRules rules = 401000;
+  FieldRules rules = 1179;
 }
 
 // FieldRules encapsulates the rules for each type of field.
