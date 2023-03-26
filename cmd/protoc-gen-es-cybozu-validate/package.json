@@ -1,0 +1,8 @@
+{
+  "name": "protoc-gen-es-cybozu-validate",
+  "version": "1.0.0",
+  "scripts": {},
+  "volta": {
+    "node": "18.15.0"
+  }
+}
