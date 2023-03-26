@@ -11,6 +11,10 @@
     "lint:prettier": "prettier --check src",
     "lint:tsc": "tsc --noEmit"
   },
+  "dependencies": {
+    "@bufbuild/protobuf": "1.2.0",
+    "@bufbuild/protoplugin": "1.2.0"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.56.0",
     "@typescript-eslint/parser": "5.56.0",
