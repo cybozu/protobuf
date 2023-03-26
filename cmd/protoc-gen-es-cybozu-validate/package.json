@@ -1,7 +1,25 @@
 {
   "name": "protoc-gen-es-cybozu-validate",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc",
+    "fix": "npm run fix:eslint && npm run fix:prettier",
+    "fix:eslint": "npm run lint:eslint -- --fix",
+    "fix:prettier": "npm run lint:prettier -- --write",
+    "lint": "concurrently \"npm:lint:*\"",
+    "lint:eslint": "eslint --ext .ts src",
+    "lint:prettier": "prettier --check src",
+    "lint:tsc": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.56.0",
+    "@typescript-eslint/parser": "5.56.0",
+    "concurrently": "^7.6.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-unicorn": "46.0.0",
+    "prettier": "2.8.7",
+    "typescript": "5.0.2"
+  },
   "volta": {
     "node": "18.15.0"
   }
