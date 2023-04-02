@@ -20,7 +20,7 @@ jobs:
       with:
         go-version-file: go.mod
         cache: true
-    - uses: bufbuild/buf-setup-action@00661b48f00bf682921f8aab99306c7f1a7a3ec3 # v1.15.1
+    - uses: bufbuild/buf-setup-action@142056acbddd5ea00e4b7d2834868cd40ed12aca # v1.16.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - uses: bufbuild/buf-push-action@1c45f6a21ec277ee4c1fa2772e49b9541ea17f38 # v1.1.1
