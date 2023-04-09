@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+const { runNodeJs } = require("@bufbuild/protoplugin");
+const {
+  protocGenEsCybozuValidate,
+} = require("../dist/src/protoc-gen-es-cybozu-validate.js");
+
+runNodeJs(protocGenEsCybozuValidate);

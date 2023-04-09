@@ -1,6 +1,9 @@
 {
-  "name": "protoc-gen-es-cybozu-validate",
+  "name": "@cybozu/protoc-gen-es-cybozu-validate",
   "version": "1.0.0",
+  "bin": {
+    "protoc-gen-es-cybozu-validate": "bin/protoc-gen-es-cybozu-validate"
+  },
   "scripts": {
     "build": "tsc",
     "fix": "npm run fix:eslint && npm run fix:prettier",
