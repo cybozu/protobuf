@@ -1,0 +1,232 @@
+syntax = "proto3";
+
+package examples;
+
+import "cybozu/validate/options.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cybozu/proto/examples";
+
+// This message is marked ignored, so no validation method is generated.
+message Ignored {
+  option (cybozu.validate.ignored) = true;
+
+  string foo = 1;
+  int32 bar = 2 [(cybozu.validate.rules).int32 = {lt: 100}]; // no effect
+}
+
+// All scalar types can have constraint rules except for bools.
+message Scalars {
+  float float = 1 [(cybozu.validate.rules).float = {lt: 3.2}];
+  double double = 2 [(cybozu.validate.rules).double = {gt: 3.2}];
+  int32 int32 = 3 [(cybozu.validate.rules).int32 = {lte: -3}];
+  int64 int64 = 4 [(cybozu.validate.rules).int64 = {gte: 1}];
+  uint32 uint32 = 5 [(cybozu.validate.rules).uint32 = {
+    gt: 1
+    lt: 5
+  }];
+  uint64 uint64 = 6 [(cybozu.validate.rules).uint64 = {
+    gte: 1
+    lte: 5
+  }];
+  sint32 sint32 = 7 [(cybozu.validate.rules).sint32 = {
+    gt: 1
+    lt: 5
+  }];
+  sint64 sint64 = 8 [(cybozu.validate.rules).sint64 = {
+    gte: 1
+    lte: 5
+  }];
+  fixed32 fixed32 = 9 [(cybozu.validate.rules).fixed32 = {
+    gt: 1
+    lt: 5
+  }];
+  fixed64 fixed64 = 10 [(cybozu.validate.rules).fixed64 = {
+    gt: 1
+    lt: 5
+  }];
+  sfixed32 sfixed32 = 11 [(cybozu.validate.rules).sfixed32 = {
+    gt: 1
+    lt: 5
+  }];
+  sfixed64 sfixed64 = 12 [(cybozu.validate.rules).sfixed64 = {
+    gt: 1
+    lt: 5
+  }];
+  bool bool = 13; // no available rules for bools
+  string string = 14 [(cybozu.validate.rules).string = {
+    min_length: 3
+    ignore_empty: true
+  }];
+  bytes bytes = 15 [(cybozu.validate.rules).bytes = {max_length: 10}];
+}
+
+// rules for optional fields are enforced only if the field is set.
+message OptionalScalars {
+  optional float float = 1 [(cybozu.validate.rules).float = {lt: 3.2}];
+  optional double double = 2 [(cybozu.validate.rules).double = {gt: 3.2}];
+  optional int32 int32 = 3 [(cybozu.validate.rules).int32 = {lte: -3}];
+  optional int64 int64 = 4 [(cybozu.validate.rules).int64 = {gte: 1}];
+  optional uint32 uint32 = 5 [(cybozu.validate.rules).uint32 = {
+    gt: 1
+    lt: 5
+  }];
+  optional uint64 uint64 = 6 [(cybozu.validate.rules).uint64 = {
+    gte: 1
+    lte: 5
+  }];
+  optional sint32 sint32 = 7 [(cybozu.validate.rules).sint32 = {
+    gt: 1
+    lt: 5
+  }];
+  optional sint64 sint64 = 8 [(cybozu.validate.rules).sint64 = {
+    gte: 1
+    lte: 5
+  }];
+  optional fixed32 fixed32 = 9 [(cybozu.validate.rules).fixed32 = {
+    gt: 1
+    lt: 5
+  }];
+  optional fixed64 fixed64 = 10 [(cybozu.validate.rules).fixed64 = {
+    gte: 1
+    lte: 5
+  }];
+  optional sfixed32 sfixed32 = 11 [(cybozu.validate.rules).sfixed32 = {
+    gt: 1
+    lt: 5
+  }];
+  optional sfixed64 sfixed64 = 12 [(cybozu.validate.rules).sfixed64 = {
+    gte: 1
+    lte: 5
+  }];
+  optional bool bool = 13; // no available rules for bool
+  optional string string = 14 [(cybozu.validate.rules).string = {
+    min_length: 3
+    ignore_empty: true
+  }];
+  optional bytes bytes = 15 [(cybozu.validate.rules).bytes = {max_length: 10}];
+}
+
+message RepeatedScalars {
+  // a repeated field can specify `repeated` constraints like this
+  repeated float float = 1 [
+    (cybozu.validate.rules).float = {lt: 3.2},
+    (cybozu.validate.rules).repeated = {min_items: 1}
+  ];
+  // or this
+  repeated double double = 2 [(cybozu.validate.rules) = {
+    double: {gt: 3.2}
+    repeated: {max_items: 3}
+  }];
+  // or this.
+  repeated string string = 3 [(cybozu.validate.rules).repeated = {min_items: 2}];
+}
+
+// Strings have the richest set of constraint rules.
+message Strings {
+  // NFC normalization is applied if no options are given.
+  string s1 = 1;
+  // normalize into the NFD form.
+  string s2 = 2 [(cybozu.validate.rules).string = {norm: NFD}];
+  // enforce the minimum length of the string if the string is NOT empty.
+  // This check is done after NFC normalization.
+  string s3 = 3 [(cybozu.validate.rules).string = {
+    min_length: 10
+    ignore_empty: true
+  }];
+  // normalize and validate the string with a PRECIS profile.
+  string s4 = 4 [(cybozu.validate.rules).string = {norm: PRECIS_USERNAME_CASE_MAPPED}];
+  // normalize and validate the string with a PRECIS profile.
+  string s5 = 5 [(cybozu.validate.rules).string = {norm: PRECIS_USERNAME_CASE_PRESERVED}];
+  // normalize and validate the string with a PRECIS profile.
+  string s6 = 6 [(cybozu.validate.rules).string = {norm: PRECIS_OPAQUE_STRING}];
+  // enforce that the string matches a regular expresson. The regular expression syntax is RE2.
+  // See https://github.com/google/re2/wiki/Syntax
+  string s7 = 7 [(cybozu.validate.rules).string = {regex: '^abc'}];
+  // enforce that the string is a valid email address as defined in RFC 5322.
+  string s8 = 8 [(cybozu.validate.rules).string = {email: true}];
+  // enforce that the string is a valid URI as defined in RFC 3986.
+  // The string will also be canonicalized.
+  string s9 = 9 [(cybozu.validate.rules).string = {uri: true}];
+  // enforce that the string is a valid telephone number as defined by E.164.
+  // An example is "+81-80-0000-0000".
+  string s10 = 10 [(cybozu.validate.rules).string = {e164: true}];
+}
+
+// In addition to the validation code generated from the protobuf options,
+// this message implements a custom validation. See `example_custom.go`
+// in the same directory.
+message Maps {
+  // you can put a constraint for map and a constraint for the value type as follows.
+  map<string, int32> map1 = 1 [(cybozu.validate.rules) = {
+    map: {min_items: 1}
+    int32: {gt: 3}
+  }];
+
+  // or either one of them. The following enforces that the timestamp is set.
+  map<string, google.protobuf.Timestamp> map2 = 2 [(cybozu.validate.rules).message.required = true];
+
+  // string values are normalized into the NFC form even if there's no rules specified.
+  map<uint32, string> map3 = 3;
+
+  // if the map key is a string, it is normalized into the NFC.
+  // if the map vakue is a message, fields in it are always normalized/validated.
+  map<string, Scalars> map4 = 4;
+}
+
+message Enums {
+  enum Enum {
+    E_UNSPECIFIED = 0;
+    E_VAL1 = 1;
+    E_VAL100 = 100;
+  }
+
+  // enforces that `e1` is not the zero value.
+  Enum e1 = 1 [(cybozu.validate.rules).enum.required = true];
+  // enforces that `e2` is one of the defined enum value.
+  Enum e2 = 2 [(cybozu.validate.rules).enum.defined_only = true];
+  // enforces that `e3` is one of the defined enum value other than zero.
+  repeated Enum e3 = 3 [(cybozu.validate.rules) = {
+    enum: {required: true}
+    repeated: {min_items: 2}
+  }];
+  // enforces that `e4` is, if given, one of the defined enum value other than zero.
+  optional Enum e4 = 4 [(cybozu.validate.rules).enum = {
+    required: true
+    defined_only: true
+  }];
+}
+
+message Oneofs {
+  oneof o1 {
+    int32 int32 = 1 [(cybozu.validate.rules).int32 = {lte: -3}];
+    string string = 2;
+  }
+
+  oneof o2 {
+    // enforces that one of the fields, `ts` or `bool`, is specified.
+    option (cybozu.validate.required) = true;
+
+    google.protobuf.Timestamp ts = 3;
+    bool bool = 4;
+  }
+}
+
+// message type fields are normalized/validated recursively.
+message Composed {
+  // enforces that `ignored` is set.
+  Ignored ignored = 1 [(cybozu.validate.rules).message.required = true];
+  Scalars scalars = 2;
+  repeated Maps maps = 3;
+  // enforces that all messages in `enums` are set.
+  repeated Enums enums = 4 [(cybozu.validate.rules).message.required = true];
+}
+
+message Nested {
+  // Inner will also be validated.
+  message Inner {
+    int32 int32 = 1 [(cybozu.validate.rules).int32 = {gt: 3}];
+  }
+
+  Inner inner = 1 [(cybozu.validate.rules).message = {required: true}];
+}
