@@ -15,17 +15,17 @@ export function generateTs(schema: Schema) {
     const filename = `${file.name}_cybozu_validate.pb.ts`;
     const f = schema.generateFile(filename);
 
-    const { Message } = schema.runtime;
-    const MessageAsType = Message.toTypeOnly();
-
     for (const message of file.messages) {
       const localMessageName = localName(message);
       f.print`export const ${localMessageName}Validators = {`;
 
+      const messageImport = f.import(message)
+
       for (const field of message.fields) {
-        const localFieldName = capitalizeFirstLetter(localName(field));
+        const localFieldName = localName(field);
         const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
-        f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${MessageAsType}[${localFieldName}] {`;
+        f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
+        // TODO: rendering validaation
         f.print`  },`;
       }
 
