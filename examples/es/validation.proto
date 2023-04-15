@@ -5,8 +5,6 @@ package examples;
 import "cybozu/validate/options.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/cybozu/proto/examples";
-
 // This message is marked ignored, so no validation method is generated.
 message Ignored {
   option (cybozu.validate.ignored) = true;
