@@ -1,0 +1,17 @@
+{
+  "name": "@cybozu/protoc-gen-es-cybozu-validate",
+  "version": "1.0.0",
+  "bin": {
+    "protoc-gen-es-cybozu-validate": "bin/protoc-gen-es-cybozu-validate"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "1.2.0",
+    "@bufbuild/protoplugin": "1.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
+}

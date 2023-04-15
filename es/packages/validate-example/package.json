@@ -1,0 +1,20 @@
+{
+  "name": "@cybozu/protobuf-es-validate-example",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "buf generate"
+  },
+  "devDependencies": {
+    "@bufbuild/protoc-gen-es": "^1.2.0",
+    "@cybozu/protoc-gen-es-cybozu-validate": "@cybozu/protoc-gen-es-cybozu-validate",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.2.0"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
