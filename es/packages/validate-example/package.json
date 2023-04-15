@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@bufbuild/protoc-gen-es": "^1.2.0",
-    "@cybozu/protoc-gen-es-cybozu-validate": "@cybozu/protoc-gen-es-cybozu-validate",
+    "@cybozu/protoc-gen-es-cybozu-validate": "^1.0.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {

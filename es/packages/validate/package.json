@@ -1,5 +1,5 @@
 {
-  "name": "@cybouz/protobuf-validate",
+  "name": "@cybozu/protobuf-validate",
   "version": "1.0.0",
   "main": "lib/validate_pb.js",
   "scripts": {
