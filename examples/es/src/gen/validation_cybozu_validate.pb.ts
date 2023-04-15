@@ -121,13 +121,9 @@ export const EnumsValidators = {
   },
 }
 export const OneofsValidators = {
-  validateInt32(value: unknown): asserts value is Oneofs["int32"] {
+  validateO1(value: unknown): asserts value is Oneofs["o1"] {
   },
-  validateString(value: unknown): asserts value is Oneofs["string"] {
-  },
-  validateTs(value: unknown): asserts value is Oneofs["ts"] {
-  },
-  validateBool(value: unknown): asserts value is Oneofs["bool"] {
+  validateO2(value: unknown): asserts value is Oneofs["o2"] {
   },
 }
 export const ComposedValidators = {
