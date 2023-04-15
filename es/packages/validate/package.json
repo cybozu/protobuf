@@ -1,0 +1,12 @@
+{
+  "name": "@cybouz/protobuf-validate",
+  "version": "1.0.0",
+  "main": "lib/validate_pb.js",
+  "scripts": {
+    "build": "cp ../../../cybozu/validate/options.proto ./validate.proto && buf generate"
+  },
+  "devDependencies": {
+    "@bufbuild/protoc-gen-es": "^1.2.0",
+    "typescript": "^5.0.4"
+  }
+}

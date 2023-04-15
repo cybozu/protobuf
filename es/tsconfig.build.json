@@ -1,7 +1,7 @@
 {
   "files": [],
   "references": [
-    { "path": "packages/protoc-gen-es-cybozu-validate" }
-    // { "path": "packages/validate" },
+    { "path": "packages/protoc-gen-es-cybozu-validate" },
+    { "path": "packages/validate" }
   ]
 }
