@@ -1,0 +1,1 @@
+# @cybozu/validate-example
