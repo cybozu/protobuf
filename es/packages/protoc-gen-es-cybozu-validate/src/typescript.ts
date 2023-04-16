@@ -76,30 +76,29 @@ function renderField(
     const localFieldName = localName(field);
     const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
 
+    const customOption = findCustomMessageOption(field, 1179, FieldRules);
+
     // no available rules for bools
-    if (field.scalar === ScalarType.BOOL) {
+    if (field.scalar === ScalarType.BOOL || !customOption) {
       return;
     }
 
     f.print(makeJsDoc(field, "  "));
     f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
 
-    const customOption = findCustomMessageOption(field, 1179, FieldRules);
-    if (customOption) {
-      switch (field.fieldKind) {
-        case "scalar":
-          renderScalar(f, field, customOption);
-          break;
-        case "enum":
-          renderEnum(f);
-          break;
-        case "map":
-          renderMap(f);
-          break;
-        case "message":
-          renderMessage(f);
-          break;
-      }
+    switch (field.fieldKind) {
+      case "scalar":
+        renderScalar(f, field, customOption);
+        break;
+      case "enum":
+        renderEnum(f);
+        break;
+      case "map":
+        renderMap(f);
+        break;
+      case "message":
+        renderMessage(f);
+        break;
     }
     f.print`  },`;
   }
