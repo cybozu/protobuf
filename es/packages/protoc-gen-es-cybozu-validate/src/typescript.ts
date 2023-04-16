@@ -16,6 +16,7 @@ import {
   FloatRules,
   FieldRules,
   BytesRules,
+  ItemsRules,
 } from "@cybozu/protobuf-validate";
 
 type NumberRules =
@@ -131,7 +132,12 @@ function renderScalar(
     case ScalarType.SINT64:
     case ScalarType.UINT32:
     case ScalarType.UINT64:
-      renderScalarNumber(f, field, customOption.type.value as NumberRules);
+      renderScalarNumber(
+        f,
+        field,
+        customOption.type.value as NumberRules,
+        customOption.items.value
+      );
       break;
   }
 }
@@ -139,18 +145,18 @@ function renderScalar(
 function renderScalarBytes(
   f: GeneratedFile,
   field: DescField,
-  customOptionBytesRules: BytesRules
+  bytesRules: BytesRules
 ) {
   f.print`    if (!(value instanceof Uint8Array)) {`;
   f.print`      // TODO: improve error message`;
   f.print`      throw new Error("");`;
   f.print`    }`;
   const conditions: string[] = [];
-  if (customOptionBytesRules.maxLength) {
-    conditions.push(`value.byteLength > ${customOptionBytesRules.maxLength}`);
+  if (bytesRules.maxLength) {
+    conditions.push(`value.byteLength > ${bytesRules.maxLength}`);
   }
-  if (customOptionBytesRules.minLength) {
-    conditions.push(`valute.byteLength < ${customOptionBytesRules.minLength}`);
+  if (bytesRules.minLength) {
+    conditions.push(`valute.byteLength < ${bytesRules.minLength}`);
   }
   if (conditions.length > 0) {
     const condition = conditions.join(" || ");
@@ -164,24 +170,77 @@ function renderScalarBytes(
 function renderScalarNumber(
   f: GeneratedFile,
   field: DescField,
-  customOptionNumberRules: NumberRules
+  numberRules: NumberRules,
+  itemsRules: ItemsRules | undefined
 ) {
+  const { repeated } = field;
+  if (repeated) {
+    f.print`    if (!Array.isArray(value)) {`;
+    f.print`      // TODO: improve error message`;
+    f.print`      throw new Error("");`;
+    f.print`    }`;
+
+    if (itemsRules) {
+      const conditions: string[] = [];
+      if (itemsRules.maxItems) {
+        conditions.push(`value.length > ${itemsRules.maxItems}`);
+      }
+      if (itemsRules.minItems) {
+        conditions.push(`value.length < ${itemsRules.minItems}`);
+      }
+      const condition = conditions.join(" || ");
+      f.print`    if (${condition}) {`;
+      f.print`      // TODO: improve error message`;
+      f.print`      throw new Error("");`;
+      f.print`    }`;
+    }
+
+    const conditions: string[] = [];
+    if (numberRules.gt) {
+      conditions.push(`item <= ${numberRules.gt}`);
+    }
+    if (numberRules.lt) {
+      conditions.push(`item >= ${numberRules.lt}`);
+    }
+    if (numberRules.gte) {
+      conditions.push(`item < ${numberRules.gte}`);
+    }
+    if (numberRules.lte) {
+      conditions.push(`item > ${numberRules.lte}`);
+    }
+
+    f.print`    for (const item of value) {`;
+    f.print`      if (typeof item !== "number") {`;
+    f.print`        // TODO: improve error message`;
+    f.print`        throw new Error("");`;
+    f.print`      }`;
+    if (conditions.length > 0) {
+      const condition = conditions.join(" || ");
+      f.print`      if (${condition}) {`;
+      f.print`        // TODO: improve error message`;
+      f.print`        throw new Error("");`;
+      f.print`      }`;
+    }
+    f.print`    }`;
+    return;
+  }
+
   f.print`    if (typeof value !== "number") {`;
   f.print`      // TODO: improve error message`;
   f.print`      throw new Error("");`;
   f.print`    }`;
   const conditions: string[] = [];
-  if (customOptionNumberRules.gt) {
-    conditions.push(`value <= ${customOptionNumberRules.gt}`);
+  if (numberRules.gt) {
+    conditions.push(`value <= ${numberRules.gt}`);
   }
-  if (customOptionNumberRules.lt) {
-    conditions.push(`value >= ${customOptionNumberRules.lt}`);
+  if (numberRules.lt) {
+    conditions.push(`value >= ${numberRules.lt}`);
   }
-  if (customOptionNumberRules.gte) {
-    conditions.push(`value < ${customOptionNumberRules.gte}`);
+  if (numberRules.gte) {
+    conditions.push(`value < ${numberRules.gte}`);
   }
-  if (customOptionNumberRules.lte) {
-    conditions.push(`value > ${customOptionNumberRules.lte}`);
+  if (numberRules.lte) {
+    conditions.push(`value > ${numberRules.lte}`);
   }
   if (conditions.length > 0) {
     const condition = conditions.join(" || ");

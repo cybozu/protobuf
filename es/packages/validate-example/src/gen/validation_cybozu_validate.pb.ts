@@ -384,13 +384,23 @@ export const RepeatedScalarsValidators = {
    * @generated from field: repeated float float = 1;
    */
   validateFloat(value: unknown): asserts value is RepeatedScalars["float"] {
-    if (typeof value !== "number") {
+    if (!Array.isArray(value)) {
       // TODO: improve error message
       throw new Error("");
     }
-    if (value >= 3.200000047683716) {
+    if (value.length < 1) {
       // TODO: improve error message
       throw new Error("");
+    }
+    for (const item of value) {
+      if (typeof item !== "number") {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (item >= 3.200000047683716) {
+        // TODO: improve error message
+        throw new Error("");
+      }
     }
   },
   /**
@@ -399,13 +409,23 @@ export const RepeatedScalarsValidators = {
    * @generated from field: repeated double double = 2;
    */
   validateDouble(value: unknown): asserts value is RepeatedScalars["double"] {
-    if (typeof value !== "number") {
+    if (!Array.isArray(value)) {
       // TODO: improve error message
       throw new Error("");
     }
-    if (value <= 3.2) {
+    if (value.length > 3) {
       // TODO: improve error message
       throw new Error("");
+    }
+    for (const item of value) {
+      if (typeof item !== "number") {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (item <= 3.2) {
+        // TODO: improve error message
+        throw new Error("");
+      }
     }
   },
   /**
