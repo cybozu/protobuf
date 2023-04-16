@@ -7,7 +7,23 @@ import {
   findCustomScalarOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import { localName, makeJsDoc } from "@bufbuild/protoplugin/ecmascript";
-import { FieldRules } from "@cybozu/protobuf-validate";
+import {
+  DoubleRules,
+  Int32Rules,
+  Int64Rules,
+  Uint32Rules,
+  Uint64Rules,
+  FloatRules,
+  FieldRules,
+} from "@cybozu/protobuf-validate";
+
+type NumberRules =
+  | FloatRules
+  | DoubleRules
+  | Int32Rules
+  | Int64Rules
+  | Uint32Rules
+  | Uint64Rules;
 
 function capitalizeFirstLetter(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
@@ -88,8 +104,62 @@ function renderScalar(
   field: DescField,
   customOption: FieldRules
 ) {
-  // TODO: implement
-  f.print("    // TODO: implement scalar");
+  switch (field.scalar) {
+    case ScalarType.BOOL:
+      f.print("    // TODO: implement scalar bool");
+      break;
+    case ScalarType.BYTES:
+      f.print("    // TODO: implement scalar bytes");
+      break;
+    case ScalarType.STRING:
+      f.print("    // TODO: implement scalar string");
+      break;
+    case ScalarType.FLOAT:
+    case ScalarType.INT64:
+    case ScalarType.INT32:
+    case ScalarType.FIXED64:
+    case ScalarType.FIXED32:
+    case ScalarType.DOUBLE:
+    case ScalarType.SFIXED32:
+    case ScalarType.SFIXED64:
+    case ScalarType.SINT32:
+    case ScalarType.SINT64:
+    case ScalarType.UINT32:
+    case ScalarType.UINT64:
+      renderScalarNumber(f, field, customOption.type.value as NumberRules);
+      break;
+  }
+}
+
+function renderScalarNumber(
+  f: GeneratedFile,
+  field: DescField,
+  customOptionNumberRules: NumberRules
+) {
+  f.print`    if (typeof value !== "number") {`;
+  f.print`      // TODO: improve error message`;
+  f.print`      throw new Error("");`;
+  f.print`    }`;
+  const conditions: string[] = [];
+  if (customOptionNumberRules.gt) {
+    conditions.push(`value <= ${customOptionNumberRules.gt}`);
+  }
+  if (customOptionNumberRules.lt) {
+    conditions.push(`value >= ${customOptionNumberRules.lt}`);
+  }
+  if (customOptionNumberRules.gte) {
+    conditions.push(`value < ${customOptionNumberRules.gte}`);
+  }
+  if (customOptionNumberRules.lte) {
+    conditions.push(`value > ${customOptionNumberRules.lte}`);
+  }
+  if (conditions.length > 0) {
+    const condition = conditions.join(" || ");
+    f.print`    if (${condition}) {`;
+    f.print`      // TODO: improve error message`;
+    f.print`      throw new Error("");`;
+    f.print`    }`;
+  }
 }
 
 function renderEnum(f: GeneratedFile) {
