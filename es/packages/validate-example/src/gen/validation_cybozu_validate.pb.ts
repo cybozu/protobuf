@@ -171,13 +171,6 @@ export const ScalarsValidators = {
     }
   },
   /**
-   * no available rules for bools
-   *
-   * @generated from field: bool bool = 13;
-   */
-  validateBool(value: unknown): asserts value is Scalars["bool"] {
-  },
-  /**
    * @generated from field: string string = 14;
    */
   validateString(value: unknown): asserts value is Scalars["string"] {
@@ -359,13 +352,6 @@ export const OptionalScalarsValidators = {
       // TODO: improve error message
       throw new Error("");
     }
-  },
-  /**
-   * no available rules for bool
-   *
-   * @generated from field: optional bool bool = 13;
-   */
-  validateBool(value: unknown): asserts value is OptionalScalars["bool"] {
   },
   /**
    * @generated from field: optional string string = 14;

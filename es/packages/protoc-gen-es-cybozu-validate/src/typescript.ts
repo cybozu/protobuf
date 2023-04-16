@@ -76,6 +76,11 @@ function renderField(
     const localFieldName = localName(field);
     const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
 
+    // no available rules for bools
+    if (field.scalar === ScalarType.BOOL) {
+      return;
+    }
+
     f.print(makeJsDoc(field, "  "));
     f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
 
@@ -107,7 +112,7 @@ function renderScalar(
 ) {
   switch (field.scalar) {
     case ScalarType.BOOL:
-      renderScalarBoolean(f);
+      // no available rules for bools
       break;
     case ScalarType.BYTES:
       renderScalarBytes(f, field, customOption.type.value as BytesRules);
@@ -155,13 +160,6 @@ function renderScalarBytes(
     f.print`      throw new Error("")`;
     f.print`    }`;
   }
-}
-
-function renderScalarBoolean(f: GeneratedFile) {
-  f.print`    if (typeof value !== "boolean") {`;
-  f.print`      // TODO: improve error message`;
-  f.print`      throw new Error("");`;
-  f.print`    }`;
 }
 
 function renderScalarNumber(
