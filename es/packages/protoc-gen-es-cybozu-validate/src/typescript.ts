@@ -106,7 +106,7 @@ function renderScalar(
 ) {
   switch (field.scalar) {
     case ScalarType.BOOL:
-      f.print("    // TODO: implement scalar bool");
+      renderScalarBoolean(f);
       break;
     case ScalarType.BYTES:
       f.print("    // TODO: implement scalar bytes");
@@ -129,6 +129,13 @@ function renderScalar(
       renderScalarNumber(f, field, customOption.type.value as NumberRules);
       break;
   }
+}
+
+function renderScalarBoolean(f: GeneratedFile) {
+  f.print`    if (typeof value !== "boolean") {`;
+  f.print`      // TODO: improve error message`;
+  f.print`      throw new Error("");`;
+  f.print`    }`;
 }
 
 function renderScalarNumber(
