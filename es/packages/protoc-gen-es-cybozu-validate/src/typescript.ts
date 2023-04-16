@@ -1,5 +1,7 @@
-import { ScalarType } from "@bufbuild/protobuf";
+import { DescField, DescOneof, ScalarType } from "@bufbuild/protobuf";
 import {
+  GeneratedFile,
+  ImportSymbol,
   Schema,
   findCustomMessageOption,
   findCustomScalarOption,
@@ -36,31 +38,76 @@ export function generateTs(schema: Schema) {
       const messageImport = f.import(message);
 
       for (const field of message.fields) {
-        if (!field.oneof) {
-          const localFieldName = localName(field);
-          const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
-          f.print(makeJsDoc(field, "  "));
-          f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
-          // TODO: rendering validaation
-          const customOption = findCustomMessageOption(field, 1179, FieldRules);
-          if (customOption) {
-            f.print(`    // ${JSON.stringify(customOption)}`);
-          }
-          f.print`  },`;
-        }
+        renderField(f, field, messageImport);
       }
-
       for (const oneof of message.oneofs) {
-        const localFieldName = localName(oneof);
-        const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
-        f.print(makeJsDoc(oneof, "  "));
-        f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
-        // TODO: rendering validaation
-        f.print`  },`;
+        renderOneof(f, oneof, messageImport);
       }
 
       f.print`}`;
       f.print();
     }
   }
+}
+
+function renderField(
+  f: GeneratedFile,
+  field: DescField,
+  messageImport: ImportSymbol
+) {
+  if (!field.oneof) {
+    const localFieldName = localName(field);
+    const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
+
+    f.print(makeJsDoc(field, "  "));
+    f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
+
+    const customOption = findCustomMessageOption(field, 1179, FieldRules);
+    if (customOption) {
+      switch (field.fieldKind) {
+        case "scalar":
+          renderScalar();
+          break;
+        case "enum":
+          renderEnum();
+          break;
+        case "map":
+          renderMap();
+          break;
+        case "message":
+          renderMessage();
+          break;
+      }
+    }
+    f.print`  },`;
+  }
+}
+
+function renderScalar() {
+  // TODO: implement
+}
+
+function renderEnum() {
+  // TODO: implement
+}
+
+function renderMap() {
+  // TODO: implement
+}
+
+function renderMessage() {
+  // TODO: implement
+}
+
+function renderOneof(
+  f: GeneratedFile,
+  oneof: DescOneof,
+  messageImport: ImportSymbol
+) {
+  const localFieldName = localName(oneof);
+  const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
+  f.print(makeJsDoc(oneof, "  "));
+  f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
+  // TODO: rendering validaation
+  f.print`  },`;
 }
