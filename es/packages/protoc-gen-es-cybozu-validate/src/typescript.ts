@@ -66,16 +66,16 @@ function renderField(
     if (customOption) {
       switch (field.fieldKind) {
         case "scalar":
-          renderScalar();
+          renderScalar(f, field, customOption);
           break;
         case "enum":
-          renderEnum();
+          renderEnum(f);
           break;
         case "map":
-          renderMap();
+          renderMap(f);
           break;
         case "message":
-          renderMessage();
+          renderMessage(f);
           break;
       }
     }
@@ -83,20 +83,28 @@ function renderField(
   }
 }
 
-function renderScalar() {
+function renderScalar(
+  f: GeneratedFile,
+  field: DescField,
+  customOption: FieldRules
+) {
   // TODO: implement
+  f.print("    // TODO: implement scalar");
 }
 
-function renderEnum() {
+function renderEnum(f: GeneratedFile) {
   // TODO: implement
+  f.print("    // TODO: implement enum");
 }
 
-function renderMap() {
+function renderMap(f: GeneratedFile) {
   // TODO: implement
+  f.print("    // TODO: implement map");
 }
 
-function renderMessage() {
+function renderMessage(f: GeneratedFile) {
   // TODO: implement
+  f.print("    // TODO: implement message");
 }
 
 function renderOneof(
