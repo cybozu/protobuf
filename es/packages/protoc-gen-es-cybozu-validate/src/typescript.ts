@@ -15,6 +15,7 @@ import {
   Uint64Rules,
   FloatRules,
   FieldRules,
+  BytesRules,
 } from "@cybozu/protobuf-validate";
 
 type NumberRules =
@@ -109,7 +110,7 @@ function renderScalar(
       renderScalarBoolean(f);
       break;
     case ScalarType.BYTES:
-      f.print("    // TODO: implement scalar bytes");
+      renderScalarBytes(f, field, customOption.type.value as BytesRules);
       break;
     case ScalarType.STRING:
       f.print("    // TODO: implement scalar string");
@@ -128,6 +129,31 @@ function renderScalar(
     case ScalarType.UINT64:
       renderScalarNumber(f, field, customOption.type.value as NumberRules);
       break;
+  }
+}
+
+function renderScalarBytes(
+  f: GeneratedFile,
+  field: DescField,
+  customOptionBytesRules: BytesRules
+) {
+  f.print`    if (!(value instanceof Uint8Array)) {`;
+  f.print`      // TODO: improve error message`;
+  f.print`      throw new Error("");`;
+  f.print`    }`;
+  const conditions: string[] = [];
+  if (customOptionBytesRules.maxLength) {
+    conditions.push(`value.byteLength > ${customOptionBytesRules.maxLength}`);
+  }
+  if (customOptionBytesRules.minLength) {
+    conditions.push(`valute.byteLength < ${customOptionBytesRules.minLength}`);
+  }
+  if (conditions.length > 0) {
+    const condition = conditions.join(" || ");
+    f.print`    if (${condition}) {`;
+    f.print`      // TODO: improve error message`;
+    f.print`      throw new Error("")`;
+    f.print`    }`;
   }
 }
 

@@ -18,7 +18,6 @@ export const ScalarsValidators = {
    * @generated from field: float float = 1;
    */
   validateFloat(value: unknown): asserts value is Scalars["float"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -32,7 +31,6 @@ export const ScalarsValidators = {
    * @generated from field: double double = 2;
    */
   validateDouble(value: unknown): asserts value is Scalars["double"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -46,7 +44,6 @@ export const ScalarsValidators = {
    * @generated from field: int32 int32 = 3;
    */
   validateInt32(value: unknown): asserts value is Scalars["int32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -60,7 +57,6 @@ export const ScalarsValidators = {
    * @generated from field: int64 int64 = 4;
    */
   validateInt64(value: unknown): asserts value is Scalars["int64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -74,7 +70,6 @@ export const ScalarsValidators = {
    * @generated from field: uint32 uint32 = 5;
    */
   validateUint32(value: unknown): asserts value is Scalars["uint32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -88,7 +83,6 @@ export const ScalarsValidators = {
    * @generated from field: uint64 uint64 = 6;
    */
   validateUint64(value: unknown): asserts value is Scalars["uint64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -102,7 +96,6 @@ export const ScalarsValidators = {
    * @generated from field: sint32 sint32 = 7;
    */
   validateSint32(value: unknown): asserts value is Scalars["sint32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -116,7 +109,6 @@ export const ScalarsValidators = {
    * @generated from field: sint64 sint64 = 8;
    */
   validateSint64(value: unknown): asserts value is Scalars["sint64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -130,7 +122,6 @@ export const ScalarsValidators = {
    * @generated from field: fixed32 fixed32 = 9;
    */
   validateFixed32(value: unknown): asserts value is Scalars["fixed32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -144,7 +135,6 @@ export const ScalarsValidators = {
    * @generated from field: fixed64 fixed64 = 10;
    */
   validateFixed64(value: unknown): asserts value is Scalars["fixed64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -158,7 +148,6 @@ export const ScalarsValidators = {
    * @generated from field: sfixed32 sfixed32 = 11;
    */
   validateSfixed32(value: unknown): asserts value is Scalars["sfixed32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -172,7 +161,6 @@ export const ScalarsValidators = {
    * @generated from field: sfixed64 sfixed64 = 12;
    */
   validateSfixed64(value: unknown): asserts value is Scalars["sfixed64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -199,7 +187,14 @@ export const ScalarsValidators = {
    * @generated from field: bytes bytes = 15;
    */
   validateBytes(value: unknown): asserts value is Scalars["bytes"] {
-    // TODO: implement scalar bytes
+    if (!(value instanceof Uint8Array)) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (value.byteLength > 10) {
+      // TODO: improve error message
+      throw new Error("")
+    }
   },
 }
 
@@ -213,7 +208,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional float float = 1;
    */
   validateFloat(value: unknown): asserts value is OptionalScalars["float"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -227,7 +221,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional double double = 2;
    */
   validateDouble(value: unknown): asserts value is OptionalScalars["double"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -241,7 +234,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional int32 int32 = 3;
    */
   validateInt32(value: unknown): asserts value is OptionalScalars["int32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -255,7 +247,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional int64 int64 = 4;
    */
   validateInt64(value: unknown): asserts value is OptionalScalars["int64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -269,7 +260,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional uint32 uint32 = 5;
    */
   validateUint32(value: unknown): asserts value is OptionalScalars["uint32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -283,7 +273,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional uint64 uint64 = 6;
    */
   validateUint64(value: unknown): asserts value is OptionalScalars["uint64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -297,7 +286,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional sint32 sint32 = 7;
    */
   validateSint32(value: unknown): asserts value is OptionalScalars["sint32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -311,7 +299,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional sint64 sint64 = 8;
    */
   validateSint64(value: unknown): asserts value is OptionalScalars["sint64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -325,7 +312,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional fixed32 fixed32 = 9;
    */
   validateFixed32(value: unknown): asserts value is OptionalScalars["fixed32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -339,7 +325,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional fixed64 fixed64 = 10;
    */
   validateFixed64(value: unknown): asserts value is OptionalScalars["fixed64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -353,7 +338,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional sfixed32 sfixed32 = 11;
    */
   validateSfixed32(value: unknown): asserts value is OptionalScalars["sfixed32"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -367,7 +351,6 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional sfixed64 sfixed64 = 12;
    */
   validateSfixed64(value: unknown): asserts value is OptionalScalars["sfixed64"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -394,7 +377,14 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional bytes bytes = 15;
    */
   validateBytes(value: unknown): asserts value is OptionalScalars["bytes"] {
-    // TODO: implement scalar bytes
+    if (!(value instanceof Uint8Array)) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (value.byteLength > 10) {
+      // TODO: improve error message
+      throw new Error("")
+    }
   },
 }
 
@@ -408,7 +398,6 @@ export const RepeatedScalarsValidators = {
    * @generated from field: repeated float float = 1;
    */
   validateFloat(value: unknown): asserts value is RepeatedScalars["float"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -424,7 +413,6 @@ export const RepeatedScalarsValidators = {
    * @generated from field: repeated double double = 2;
    */
   validateDouble(value: unknown): asserts value is RepeatedScalars["double"] {
-    // TODO: implement scalar number
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
