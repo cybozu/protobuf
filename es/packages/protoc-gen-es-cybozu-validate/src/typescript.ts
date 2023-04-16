@@ -27,6 +27,8 @@ type NumberRules =
   | Uint32Rules
   | Uint64Rules;
 
+type Rules = NonNullable<FieldRules["type"]["value"]>;
+
 function capitalizeFirstLetter(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
@@ -115,7 +117,12 @@ function renderScalar(
       // no available rules for bools
       break;
     case ScalarType.BYTES:
-      renderScalarBytes(f, field, customOption.type.value as BytesRules);
+      renderScalarBytes(
+        f,
+        field,
+        customOption.type.value as BytesRules,
+        customOption.items.value
+      );
       break;
     case ScalarType.STRING:
       f.print("    // TODO: implement scalar string");
@@ -142,28 +149,84 @@ function renderScalar(
   }
 }
 
-function renderScalarBytes(
+type RenderItem<T extends Rules> = (
   f: GeneratedFile,
-  field: DescField,
-  bytesRules: BytesRules
+  itemRules: T,
+  innerName: string,
+  baseIndent: number
+) => void;
+
+function renderItems<T extends Rules>(
+  f: GeneratedFile,
+  itemsRules: ItemsRules | undefined,
+  rules: T,
+  renderItem: RenderItem<T>
 ) {
-  f.print`    if (!(value instanceof Uint8Array)) {`;
+  f.print`    if (!Array.isArray(value)) {`;
   f.print`      // TODO: improve error message`;
   f.print`      throw new Error("");`;
   f.print`    }`;
-  const conditions: string[] = [];
-  if (bytesRules.maxLength) {
-    conditions.push(`value.byteLength > ${bytesRules.maxLength}`);
-  }
-  if (bytesRules.minLength) {
-    conditions.push(`valute.byteLength < ${bytesRules.minLength}`);
-  }
-  if (conditions.length > 0) {
+
+  if (itemsRules) {
+    const conditions: string[] = [];
+    if (itemsRules.maxItems) {
+      conditions.push(`value.length > ${itemsRules.maxItems}`);
+    }
+    if (itemsRules.minItems) {
+      conditions.push(`value.length < ${itemsRules.minItems}`);
+    }
     const condition = conditions.join(" || ");
     f.print`    if (${condition}) {`;
     f.print`      // TODO: improve error message`;
-    f.print`      throw new Error("")`;
+    f.print`      throw new Error("");`;
     f.print`    }`;
+  }
+
+  f.print`    for (const item of value) {`;
+  renderItem(f, rules, "item", 6);
+  f.print`    }`;
+}
+
+function renderScalarBytes(
+  f: GeneratedFile,
+  field: DescField,
+  bytesRules: BytesRules,
+  itemsRules: ItemsRules | undefined
+) {
+  const { repeated } = field;
+  if (repeated) {
+    renderItems(f, itemsRules, bytesRules, renderScalarBytesItem);
+  } else {
+    renderScalarBytesItem(f, bytesRules, "value", 4);
+  }
+}
+
+function renderScalarBytesItem(
+  f: GeneratedFile,
+  itemRules: BytesRules | undefined,
+  innerName: string,
+  baseIndent: number
+) {
+  const indent = " ".repeat(baseIndent);
+  f.print(indent + `if (!(${innerName} instanceof Uint8Array)) {`);
+  f.print(indent + `  // TODO: improve error message`);
+  f.print(indent + `  throw new Error("");`);
+  f.print(indent + `}`);
+  if (itemRules) {
+    const conditions: string[] = [];
+    if (itemRules.maxLength) {
+      conditions.push(`${innerName}.byteLength > ${itemRules.maxLength}`);
+    }
+    if (itemRules.minLength) {
+      conditions.push(`${innerName}.byteLength < ${itemRules.minLength}`);
+    }
+    if (conditions.length > 0) {
+      const condition = conditions.join(" || ");
+      f.print(indent + `if (${condition}) {`);
+      f.print(indent + `  // TODO: improve error message`);
+      f.print(indent + `  throw new Error("")`);
+      f.print(indent + `}`);
+    }
   }
 }
 
@@ -175,79 +238,44 @@ function renderScalarNumber(
 ) {
   const { repeated } = field;
   if (repeated) {
-    f.print`    if (!Array.isArray(value)) {`;
-    f.print`      // TODO: improve error message`;
-    f.print`      throw new Error("");`;
-    f.print`    }`;
+    renderItems(f, itemsRules, numberRules, renderScalarNumberItem);
+  } else {
+    renderScalarNumberItem(f, numberRules, "value", 4);
+  }
+}
 
-    if (itemsRules) {
-      const conditions: string[] = [];
-      if (itemsRules.maxItems) {
-        conditions.push(`value.length > ${itemsRules.maxItems}`);
-      }
-      if (itemsRules.minItems) {
-        conditions.push(`value.length < ${itemsRules.minItems}`);
-      }
-      const condition = conditions.join(" || ");
-      f.print`    if (${condition}) {`;
-      f.print`      // TODO: improve error message`;
-      f.print`      throw new Error("");`;
-      f.print`    }`;
-    }
-
+function renderScalarNumberItem(
+  f: GeneratedFile,
+  itemRules: NumberRules | undefined,
+  innerName: string,
+  baseIndent: number
+) {
+  const indent = " ".repeat(baseIndent);
+  f.print(indent + `if (typeof ${innerName} !== "number") {`);
+  f.print(indent + `  // TODO: improve error message`);
+  f.print(indent + `  throw new Error("");`);
+  f.print(indent + `}`);
+  if (itemRules) {
     const conditions: string[] = [];
-    if (numberRules.gt) {
-      conditions.push(`item <= ${numberRules.gt}`);
+    if (itemRules.gt) {
+      conditions.push(`${innerName} <= ${itemRules.gt}`);
     }
-    if (numberRules.lt) {
-      conditions.push(`item >= ${numberRules.lt}`);
+    if (itemRules.lt) {
+      conditions.push(`${innerName} >= ${itemRules.lt}`);
     }
-    if (numberRules.gte) {
-      conditions.push(`item < ${numberRules.gte}`);
+    if (itemRules.gte) {
+      conditions.push(`${innerName} < ${itemRules.gte}`);
     }
-    if (numberRules.lte) {
-      conditions.push(`item > ${numberRules.lte}`);
+    if (itemRules.lte) {
+      conditions.push(`${innerName} > ${itemRules.lte}`);
     }
-
-    f.print`    for (const item of value) {`;
-    f.print`      if (typeof item !== "number") {`;
-    f.print`        // TODO: improve error message`;
-    f.print`        throw new Error("");`;
-    f.print`      }`;
     if (conditions.length > 0) {
       const condition = conditions.join(" || ");
-      f.print`      if (${condition}) {`;
-      f.print`        // TODO: improve error message`;
-      f.print`        throw new Error("");`;
-      f.print`      }`;
+      f.print(indent + `if (${condition}) {`);
+      f.print(indent + `  // TODO: improve error message`);
+      f.print(indent + `  throw new Error("");`);
+      f.print(indent + `}`);
     }
-    f.print`    }`;
-    return;
-  }
-
-  f.print`    if (typeof value !== "number") {`;
-  f.print`      // TODO: improve error message`;
-  f.print`      throw new Error("");`;
-  f.print`    }`;
-  const conditions: string[] = [];
-  if (numberRules.gt) {
-    conditions.push(`value <= ${numberRules.gt}`);
-  }
-  if (numberRules.lt) {
-    conditions.push(`value >= ${numberRules.lt}`);
-  }
-  if (numberRules.gte) {
-    conditions.push(`value < ${numberRules.gte}`);
-  }
-  if (numberRules.lte) {
-    conditions.push(`value > ${numberRules.lte}`);
-  }
-  if (conditions.length > 0) {
-    const condition = conditions.join(" || ");
-    f.print`    if (${condition}) {`;
-    f.print`      // TODO: improve error message`;
-    f.print`      throw new Error("");`;
-    f.print`    }`;
   }
 }
 
