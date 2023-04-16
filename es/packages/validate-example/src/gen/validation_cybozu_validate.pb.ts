@@ -1,4 +1,4 @@
-import { Composed, Enums, Ignored, Maps, Nested, Oneofs, OptionalScalars, RepeatedScalars, Scalars, Strings } from "./validation_pb.js";
+import { Composed, Enums, Maps, Nested, Oneofs, OptionalScalars, RepeatedScalars, Scalars, Strings } from "./validation_pb.js";
 
 /**
  * This message is marked ignored, so no validation method is generated.
@@ -6,18 +6,6 @@ import { Composed, Enums, Ignored, Maps, Nested, Oneofs, OptionalScalars, Repeat
  * @generated from message examples.Ignored
  */
 export const IgnoredValidators = {
-  /**
-   * @generated from field: string foo = 1;
-   */
-  validateFoo(value: unknown): asserts value is Ignored["foo"] {
-  },
-  /**
-   * no effect
-   *
-   * @generated from field: int32 bar = 2;
-   */
-  validateBar(value: unknown): asserts value is Ignored["bar"] {
-  },
 }
 
 /**
@@ -30,61 +18,73 @@ export const ScalarsValidators = {
    * @generated from field: float float = 1;
    */
   validateFloat(value: unknown): asserts value is Scalars["float"] {
+    // {"float":{"lt":3.200000047683716}}
   },
   /**
    * @generated from field: double double = 2;
    */
   validateDouble(value: unknown): asserts value is Scalars["double"] {
+    // {"double":{"gt":3.2}}
   },
   /**
    * @generated from field: int32 int32 = 3;
    */
   validateInt32(value: unknown): asserts value is Scalars["int32"] {
+    // {"int32":{"lte":-3}}
   },
   /**
    * @generated from field: int64 int64 = 4;
    */
   validateInt64(value: unknown): asserts value is Scalars["int64"] {
+    // {"int64":{"gte":"1"}}
   },
   /**
    * @generated from field: uint32 uint32 = 5;
    */
   validateUint32(value: unknown): asserts value is Scalars["uint32"] {
+    // {"uint32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: uint64 uint64 = 6;
    */
   validateUint64(value: unknown): asserts value is Scalars["uint64"] {
+    // {"uint64":{"lte":"5","gte":"1"}}
   },
   /**
    * @generated from field: sint32 sint32 = 7;
    */
   validateSint32(value: unknown): asserts value is Scalars["sint32"] {
+    // {"sint32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: sint64 sint64 = 8;
    */
   validateSint64(value: unknown): asserts value is Scalars["sint64"] {
+    // {"sint64":{"lte":"5","gte":"1"}}
   },
   /**
    * @generated from field: fixed32 fixed32 = 9;
    */
   validateFixed32(value: unknown): asserts value is Scalars["fixed32"] {
+    // {"fixed32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: fixed64 fixed64 = 10;
    */
   validateFixed64(value: unknown): asserts value is Scalars["fixed64"] {
+    // {"fixed64":{"lt":"5","gt":"1"}}
   },
   /**
    * @generated from field: sfixed32 sfixed32 = 11;
    */
   validateSfixed32(value: unknown): asserts value is Scalars["sfixed32"] {
+    // {"sfixed32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: sfixed64 sfixed64 = 12;
    */
   validateSfixed64(value: unknown): asserts value is Scalars["sfixed64"] {
+    // {"sfixed64":{"lt":"5","gt":"1"}}
   },
   /**
    * no available rules for bools
@@ -97,11 +97,13 @@ export const ScalarsValidators = {
    * @generated from field: string string = 14;
    */
   validateString(value: unknown): asserts value is Scalars["string"] {
+    // {"string":{"norm":"NFC","ignoreEmpty":true,"minLength":3}}
   },
   /**
    * @generated from field: bytes bytes = 15;
    */
   validateBytes(value: unknown): asserts value is Scalars["bytes"] {
+    // {"bytes":{"maxLength":10}}
   },
 }
 
@@ -115,61 +117,73 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional float float = 1;
    */
   validateFloat(value: unknown): asserts value is OptionalScalars["float"] {
+    // {"float":{"lt":3.200000047683716}}
   },
   /**
    * @generated from field: optional double double = 2;
    */
   validateDouble(value: unknown): asserts value is OptionalScalars["double"] {
+    // {"double":{"gt":3.2}}
   },
   /**
    * @generated from field: optional int32 int32 = 3;
    */
   validateInt32(value: unknown): asserts value is OptionalScalars["int32"] {
+    // {"int32":{"lte":-3}}
   },
   /**
    * @generated from field: optional int64 int64 = 4;
    */
   validateInt64(value: unknown): asserts value is OptionalScalars["int64"] {
+    // {"int64":{"gte":"1"}}
   },
   /**
    * @generated from field: optional uint32 uint32 = 5;
    */
   validateUint32(value: unknown): asserts value is OptionalScalars["uint32"] {
+    // {"uint32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: optional uint64 uint64 = 6;
    */
   validateUint64(value: unknown): asserts value is OptionalScalars["uint64"] {
+    // {"uint64":{"lte":"5","gte":"1"}}
   },
   /**
    * @generated from field: optional sint32 sint32 = 7;
    */
   validateSint32(value: unknown): asserts value is OptionalScalars["sint32"] {
+    // {"sint32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: optional sint64 sint64 = 8;
    */
   validateSint64(value: unknown): asserts value is OptionalScalars["sint64"] {
+    // {"sint64":{"lte":"5","gte":"1"}}
   },
   /**
    * @generated from field: optional fixed32 fixed32 = 9;
    */
   validateFixed32(value: unknown): asserts value is OptionalScalars["fixed32"] {
+    // {"fixed32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: optional fixed64 fixed64 = 10;
    */
   validateFixed64(value: unknown): asserts value is OptionalScalars["fixed64"] {
+    // {"fixed64":{"lte":"5","gte":"1"}}
   },
   /**
    * @generated from field: optional sfixed32 sfixed32 = 11;
    */
   validateSfixed32(value: unknown): asserts value is OptionalScalars["sfixed32"] {
+    // {"sfixed32":{"lt":5,"gt":1}}
   },
   /**
    * @generated from field: optional sfixed64 sfixed64 = 12;
    */
   validateSfixed64(value: unknown): asserts value is OptionalScalars["sfixed64"] {
+    // {"sfixed64":{"lte":"5","gte":"1"}}
   },
   /**
    * no available rules for bool
@@ -182,11 +196,13 @@ export const OptionalScalarsValidators = {
    * @generated from field: optional string string = 14;
    */
   validateString(value: unknown): asserts value is OptionalScalars["string"] {
+    // {"string":{"norm":"NFC","ignoreEmpty":true,"minLength":3}}
   },
   /**
    * @generated from field: optional bytes bytes = 15;
    */
   validateBytes(value: unknown): asserts value is OptionalScalars["bytes"] {
+    // {"bytes":{"maxLength":10}}
   },
 }
 
@@ -200,6 +216,7 @@ export const RepeatedScalarsValidators = {
    * @generated from field: repeated float float = 1;
    */
   validateFloat(value: unknown): asserts value is RepeatedScalars["float"] {
+    // {"float":{"lt":3.200000047683716},"repeated":{"minItems":1}}
   },
   /**
    * or this
@@ -207,6 +224,7 @@ export const RepeatedScalarsValidators = {
    * @generated from field: repeated double double = 2;
    */
   validateDouble(value: unknown): asserts value is RepeatedScalars["double"] {
+    // {"double":{"gt":3.2},"repeated":{"maxItems":3}}
   },
   /**
    * or this.
@@ -214,6 +232,7 @@ export const RepeatedScalarsValidators = {
    * @generated from field: repeated string string = 3;
    */
   validateString(value: unknown): asserts value is RepeatedScalars["string"] {
+    // {"repeated":{"minItems":2}}
   },
 }
 
@@ -236,6 +255,7 @@ export const StringsValidators = {
    * @generated from field: string s2 = 2;
    */
   validateS2(value: unknown): asserts value is Strings["s2"] {
+    // {"string":{"norm":"NFD","ignoreEmpty":false}}
   },
   /**
    * enforce the minimum length of the string if the string is NOT empty.
@@ -244,6 +264,7 @@ export const StringsValidators = {
    * @generated from field: string s3 = 3;
    */
   validateS3(value: unknown): asserts value is Strings["s3"] {
+    // {"string":{"norm":"NFC","ignoreEmpty":true,"minLength":10}}
   },
   /**
    * normalize and validate the string with a PRECIS profile.
@@ -251,6 +272,7 @@ export const StringsValidators = {
    * @generated from field: string s4 = 4;
    */
   validateS4(value: unknown): asserts value is Strings["s4"] {
+    // {"string":{"norm":"PRECIS_USERNAME_CASE_MAPPED","ignoreEmpty":false}}
   },
   /**
    * normalize and validate the string with a PRECIS profile.
@@ -258,6 +280,7 @@ export const StringsValidators = {
    * @generated from field: string s5 = 5;
    */
   validateS5(value: unknown): asserts value is Strings["s5"] {
+    // {"string":{"norm":"PRECIS_USERNAME_CASE_PRESERVED","ignoreEmpty":false}}
   },
   /**
    * normalize and validate the string with a PRECIS profile.
@@ -265,6 +288,7 @@ export const StringsValidators = {
    * @generated from field: string s6 = 6;
    */
   validateS6(value: unknown): asserts value is Strings["s6"] {
+    // {"string":{"norm":"PRECIS_OPAQUE_STRING","ignoreEmpty":false}}
   },
   /**
    * enforce that the string matches a regular expresson. The regular expression syntax is RE2.
@@ -273,6 +297,7 @@ export const StringsValidators = {
    * @generated from field: string s7 = 7;
    */
   validateS7(value: unknown): asserts value is Strings["s7"] {
+    // {"string":{"norm":"NFC","ignoreEmpty":false,"regex":"^abc"}}
   },
   /**
    * enforce that the string is a valid email address as defined in RFC 5322.
@@ -280,6 +305,7 @@ export const StringsValidators = {
    * @generated from field: string s8 = 8;
    */
   validateS8(value: unknown): asserts value is Strings["s8"] {
+    // {"string":{"norm":"NFC","ignoreEmpty":false,"email":true}}
   },
   /**
    * enforce that the string is a valid URI as defined in RFC 3986.
@@ -288,6 +314,7 @@ export const StringsValidators = {
    * @generated from field: string s9 = 9;
    */
   validateS9(value: unknown): asserts value is Strings["s9"] {
+    // {"string":{"norm":"NFC","ignoreEmpty":false,"uri":true}}
   },
   /**
    * enforce that the string is a valid telephone number as defined by E.164.
@@ -296,6 +323,7 @@ export const StringsValidators = {
    * @generated from field: string s10 = 10;
    */
   validateS10(value: unknown): asserts value is Strings["s10"] {
+    // {"string":{"norm":"NFC","ignoreEmpty":false,"e164":true}}
   },
 }
 
@@ -313,6 +341,7 @@ export const MapsValidators = {
    * @generated from field: map<string, int32> map1 = 1;
    */
   validateMap1(value: unknown): asserts value is Maps["map1"] {
+    // {"int32":{"gt":3},"map":{"minItems":1}}
   },
   /**
    * or either one of them. The following enforces that the timestamp is set.
@@ -320,6 +349,7 @@ export const MapsValidators = {
    * @generated from field: map<string, google.protobuf.Timestamp> map2 = 2;
    */
   validateMap2(value: unknown): asserts value is Maps["map2"] {
+    // {"message":{"required":true}}
   },
   /**
    * string values are normalized into the NFC form even if there's no rules specified.
@@ -348,6 +378,7 @@ export const EnumsValidators = {
    * @generated from field: examples.Enums.Enum e1 = 1;
    */
   validateE1(value: unknown): asserts value is Enums["e1"] {
+    // {"enum":{"required":true,"definedOnly":false}}
   },
   /**
    * enforces that `e2` is one of the defined enum value.
@@ -355,6 +386,7 @@ export const EnumsValidators = {
    * @generated from field: examples.Enums.Enum e2 = 2;
    */
   validateE2(value: unknown): asserts value is Enums["e2"] {
+    // {"enum":{"required":false,"definedOnly":true}}
   },
   /**
    * enforces that `e3` is one of the defined enum value other than zero.
@@ -362,6 +394,7 @@ export const EnumsValidators = {
    * @generated from field: repeated examples.Enums.Enum e3 = 3;
    */
   validateE3(value: unknown): asserts value is Enums["e3"] {
+    // {"enum":{"required":true,"definedOnly":false},"repeated":{"minItems":2}}
   },
   /**
    * enforces that `e4` is, if given, one of the defined enum value other than zero.
@@ -369,6 +402,7 @@ export const EnumsValidators = {
    * @generated from field: optional examples.Enums.Enum e4 = 4;
    */
   validateE4(value: unknown): asserts value is Enums["e4"] {
+    // {"enum":{"required":true,"definedOnly":true}}
   },
 }
 
@@ -400,6 +434,7 @@ export const ComposedValidators = {
    * @generated from field: examples.Ignored ignored = 1;
    */
   validateIgnored(value: unknown): asserts value is Composed["ignored"] {
+    // {"message":{"required":true}}
   },
   /**
    * @generated from field: examples.Scalars scalars = 2;
@@ -417,6 +452,7 @@ export const ComposedValidators = {
    * @generated from field: repeated examples.Enums enums = 4;
    */
   validateEnums(value: unknown): asserts value is Composed["enums"] {
+    // {"message":{"required":true}}
   },
 }
 
@@ -428,6 +464,7 @@ export const NestedValidators = {
    * @generated from field: examples.Nested.Inner inner = 1;
    */
   validateInner(value: unknown): asserts value is Nested["inner"] {
+    // {"message":{"required":true}}
   },
 }
 

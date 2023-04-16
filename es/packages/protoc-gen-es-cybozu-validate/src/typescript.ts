@@ -1,5 +1,11 @@
-import type { Schema } from "@bufbuild/protoplugin/ecmascript";
+import { ScalarType } from "@bufbuild/protobuf";
+import {
+  Schema,
+  findCustomMessageOption,
+  findCustomScalarOption,
+} from "@bufbuild/protoplugin/ecmascript";
 import { localName, makeJsDoc } from "@bufbuild/protoplugin/ecmascript";
+import { FieldRules } from "@cybozu/protobuf-validate";
 
 function capitalizeFirstLetter(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
@@ -19,6 +25,14 @@ export function generateTs(schema: Schema) {
       f.print(makeJsDoc(message));
       f.print`export const ${localMessageName}Validators = {`;
 
+      const ignored = !!findCustomScalarOption(message, 1179, ScalarType.BOOL);
+
+      if (ignored) {
+        f.print`}`;
+        f.print();
+        continue;
+      }
+
       const messageImport = f.import(message);
 
       for (const field of message.fields) {
@@ -28,6 +42,10 @@ export function generateTs(schema: Schema) {
           f.print(makeJsDoc(field, "  "));
           f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
           // TODO: rendering validaation
+          const customOption = findCustomMessageOption(field, 1179, FieldRules);
+          if (customOption) {
+            f.print(`    // ${JSON.stringify(customOption)}`);
+          }
           f.print`  },`;
         }
       }
