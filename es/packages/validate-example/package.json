@@ -2,12 +2,15 @@
   "name": "@cybozu/protobuf-es-validate-example",
   "version": "1.0.0",
   "scripts": {
-    "build": "buf generate"
+    "build": "buf generate",
+    "test": "node --loader tsx --test ./src/__tests__/*.test.ts"
   },
   "devDependencies": {
     "@bufbuild/protoc-gen-es": "^1.2.0",
     "@cybozu/protoc-gen-es-cybozu-validate": "^1.0.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "@types/node": "^18.15.13",
+    "tsx": "^3.12.6"
   },
   "dependencies": {
     "@bufbuild/protobuf": "^1.2.0"
