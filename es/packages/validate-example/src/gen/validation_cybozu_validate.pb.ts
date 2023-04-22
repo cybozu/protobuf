@@ -846,6 +846,9 @@ export const EnumsValidators: {
    * @generated from field: optional examples.Enums.Enum e4 = 4;
    */
   validateE4(value) {
+    if (value == null) {
+      return;
+    }
     // TODO: implement enum
   },
 }
