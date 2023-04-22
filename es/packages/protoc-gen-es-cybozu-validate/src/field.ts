@@ -16,6 +16,7 @@ import {
   BytesRules,
   ItemsRules,
 } from "@cybozu/protobuf-validate";
+import { capitalizeFirstLetter } from "./string-utils";
 
 type NumberRules =
   | FloatRules
@@ -27,15 +28,7 @@ type NumberRules =
 
 type Rules = NonNullable<FieldRules["type"]["value"]>;
 
-function capitalizeFirstLetter(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-function renderField(
-  f: GeneratedFile,
-  field: DescField,
-  messageImport: ImportSymbol
-) {
+function renderField(f: GeneratedFile, field: DescField) {
   if (!field.oneof) {
     const localFieldName = localName(field);
     const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
@@ -48,7 +41,7 @@ function renderField(
     }
 
     f.print(makeJsDoc(field, "  "));
-    f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
+    f.print`  validate${capitalizedFieldName}(value) {`;
 
     switch (field.fieldKind) {
       case "scalar":
@@ -260,12 +253,7 @@ function renderOneof(
   oneof: DescOneof,
   messageImport: ImportSymbol
 ) {
-  const localFieldName = localName(oneof);
-  const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
-  f.print(makeJsDoc(oneof, "  "));
-  f.print`  validate${capitalizedFieldName}(value: unknown): asserts value is ${messageImport}["${localFieldName}"] {`;
-  // TODO: rendering validaation
-  f.print`  },`;
+  // TODO: implement
 }
 
 export { renderField, renderOneof };

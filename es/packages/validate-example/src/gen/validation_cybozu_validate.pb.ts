@@ -1,23 +1,72 @@
-import { Composed, Enums, Maps, Nested, Oneofs, OptionalScalars, RepeatedScalars, Scalars, Strings } from "./validation_pb.js";
-
-/**
- * This message is marked ignored, so no validation method is generated.
- *
- * @generated from message examples.Ignored
- */
-export const IgnoredValidators = {
-}
+import { Composed, Enums, Maps, Nested, OptionalScalars, RepeatedScalars, Scalars, Strings } from "./validation_pb.js";
 
 /**
  * All scalar types can have constraint rules except for bools.
  *
  * @generated from message examples.Scalars
  */
-export const ScalarsValidators = {
+export const ScalarsValidators: {
   /**
    * @generated from field: float float = 1;
    */
-  validateFloat(value: unknown): asserts value is Scalars["float"] {
+  validateFloat: (value: unknown) => asserts value is Scalars["float"];
+  /**
+   * @generated from field: double double = 2;
+   */
+  validateDouble: (value: unknown) => asserts value is Scalars["double"];
+  /**
+   * @generated from field: int32 int32 = 3;
+   */
+  validateInt32: (value: unknown) => asserts value is Scalars["int32"];
+  /**
+   * @generated from field: int64 int64 = 4;
+   */
+  validateInt64: (value: unknown) => asserts value is Scalars["int64"];
+  /**
+   * @generated from field: uint32 uint32 = 5;
+   */
+  validateUint32: (value: unknown) => asserts value is Scalars["uint32"];
+  /**
+   * @generated from field: uint64 uint64 = 6;
+   */
+  validateUint64: (value: unknown) => asserts value is Scalars["uint64"];
+  /**
+   * @generated from field: sint32 sint32 = 7;
+   */
+  validateSint32: (value: unknown) => asserts value is Scalars["sint32"];
+  /**
+   * @generated from field: sint64 sint64 = 8;
+   */
+  validateSint64: (value: unknown) => asserts value is Scalars["sint64"];
+  /**
+   * @generated from field: fixed32 fixed32 = 9;
+   */
+  validateFixed32: (value: unknown) => asserts value is Scalars["fixed32"];
+  /**
+   * @generated from field: fixed64 fixed64 = 10;
+   */
+  validateFixed64: (value: unknown) => asserts value is Scalars["fixed64"];
+  /**
+   * @generated from field: sfixed32 sfixed32 = 11;
+   */
+  validateSfixed32: (value: unknown) => asserts value is Scalars["sfixed32"];
+  /**
+   * @generated from field: sfixed64 sfixed64 = 12;
+   */
+  validateSfixed64: (value: unknown) => asserts value is Scalars["sfixed64"];
+  /**
+   * @generated from field: string string = 14;
+   */
+  validateString: (value: unknown) => asserts value is Scalars["string"];
+  /**
+   * @generated from field: bytes bytes = 15;
+   */
+  validateBytes: (value: unknown) => asserts value is Scalars["bytes"];
+} = {
+  /**
+   * @generated from field: float float = 1;
+   */
+  validateFloat(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -30,7 +79,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: double double = 2;
    */
-  validateDouble(value: unknown): asserts value is Scalars["double"] {
+  validateDouble(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -43,7 +92,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: int32 int32 = 3;
    */
-  validateInt32(value: unknown): asserts value is Scalars["int32"] {
+  validateInt32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -56,7 +105,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: int64 int64 = 4;
    */
-  validateInt64(value: unknown): asserts value is Scalars["int64"] {
+  validateInt64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -69,7 +118,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: uint32 uint32 = 5;
    */
-  validateUint32(value: unknown): asserts value is Scalars["uint32"] {
+  validateUint32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -82,7 +131,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: uint64 uint64 = 6;
    */
-  validateUint64(value: unknown): asserts value is Scalars["uint64"] {
+  validateUint64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -95,7 +144,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: sint32 sint32 = 7;
    */
-  validateSint32(value: unknown): asserts value is Scalars["sint32"] {
+  validateSint32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -108,7 +157,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: sint64 sint64 = 8;
    */
-  validateSint64(value: unknown): asserts value is Scalars["sint64"] {
+  validateSint64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -121,7 +170,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: fixed32 fixed32 = 9;
    */
-  validateFixed32(value: unknown): asserts value is Scalars["fixed32"] {
+  validateFixed32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -134,7 +183,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: fixed64 fixed64 = 10;
    */
-  validateFixed64(value: unknown): asserts value is Scalars["fixed64"] {
+  validateFixed64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -147,7 +196,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: sfixed32 sfixed32 = 11;
    */
-  validateSfixed32(value: unknown): asserts value is Scalars["sfixed32"] {
+  validateSfixed32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -160,7 +209,7 @@ export const ScalarsValidators = {
   /**
    * @generated from field: sfixed64 sfixed64 = 12;
    */
-  validateSfixed64(value: unknown): asserts value is Scalars["sfixed64"] {
+  validateSfixed64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -173,13 +222,13 @@ export const ScalarsValidators = {
   /**
    * @generated from field: string string = 14;
    */
-  validateString(value: unknown): asserts value is Scalars["string"] {
+  validateString(value) {
     // TODO: implement scalar string
   },
   /**
    * @generated from field: bytes bytes = 15;
    */
-  validateBytes(value: unknown): asserts value is Scalars["bytes"] {
+  validateBytes(value) {
     if (!(value instanceof Uint8Array)) {
       // TODO: improve error message
       throw new Error("");
@@ -196,11 +245,68 @@ export const ScalarsValidators = {
  *
  * @generated from message examples.OptionalScalars
  */
-export const OptionalScalarsValidators = {
+export const OptionalScalarsValidators: {
   /**
    * @generated from field: optional float float = 1;
    */
-  validateFloat(value: unknown): asserts value is OptionalScalars["float"] {
+  validateFloat: (value: unknown) => asserts value is OptionalScalars["float"];
+  /**
+   * @generated from field: optional double double = 2;
+   */
+  validateDouble: (value: unknown) => asserts value is OptionalScalars["double"];
+  /**
+   * @generated from field: optional int32 int32 = 3;
+   */
+  validateInt32: (value: unknown) => asserts value is OptionalScalars["int32"];
+  /**
+   * @generated from field: optional int64 int64 = 4;
+   */
+  validateInt64: (value: unknown) => asserts value is OptionalScalars["int64"];
+  /**
+   * @generated from field: optional uint32 uint32 = 5;
+   */
+  validateUint32: (value: unknown) => asserts value is OptionalScalars["uint32"];
+  /**
+   * @generated from field: optional uint64 uint64 = 6;
+   */
+  validateUint64: (value: unknown) => asserts value is OptionalScalars["uint64"];
+  /**
+   * @generated from field: optional sint32 sint32 = 7;
+   */
+  validateSint32: (value: unknown) => asserts value is OptionalScalars["sint32"];
+  /**
+   * @generated from field: optional sint64 sint64 = 8;
+   */
+  validateSint64: (value: unknown) => asserts value is OptionalScalars["sint64"];
+  /**
+   * @generated from field: optional fixed32 fixed32 = 9;
+   */
+  validateFixed32: (value: unknown) => asserts value is OptionalScalars["fixed32"];
+  /**
+   * @generated from field: optional fixed64 fixed64 = 10;
+   */
+  validateFixed64: (value: unknown) => asserts value is OptionalScalars["fixed64"];
+  /**
+   * @generated from field: optional sfixed32 sfixed32 = 11;
+   */
+  validateSfixed32: (value: unknown) => asserts value is OptionalScalars["sfixed32"];
+  /**
+   * @generated from field: optional sfixed64 sfixed64 = 12;
+   */
+  validateSfixed64: (value: unknown) => asserts value is OptionalScalars["sfixed64"];
+  /**
+   * @generated from field: optional string string = 14;
+   */
+  validateString: (value: unknown) => asserts value is OptionalScalars["string"];
+  /**
+   * @generated from field: optional bytes bytes = 15;
+   */
+  validateBytes: (value: unknown) => asserts value is OptionalScalars["bytes"];
+} = {
+  /**
+   * @generated from field: optional float float = 1;
+   */
+  validateFloat(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -213,7 +319,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional double double = 2;
    */
-  validateDouble(value: unknown): asserts value is OptionalScalars["double"] {
+  validateDouble(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -226,7 +332,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional int32 int32 = 3;
    */
-  validateInt32(value: unknown): asserts value is OptionalScalars["int32"] {
+  validateInt32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -239,7 +345,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional int64 int64 = 4;
    */
-  validateInt64(value: unknown): asserts value is OptionalScalars["int64"] {
+  validateInt64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -252,7 +358,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional uint32 uint32 = 5;
    */
-  validateUint32(value: unknown): asserts value is OptionalScalars["uint32"] {
+  validateUint32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -265,7 +371,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional uint64 uint64 = 6;
    */
-  validateUint64(value: unknown): asserts value is OptionalScalars["uint64"] {
+  validateUint64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -278,7 +384,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional sint32 sint32 = 7;
    */
-  validateSint32(value: unknown): asserts value is OptionalScalars["sint32"] {
+  validateSint32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -291,7 +397,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional sint64 sint64 = 8;
    */
-  validateSint64(value: unknown): asserts value is OptionalScalars["sint64"] {
+  validateSint64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -304,7 +410,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional fixed32 fixed32 = 9;
    */
-  validateFixed32(value: unknown): asserts value is OptionalScalars["fixed32"] {
+  validateFixed32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -317,7 +423,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional fixed64 fixed64 = 10;
    */
-  validateFixed64(value: unknown): asserts value is OptionalScalars["fixed64"] {
+  validateFixed64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -330,7 +436,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional sfixed32 sfixed32 = 11;
    */
-  validateSfixed32(value: unknown): asserts value is OptionalScalars["sfixed32"] {
+  validateSfixed32(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -343,7 +449,7 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional sfixed64 sfixed64 = 12;
    */
-  validateSfixed64(value: unknown): asserts value is OptionalScalars["sfixed64"] {
+  validateSfixed64(value) {
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -356,13 +462,13 @@ export const OptionalScalarsValidators = {
   /**
    * @generated from field: optional string string = 14;
    */
-  validateString(value: unknown): asserts value is OptionalScalars["string"] {
+  validateString(value) {
     // TODO: implement scalar string
   },
   /**
    * @generated from field: optional bytes bytes = 15;
    */
-  validateBytes(value: unknown): asserts value is OptionalScalars["bytes"] {
+  validateBytes(value) {
     if (!(value instanceof Uint8Array)) {
       // TODO: improve error message
       throw new Error("");
@@ -377,13 +483,32 @@ export const OptionalScalarsValidators = {
 /**
  * @generated from message examples.RepeatedScalars
  */
-export const RepeatedScalarsValidators = {
+export const RepeatedScalarsValidators: {
   /**
    * a repeated field can specify `repeated` constraints like this
    *
    * @generated from field: repeated float float = 1;
    */
-  validateFloat(value: unknown): asserts value is RepeatedScalars["float"] {
+  validateFloat: (value: unknown) => asserts value is RepeatedScalars["float"];
+  /**
+   * or this
+   *
+   * @generated from field: repeated double double = 2;
+   */
+  validateDouble: (value: unknown) => asserts value is RepeatedScalars["double"];
+  /**
+   * or this.
+   *
+   * @generated from field: repeated string string = 3;
+   */
+  validateString: (value: unknown) => asserts value is RepeatedScalars["string"];
+} = {
+  /**
+   * a repeated field can specify `repeated` constraints like this
+   *
+   * @generated from field: repeated float float = 1;
+   */
+  validateFloat(value) {
     if (!Array.isArray(value)) {
       // TODO: improve error message
       throw new Error("");
@@ -408,7 +533,7 @@ export const RepeatedScalarsValidators = {
    *
    * @generated from field: repeated double double = 2;
    */
-  validateDouble(value: unknown): asserts value is RepeatedScalars["double"] {
+  validateDouble(value) {
     if (!Array.isArray(value)) {
       // TODO: improve error message
       throw new Error("");
@@ -433,7 +558,7 @@ export const RepeatedScalarsValidators = {
    *
    * @generated from field: repeated string string = 3;
    */
-  validateString(value: unknown): asserts value is RepeatedScalars["string"] {
+  validateString(value) {
     // TODO: implement scalar string
   },
 }
@@ -443,13 +568,78 @@ export const RepeatedScalarsValidators = {
  *
  * @generated from message examples.Strings
  */
-export const StringsValidators = {
+export const StringsValidators: {
+  /**
+   * NFC normalization is applied if no options are given.
+   *
+   * @generated from field: string s1 = 1;
+   */
+  validateS1: (value: unknown) => asserts value is Strings["s1"];
   /**
    * normalize into the NFD form.
    *
    * @generated from field: string s2 = 2;
    */
-  validateS2(value: unknown): asserts value is Strings["s2"] {
+  validateS2: (value: unknown) => asserts value is Strings["s2"];
+  /**
+   * enforce the minimum length of the string if the string is NOT empty.
+   * This check is done after NFC normalization.
+   *
+   * @generated from field: string s3 = 3;
+   */
+  validateS3: (value: unknown) => asserts value is Strings["s3"];
+  /**
+   * normalize and validate the string with a PRECIS profile.
+   *
+   * @generated from field: string s4 = 4;
+   */
+  validateS4: (value: unknown) => asserts value is Strings["s4"];
+  /**
+   * normalize and validate the string with a PRECIS profile.
+   *
+   * @generated from field: string s5 = 5;
+   */
+  validateS5: (value: unknown) => asserts value is Strings["s5"];
+  /**
+   * normalize and validate the string with a PRECIS profile.
+   *
+   * @generated from field: string s6 = 6;
+   */
+  validateS6: (value: unknown) => asserts value is Strings["s6"];
+  /**
+   * enforce that the string matches a regular expresson. The regular expression syntax is RE2.
+   * See https://github.com/google/re2/wiki/Syntax
+   *
+   * @generated from field: string s7 = 7;
+   */
+  validateS7: (value: unknown) => asserts value is Strings["s7"];
+  /**
+   * enforce that the string is a valid email address as defined in RFC 5322.
+   *
+   * @generated from field: string s8 = 8;
+   */
+  validateS8: (value: unknown) => asserts value is Strings["s8"];
+  /**
+   * enforce that the string is a valid URI as defined in RFC 3986.
+   * The string will also be canonicalized.
+   *
+   * @generated from field: string s9 = 9;
+   */
+  validateS9: (value: unknown) => asserts value is Strings["s9"];
+  /**
+   * enforce that the string is a valid telephone number as defined by E.164.
+   * An example is "+81-80-0000-0000".
+   *
+   * @generated from field: string s10 = 10;
+   */
+  validateS10: (value: unknown) => asserts value is Strings["s10"];
+} = {
+  /**
+   * normalize into the NFD form.
+   *
+   * @generated from field: string s2 = 2;
+   */
+  validateS2(value) {
     // TODO: implement scalar string
   },
   /**
@@ -458,7 +648,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s3 = 3;
    */
-  validateS3(value: unknown): asserts value is Strings["s3"] {
+  validateS3(value) {
     // TODO: implement scalar string
   },
   /**
@@ -466,7 +656,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s4 = 4;
    */
-  validateS4(value: unknown): asserts value is Strings["s4"] {
+  validateS4(value) {
     // TODO: implement scalar string
   },
   /**
@@ -474,7 +664,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s5 = 5;
    */
-  validateS5(value: unknown): asserts value is Strings["s5"] {
+  validateS5(value) {
     // TODO: implement scalar string
   },
   /**
@@ -482,7 +672,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s6 = 6;
    */
-  validateS6(value: unknown): asserts value is Strings["s6"] {
+  validateS6(value) {
     // TODO: implement scalar string
   },
   /**
@@ -491,7 +681,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s7 = 7;
    */
-  validateS7(value: unknown): asserts value is Strings["s7"] {
+  validateS7(value) {
     // TODO: implement scalar string
   },
   /**
@@ -499,7 +689,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s8 = 8;
    */
-  validateS8(value: unknown): asserts value is Strings["s8"] {
+  validateS8(value) {
     // TODO: implement scalar string
   },
   /**
@@ -508,7 +698,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s9 = 9;
    */
-  validateS9(value: unknown): asserts value is Strings["s9"] {
+  validateS9(value) {
     // TODO: implement scalar string
   },
   /**
@@ -517,7 +707,7 @@ export const StringsValidators = {
    *
    * @generated from field: string s10 = 10;
    */
-  validateS10(value: unknown): asserts value is Strings["s10"] {
+  validateS10(value) {
     // TODO: implement scalar string
   },
 }
@@ -529,13 +719,39 @@ export const StringsValidators = {
  *
  * @generated from message examples.Maps
  */
-export const MapsValidators = {
+export const MapsValidators: {
   /**
    * you can put a constraint for map and a constraint for the value type as follows.
    *
    * @generated from field: map<string, int32> map1 = 1;
    */
-  validateMap1(value: unknown): asserts value is Maps["map1"] {
+  validateMap1: (value: unknown) => asserts value is Maps["map1"];
+  /**
+   * or either one of them. The following enforces that the timestamp is set.
+   *
+   * @generated from field: map<string, google.protobuf.Timestamp> map2 = 2;
+   */
+  validateMap2: (value: unknown) => asserts value is Maps["map2"];
+  /**
+   * string values are normalized into the NFC form even if there's no rules specified.
+   *
+   * @generated from field: map<uint32, string> map3 = 3;
+   */
+  validateMap3: (value: unknown) => asserts value is Maps["map3"];
+  /**
+   * if the map key is a string, it is normalized into the NFC.
+   * if the map vakue is a message, fields in it are always normalized/validated.
+   *
+   * @generated from field: map<string, examples.Scalars> map4 = 4;
+   */
+  validateMap4: (value: unknown) => asserts value is Maps["map4"];
+} = {
+  /**
+   * you can put a constraint for map and a constraint for the value type as follows.
+   *
+   * @generated from field: map<string, int32> map1 = 1;
+   */
+  validateMap1(value) {
     // TODO: implement map
   },
   /**
@@ -543,7 +759,7 @@ export const MapsValidators = {
    *
    * @generated from field: map<string, google.protobuf.Timestamp> map2 = 2;
    */
-  validateMap2(value: unknown): asserts value is Maps["map2"] {
+  validateMap2(value) {
     // TODO: implement map
   },
 }
@@ -551,13 +767,38 @@ export const MapsValidators = {
 /**
  * @generated from message examples.Enums
  */
-export const EnumsValidators = {
+export const EnumsValidators: {
   /**
    * enforces that `e1` is not the zero value.
    *
    * @generated from field: examples.Enums.Enum e1 = 1;
    */
-  validateE1(value: unknown): asserts value is Enums["e1"] {
+  validateE1: (value: unknown) => asserts value is Enums["e1"];
+  /**
+   * enforces that `e2` is one of the defined enum value.
+   *
+   * @generated from field: examples.Enums.Enum e2 = 2;
+   */
+  validateE2: (value: unknown) => asserts value is Enums["e2"];
+  /**
+   * enforces that `e3` is one of the defined enum value other than zero.
+   *
+   * @generated from field: repeated examples.Enums.Enum e3 = 3;
+   */
+  validateE3: (value: unknown) => asserts value is Enums["e3"];
+  /**
+   * enforces that `e4` is, if given, one of the defined enum value other than zero.
+   *
+   * @generated from field: optional examples.Enums.Enum e4 = 4;
+   */
+  validateE4: (value: unknown) => asserts value is Enums["e4"];
+} = {
+  /**
+   * enforces that `e1` is not the zero value.
+   *
+   * @generated from field: examples.Enums.Enum e1 = 1;
+   */
+  validateE1(value) {
     // TODO: implement enum
   },
   /**
@@ -565,7 +806,7 @@ export const EnumsValidators = {
    *
    * @generated from field: examples.Enums.Enum e2 = 2;
    */
-  validateE2(value: unknown): asserts value is Enums["e2"] {
+  validateE2(value) {
     // TODO: implement enum
   },
   /**
@@ -573,7 +814,7 @@ export const EnumsValidators = {
    *
    * @generated from field: repeated examples.Enums.Enum e3 = 3;
    */
-  validateE3(value: unknown): asserts value is Enums["e3"] {
+  validateE3(value) {
     // TODO: implement enum
   },
   /**
@@ -581,7 +822,7 @@ export const EnumsValidators = {
    *
    * @generated from field: optional examples.Enums.Enum e4 = 4;
    */
-  validateE4(value: unknown): asserts value is Enums["e4"] {
+  validateE4(value) {
     // TODO: implement enum
   },
 }
@@ -589,17 +830,8 @@ export const EnumsValidators = {
 /**
  * @generated from message examples.Oneofs
  */
-export const OneofsValidators = {
-  /**
-   * @generated from oneof examples.Oneofs.o1
-   */
-  validateO1(value: unknown): asserts value is Oneofs["o1"] {
-  },
-  /**
-   * @generated from oneof examples.Oneofs.o2
-   */
-  validateO2(value: unknown): asserts value is Oneofs["o2"] {
-  },
+export const OneofsValidators: {
+} = {
 }
 
 /**
@@ -607,13 +839,34 @@ export const OneofsValidators = {
  *
  * @generated from message examples.Composed
  */
-export const ComposedValidators = {
+export const ComposedValidators: {
   /**
    * enforces that `ignored` is set.
    *
    * @generated from field: examples.Ignored ignored = 1;
    */
-  validateIgnored(value: unknown): asserts value is Composed["ignored"] {
+  validateIgnored: (value: unknown) => asserts value is Composed["ignored"];
+  /**
+   * @generated from field: examples.Scalars scalars = 2;
+   */
+  validateScalars: (value: unknown) => asserts value is Composed["scalars"];
+  /**
+   * @generated from field: repeated examples.Maps maps = 3;
+   */
+  validateMaps: (value: unknown) => asserts value is Composed["maps"];
+  /**
+   * enforces that all messages in `enums` are set.
+   *
+   * @generated from field: repeated examples.Enums enums = 4;
+   */
+  validateEnums: (value: unknown) => asserts value is Composed["enums"];
+} = {
+  /**
+   * enforces that `ignored` is set.
+   *
+   * @generated from field: examples.Ignored ignored = 1;
+   */
+  validateIgnored(value) {
     // TODO: implement message
   },
   /**
@@ -621,7 +874,7 @@ export const ComposedValidators = {
    *
    * @generated from field: repeated examples.Enums enums = 4;
    */
-  validateEnums(value: unknown): asserts value is Composed["enums"] {
+  validateEnums(value) {
     // TODO: implement message
   },
 }
@@ -629,11 +882,16 @@ export const ComposedValidators = {
 /**
  * @generated from message examples.Nested
  */
-export const NestedValidators = {
+export const NestedValidators: {
   /**
    * @generated from field: examples.Nested.Inner inner = 1;
    */
-  validateInner(value: unknown): asserts value is Nested["inner"] {
+  validateInner: (value: unknown) => asserts value is Nested["inner"];
+} = {
+  /**
+   * @generated from field: examples.Nested.Inner inner = 1;
+   */
+  validateInner(value) {
     // TODO: implement message
   },
 }

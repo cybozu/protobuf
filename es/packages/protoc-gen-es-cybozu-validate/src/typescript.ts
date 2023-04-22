@@ -1,10 +1,32 @@
-import { ScalarType } from "@bufbuild/protobuf";
+import { DescMessage, ScalarType } from "@bufbuild/protobuf";
 import {
+  GeneratedFile,
+  ImportSymbol,
   Schema,
   findCustomScalarOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import { localName, makeJsDoc } from "@bufbuild/protoplugin/ecmascript";
 import { renderField, renderOneof } from "./field";
+import { capitalizeFirstLetter } from "./string-utils";
+
+function printValidatorsType(
+  f: GeneratedFile,
+  message: DescMessage,
+  messageImport: ImportSymbol
+) {
+  for (const field of message.fields) {
+    if (!field.oneof) {
+      if (field.scalar === ScalarType.BOOL) {
+        // no available rule for boolean
+        continue;
+      }
+      const localFieldName = localName(field);
+      const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
+      f.print(makeJsDoc(field, "  "));
+      f.print`  validate${capitalizedFieldName}: (value: unknown) => asserts value is ${messageImport}["${localFieldName}"];`;
+    }
+  }
+}
 
 export function generateTs(schema: Schema) {
   for (const file of schema.files) {
@@ -16,22 +38,24 @@ export function generateTs(schema: Schema) {
     const f = schema.generateFile(filename);
 
     for (const message of file.messages) {
-      const localMessageName = localName(message);
-      f.print(makeJsDoc(message));
-      f.print`export const ${localMessageName}Validators = {`;
-
       const ignored = !!findCustomScalarOption(message, 1179, ScalarType.BOOL);
 
       if (ignored) {
-        f.print`}`;
-        f.print();
         continue;
       }
 
+      const localMessageName = localName(message);
       const messageImport = f.import(message);
 
+      f.print(makeJsDoc(message));
+      f.print`export const ${localMessageName}Validators: {`;
+
+      printValidatorsType(f, message, messageImport);
+
+      f.print`} = {`;
+
       for (const field of message.fields) {
-        renderField(f, field, messageImport);
+        renderField(f, field);
       }
       for (const oneof of message.oneofs) {
         renderOneof(f, oneof, messageImport);
