@@ -64,6 +64,11 @@ function renderScalar(
   field: DescField,
   customOption: FieldRules
 ) {
+  if (field.optional) {
+    f.print("    if (value == null) {");
+    f.print("      return;");
+    f.print("    }");
+  }
   switch (field.scalar) {
     case ScalarType.BOOL:
       // no available rules for bools

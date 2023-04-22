@@ -307,6 +307,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional float float = 1;
    */
   validateFloat(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -320,6 +323,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional double double = 2;
    */
   validateDouble(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -333,6 +339,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional int32 int32 = 3;
    */
   validateInt32(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -346,6 +355,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional int64 int64 = 4;
    */
   validateInt64(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -359,6 +371,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional uint32 uint32 = 5;
    */
   validateUint32(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -372,6 +387,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional uint64 uint64 = 6;
    */
   validateUint64(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -385,6 +403,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional sint32 sint32 = 7;
    */
   validateSint32(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -398,6 +419,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional sint64 sint64 = 8;
    */
   validateSint64(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -411,6 +435,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional fixed32 fixed32 = 9;
    */
   validateFixed32(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -424,6 +451,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional fixed64 fixed64 = 10;
    */
   validateFixed64(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -437,6 +467,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional sfixed32 sfixed32 = 11;
    */
   validateSfixed32(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -450,6 +483,9 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional sfixed64 sfixed64 = 12;
    */
   validateSfixed64(value) {
+    if (value == null) {
+      return;
+    }
     if (typeof value !== "number") {
       // TODO: improve error message
       throw new Error("");
@@ -463,12 +499,18 @@ export const OptionalScalarsValidators: {
    * @generated from field: optional string string = 14;
    */
   validateString(value) {
+    if (value == null) {
+      return;
+    }
     // TODO: implement scalar string
   },
   /**
    * @generated from field: optional bytes bytes = 15;
    */
   validateBytes(value) {
+    if (value == null) {
+      return;
+    }
     if (!(value instanceof Uint8Array)) {
       // TODO: improve error message
       throw new Error("");
