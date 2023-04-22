@@ -3,11 +3,13 @@ import {
   GeneratedFile,
   ImportSymbol,
   Schema,
+  findCustomMessageOption,
   findCustomScalarOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import { localName, makeJsDoc } from "@bufbuild/protoplugin/ecmascript";
 import { renderField, renderOneof } from "./field";
 import { capitalizeFirstLetter } from "./string-utils";
+import { FieldRules } from "@cybozu/protobuf-validate";
 
 function printValidatorsType(
   f: GeneratedFile,
@@ -16,7 +18,8 @@ function printValidatorsType(
 ) {
   for (const field of message.fields) {
     if (!field.oneof) {
-      if (field.scalar === ScalarType.BOOL) {
+      const customOption = findCustomMessageOption(field, 1179, FieldRules);
+      if (field.scalar === ScalarType.BOOL || !customOption) {
         // no available rule for boolean
         continue;
       }

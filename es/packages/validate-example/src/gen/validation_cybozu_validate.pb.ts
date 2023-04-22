@@ -570,12 +570,6 @@ export const RepeatedScalarsValidators: {
  */
 export const StringsValidators: {
   /**
-   * NFC normalization is applied if no options are given.
-   *
-   * @generated from field: string s1 = 1;
-   */
-  validateS1: (value: unknown) => asserts value is Strings["s1"];
-  /**
    * normalize into the NFD form.
    *
    * @generated from field: string s2 = 2;
@@ -732,19 +726,6 @@ export const MapsValidators: {
    * @generated from field: map<string, google.protobuf.Timestamp> map2 = 2;
    */
   validateMap2: (value: unknown) => asserts value is Maps["map2"];
-  /**
-   * string values are normalized into the NFC form even if there's no rules specified.
-   *
-   * @generated from field: map<uint32, string> map3 = 3;
-   */
-  validateMap3: (value: unknown) => asserts value is Maps["map3"];
-  /**
-   * if the map key is a string, it is normalized into the NFC.
-   * if the map vakue is a message, fields in it are always normalized/validated.
-   *
-   * @generated from field: map<string, examples.Scalars> map4 = 4;
-   */
-  validateMap4: (value: unknown) => asserts value is Maps["map4"];
 } = {
   /**
    * you can put a constraint for map and a constraint for the value type as follows.
@@ -846,14 +827,6 @@ export const ComposedValidators: {
    * @generated from field: examples.Ignored ignored = 1;
    */
   validateIgnored: (value: unknown) => asserts value is Composed["ignored"];
-  /**
-   * @generated from field: examples.Scalars scalars = 2;
-   */
-  validateScalars: (value: unknown) => asserts value is Composed["scalars"];
-  /**
-   * @generated from field: repeated examples.Maps maps = 3;
-   */
-  validateMaps: (value: unknown) => asserts value is Composed["maps"];
   /**
    * enforces that all messages in `enums` are set.
    *
