@@ -29,6 +29,13 @@ function printValidatorsType(
       f.print`  validate${capitalizedFieldName}: (value: unknown) => asserts value is ${messageImport}["${localFieldName}"];`;
     }
   }
+
+  for (const oneof of message.oneofs) {
+    const localOneofName = localName(oneof);
+    const capitalizedOneofName = capitalizeFirstLetter(localOneofName);
+    f.print(makeJsDoc(oneof, "  "));
+    f.print`  validate${capitalizedOneofName}: (value: unknown) => asserts value is ${messageImport}["${localOneofName}"]["value"];`;
+  }
 }
 
 export function generateTs(schema: Schema) {
@@ -61,7 +68,7 @@ export function generateTs(schema: Schema) {
         renderField(f, field);
       }
       for (const oneof of message.oneofs) {
-        renderOneof(f, oneof, messageImport);
+        renderOneof(f, oneof);
       }
 
       f.print`}`;

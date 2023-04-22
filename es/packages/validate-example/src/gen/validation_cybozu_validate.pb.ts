@@ -1,4 +1,4 @@
-import { Composed, Enums, Maps, Nested, OptionalScalars, RepeatedScalars, Scalars, Strings } from "./validation_pb.js";
+import { Composed, Enums, Maps, Nested, Oneofs, OptionalScalars, RepeatedScalars, Scalars, Strings } from "./validation_pb.js";
 
 /**
  * All scalar types can have constraint rules except for bools.
@@ -857,7 +857,27 @@ export const EnumsValidators: {
  * @generated from message examples.Oneofs
  */
 export const OneofsValidators: {
+  /**
+   * @generated from oneof examples.Oneofs.o1
+   */
+  validateO1: (value: unknown) => asserts value is Oneofs["o1"]["value"];
+  /**
+   * @generated from oneof examples.Oneofs.o2
+   */
+  validateO2: (value: unknown) => asserts value is Oneofs["o2"]["value"];
 } = {
+  /**
+   * @generated from oneof examples.Oneofs.o1
+   */
+  validateO1(value) {
+    // TODO: implement oneof validator
+  },
+  /**
+   * @generated from oneof examples.Oneofs.o2
+   */
+  validateO2(value) {
+    // TODO: implement oneof validator
+  },
 }
 
 /**

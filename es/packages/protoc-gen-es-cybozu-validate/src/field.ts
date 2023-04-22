@@ -1,7 +1,6 @@
 import { DescField, DescOneof, ScalarType } from "@bufbuild/protobuf";
 import {
   GeneratedFile,
-  ImportSymbol,
   findCustomMessageOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import { localName, makeJsDoc } from "@bufbuild/protoplugin/ecmascript";
@@ -252,12 +251,13 @@ function renderMessage(f: GeneratedFile) {
   f.print("    // TODO: implement message");
 }
 
-function renderOneof(
-  f: GeneratedFile,
-  oneof: DescOneof,
-  messageImport: ImportSymbol
-) {
-  // TODO: implement
+function renderOneof(f: GeneratedFile, oneof: DescOneof) {
+  const localOneofName = localName(oneof);
+  const capitalizedOneofName = capitalizeFirstLetter(localOneofName);
+  f.print(makeJsDoc(oneof, "  "));
+  f.print`  validate${capitalizedOneofName}(value) {`;
+  f.print`    // TODO: implement oneof validator`;
+  f.print`  },`;
 }
 
 export { renderField, renderOneof };
