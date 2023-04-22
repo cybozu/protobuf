@@ -30,15 +30,13 @@ type Rules = NonNullable<FieldRules["type"]["value"]>;
 
 function renderField(f: GeneratedFile, field: DescField) {
   if (!field.oneof) {
-    const localFieldName = localName(field);
-    const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
-
     const customOption = findCustomMessageOption(field, 1179, FieldRules);
-
     // no available rules for bools
     if (field.scalar === ScalarType.BOOL || !customOption) {
       return;
     }
+    const localFieldName = localName(field);
+    const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
 
     f.print(makeJsDoc(field, "  "));
     f.print`  validate${capitalizedFieldName}(value) {`;

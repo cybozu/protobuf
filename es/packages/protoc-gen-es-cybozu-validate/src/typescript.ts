@@ -19,8 +19,8 @@ function printValidatorsType(
   for (const field of message.fields) {
     if (!field.oneof) {
       const customOption = findCustomMessageOption(field, 1179, FieldRules);
+      // no available rule for boolean
       if (field.scalar === ScalarType.BOOL || !customOption) {
-        // no available rule for boolean
         continue;
       }
       const localFieldName = localName(field);
