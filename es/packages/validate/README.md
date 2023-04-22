@@ -1,5 +1,3 @@
 # @cybouz/protobuf-validate
 
-## TODO
-
-- [ ] Fix `gen-buf` script.
+TypeScript code generated directly from https://github.com/cybozu/protobuf/blob/sosuke/protoc-gen-es-cybozu-validate/cybozu/validate/options.proto
