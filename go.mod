@@ -3,7 +3,7 @@ module github.com/cybozu/protobuf
 go 1.20
 
 require (
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.4
 	golang.org/x/text v0.8.0
 	google.golang.org/protobuf v1.30.0
 )
