@@ -305,7 +305,7 @@ function renderEnumItem(
 ) {
   const enumImport = f.import(field.enum!);
   if (itemRules?.required) {
-    f.print`  if (${innerName} === ${enumImport}[0]) {`;
+    f.print`  if (${innerName} === 0) {`;
     f.print`    // TODO: improve error message`;
     f.print`    throw new Error("")`;
     f.print`  }`;

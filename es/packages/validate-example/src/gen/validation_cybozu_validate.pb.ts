@@ -877,7 +877,7 @@ export const EnumsValidators: {
    * @generated from field: examples.Enums.Enum e1 = 1;
    */
   validateE1(value) {
-    if (value === Enums_Enum[0]) {
+    if (value === 0) {
       // TODO: improve error message
       throw new Error("");
     }
@@ -908,7 +908,7 @@ export const EnumsValidators: {
       throw new Error("");
     }
     for (const item of value) {
-      if (item === Enums_Enum[0]) {
+      if (item === 0) {
         // TODO: improve error message
         throw new Error("");
       }
@@ -923,7 +923,7 @@ export const EnumsValidators: {
     if (value == null) {
       return;
     }
-    if (value === Enums_Enum[0]) {
+    if (value === 0) {
       // TODO: improve error message
       throw new Error("");
     }
