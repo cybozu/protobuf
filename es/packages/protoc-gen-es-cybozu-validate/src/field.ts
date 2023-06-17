@@ -27,58 +27,65 @@ type NumberRules =
 
 type Rules = NonNullable<FieldRules["type"]["value"]>;
 
-function renderField(f: GeneratedFile, field: DescField) {
-  if (!field.oneof) {
-    const customOption = findCustomMessageOption(field, 1179, FieldRules);
-    // no available rules for bools
-    if (field.scalar === ScalarType.BOOL || !customOption) {
-      return;
-    }
-    const localFieldName = localName(field);
-    const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
+function renderFieldValidator(f: GeneratedFile, field: DescField) {
+  const customOption = findCustomMessageOption(field, 1179, FieldRules);
+  // no available rules for bools
+  if (field.scalar === ScalarType.BOOL || !customOption) {
+    return;
+  }
+  const localFieldName = localName(field);
+  const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
 
-    f.print(makeJsDoc(field, "  "));
-    f.print`  validate${capitalizedFieldName}(value) {`;
+  f.print(makeJsDoc(field, "  "));
+  f.print`  validate${capitalizedFieldName}(value) {`;
 
-    if (field.optional) {
-      f.print("    if (value == null) {");
-      f.print("      return;");
-      f.print("    }");
-    }
+  renderField(f, field, customOption);
 
-    switch (field.fieldKind) {
-      case "scalar":
-        renderScalar(f, field, customOption);
-        break;
-      case "enum":
-        renderEnum(f);
-        break;
-      case "map":
-        renderMap(f);
-        break;
-      case "message":
-        renderMessage(f);
-        break;
-    }
-    f.print`  },`;
+  f.print`  },`;
+}
+
+function renderField(
+  f: GeneratedFile,
+  field: DescField,
+  customOption: FieldRules | undefined
+) {
+  if (field.optional) {
+    f.print("    if (value == null) {");
+    f.print("      return;");
+    f.print("    }");
+  }
+
+  switch (field.fieldKind) {
+    case "scalar":
+      renderScalar(f, field, customOption);
+      break;
+    case "enum":
+      renderEnum(f);
+      break;
+    case "map":
+      renderMap(f);
+      break;
+    case "message":
+      renderMessage(f);
+      break;
   }
 }
 
 function renderScalar(
   f: GeneratedFile,
   field: DescField,
-  customOption: FieldRules
+  customOption: FieldRules | undefined
 ) {
   switch (field.scalar) {
     case ScalarType.BOOL:
-      // no available rules for bools
+      renderScalarBoolean(f, field, customOption?.items.value);
       break;
     case ScalarType.BYTES:
       renderScalarBytes(
         f,
         field,
-        customOption.type.value as BytesRules,
-        customOption.items.value
+        customOption?.type.value as BytesRules,
+        customOption?.items.value
       );
       break;
     case ScalarType.STRING:
@@ -99,24 +106,24 @@ function renderScalar(
       renderScalarNumber(
         f,
         field,
-        customOption.type.value as NumberRules,
-        customOption.items.value
+        customOption?.type.value as NumberRules,
+        customOption?.items.value
       );
       break;
   }
 }
 
-type RenderItem<T extends Rules> = (
+type RenderItem<T extends Rules | undefined> = (
   f: GeneratedFile,
   itemRules: T,
   innerName: string,
   baseIndent: number
 ) => void;
 
-function renderItems<T extends Rules>(
+function renderItems<T extends Rules | undefined>(
   f: GeneratedFile,
   itemsRules: ItemsRules | undefined,
-  rules: T,
+  rules: T | undefined,
   renderItem: RenderItem<T>
 ) {
   f.print`    if (!Array.isArray(value)) {`;
@@ -139,9 +146,11 @@ function renderItems<T extends Rules>(
     f.print`    }`;
   }
 
-  f.print`    for (const item of value) {`;
-  renderItem(f, rules, "item", 6);
-  f.print`    }`;
+  if (rules) {
+    f.print`    for (const item of value) {`;
+    renderItem(f, rules, "item", 6);
+    f.print`    }`;
+  }
 }
 
 function renderScalarBytes(
@@ -236,6 +245,32 @@ function renderScalarNumberItem(
   }
 }
 
+function renderScalarBoolean(
+  f: GeneratedFile,
+  field: DescField,
+  itemsRules: ItemsRules | undefined
+) {
+  const { repeated } = field;
+  if (repeated) {
+    renderItems(f, itemsRules, undefined, renderScalarBooleanItem);
+  } else {
+    renderScalarBooleanItem(f, undefined, "value", 4);
+  }
+}
+
+function renderScalarBooleanItem(
+  f: GeneratedFile,
+  itemRules: undefined,
+  innerName: string,
+  baseIndent: number
+) {
+  const indent = " ".repeat(baseIndent);
+  f.print(indent + `if (typeof ${innerName} !== "boolean") {`);
+  f.print(indent + `  // TODO: improve error message`);
+  f.print(indent + `  throw new Error("");`);
+  f.print(indent + `}`);
+}
+
 function renderEnum(f: GeneratedFile) {
   // TODO: implement
   f.print("    // TODO: implement enum");
@@ -251,13 +286,41 @@ function renderMessage(f: GeneratedFile) {
   f.print("    // TODO: implement message");
 }
 
+function renderOneofField(
+  f: GeneratedFile,
+  fnName: string,
+  field: DescField,
+  customOption: FieldRules | undefined
+) {
+  f.print`  const ${fnName} = (value: unknown) => {`;
+  renderField(f, field, customOption);
+  f.print`  }`;
+}
+
 function renderOneof(f: GeneratedFile, oneof: DescOneof) {
   const localOneofName = localName(oneof);
   const capitalizedOneofName = capitalizeFirstLetter(localOneofName);
   f.print(makeJsDoc(oneof, "  "));
   f.print`  validate${capitalizedOneofName}(value) {`;
-  f.print`    // TODO: implement oneof validator`;
+
+  const getFieldFnName = (field: DescField) => {
+    const localFieldName = localName(field);
+    const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
+    return `validate${capitalizedFieldName}`;
+  };
+
+  for (const field of oneof.fields) {
+    const customOption = findCustomMessageOption(field, 1179, FieldRules);
+    renderOneofField(f, getFieldFnName(field), field, customOption);
+  }
+
+  f.print`  if (bothFailed(value, ${oneof.fields
+    .map(getFieldFnName)
+    .join(", ")})) {`;
+  f.print`    throw new Error("// TODO: improve error message")`;
+  f.print`  }`;
+
   f.print`  },`;
 }
 
-export { renderField, renderOneof };
+export { renderFieldValidator, renderOneof };

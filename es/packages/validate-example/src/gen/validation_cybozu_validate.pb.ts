@@ -1,4 +1,34 @@
-import { Composed, Enums, Maps, Nested, Oneofs, OptionalScalars, RepeatedScalars, Scalars, Strings } from "./validation_pb.js";
+import {
+  Composed,
+  Enums,
+  Maps,
+  Nested,
+  Oneofs,
+  OptionalScalars,
+  RepeatedScalars,
+  Scalars,
+  Strings,
+} from "./validation_pb.js";
+
+function bothFailed<T>(
+  value: T,
+  validatorA: (t: T) => void,
+  validatorB: (t: T) => void
+) {
+  let aFailed = false;
+  let bFailed = false;
+  try {
+    validatorA(value);
+  } catch (error) {
+    aFailed = true;
+  }
+  try {
+    validatorB(value);
+  } catch (error) {
+    bFailed = true;
+  }
+  return aFailed && bFailed;
+}
 
 /**
  * All scalar types can have constraint rules except for bools.
@@ -235,10 +265,10 @@ export const ScalarsValidators: {
     }
     if (value.byteLength > 10) {
       // TODO: improve error message
-      throw new Error("")
+      throw new Error("");
     }
   },
-}
+};
 
 /**
  * rules for optional fields are enforced only if the field is set.
@@ -253,7 +283,9 @@ export const OptionalScalarsValidators: {
   /**
    * @generated from field: optional double double = 2;
    */
-  validateDouble: (value: unknown) => asserts value is OptionalScalars["double"];
+  validateDouble: (
+    value: unknown
+  ) => asserts value is OptionalScalars["double"];
   /**
    * @generated from field: optional int32 int32 = 3;
    */
@@ -265,39 +297,57 @@ export const OptionalScalarsValidators: {
   /**
    * @generated from field: optional uint32 uint32 = 5;
    */
-  validateUint32: (value: unknown) => asserts value is OptionalScalars["uint32"];
+  validateUint32: (
+    value: unknown
+  ) => asserts value is OptionalScalars["uint32"];
   /**
    * @generated from field: optional uint64 uint64 = 6;
    */
-  validateUint64: (value: unknown) => asserts value is OptionalScalars["uint64"];
+  validateUint64: (
+    value: unknown
+  ) => asserts value is OptionalScalars["uint64"];
   /**
    * @generated from field: optional sint32 sint32 = 7;
    */
-  validateSint32: (value: unknown) => asserts value is OptionalScalars["sint32"];
+  validateSint32: (
+    value: unknown
+  ) => asserts value is OptionalScalars["sint32"];
   /**
    * @generated from field: optional sint64 sint64 = 8;
    */
-  validateSint64: (value: unknown) => asserts value is OptionalScalars["sint64"];
+  validateSint64: (
+    value: unknown
+  ) => asserts value is OptionalScalars["sint64"];
   /**
    * @generated from field: optional fixed32 fixed32 = 9;
    */
-  validateFixed32: (value: unknown) => asserts value is OptionalScalars["fixed32"];
+  validateFixed32: (
+    value: unknown
+  ) => asserts value is OptionalScalars["fixed32"];
   /**
    * @generated from field: optional fixed64 fixed64 = 10;
    */
-  validateFixed64: (value: unknown) => asserts value is OptionalScalars["fixed64"];
+  validateFixed64: (
+    value: unknown
+  ) => asserts value is OptionalScalars["fixed64"];
   /**
    * @generated from field: optional sfixed32 sfixed32 = 11;
    */
-  validateSfixed32: (value: unknown) => asserts value is OptionalScalars["sfixed32"];
+  validateSfixed32: (
+    value: unknown
+  ) => asserts value is OptionalScalars["sfixed32"];
   /**
    * @generated from field: optional sfixed64 sfixed64 = 12;
    */
-  validateSfixed64: (value: unknown) => asserts value is OptionalScalars["sfixed64"];
+  validateSfixed64: (
+    value: unknown
+  ) => asserts value is OptionalScalars["sfixed64"];
   /**
    * @generated from field: optional string string = 14;
    */
-  validateString: (value: unknown) => asserts value is OptionalScalars["string"];
+  validateString: (
+    value: unknown
+  ) => asserts value is OptionalScalars["string"];
   /**
    * @generated from field: optional bytes bytes = 15;
    */
@@ -517,10 +567,10 @@ export const OptionalScalarsValidators: {
     }
     if (value.byteLength > 10) {
       // TODO: improve error message
-      throw new Error("")
+      throw new Error("");
     }
   },
-}
+};
 
 /**
  * @generated from message examples.RepeatedScalars
@@ -537,13 +587,17 @@ export const RepeatedScalarsValidators: {
    *
    * @generated from field: repeated double double = 2;
    */
-  validateDouble: (value: unknown) => asserts value is RepeatedScalars["double"];
+  validateDouble: (
+    value: unknown
+  ) => asserts value is RepeatedScalars["double"];
   /**
    * or this.
    *
    * @generated from field: repeated string string = 3;
    */
-  validateString: (value: unknown) => asserts value is RepeatedScalars["string"];
+  validateString: (
+    value: unknown
+  ) => asserts value is RepeatedScalars["string"];
 } = {
   /**
    * a repeated field can specify `repeated` constraints like this
@@ -603,7 +657,7 @@ export const RepeatedScalarsValidators: {
   validateString(value) {
     // TODO: implement scalar string
   },
-}
+};
 
 /**
  * Strings have the richest set of constraint rules.
@@ -746,7 +800,7 @@ export const StringsValidators: {
   validateS10(value) {
     // TODO: implement scalar string
   },
-}
+};
 
 /**
  * In addition to the validation code generated from the protobuf options,
@@ -785,7 +839,7 @@ export const MapsValidators: {
   validateMap2(value) {
     // TODO: implement map
   },
-}
+};
 
 /**
  * @generated from message examples.Enums
@@ -851,7 +905,7 @@ export const EnumsValidators: {
     }
     // TODO: implement enum
   },
-}
+};
 
 /**
  * @generated from message examples.Oneofs
@@ -870,15 +924,41 @@ export const OneofsValidators: {
    * @generated from oneof examples.Oneofs.o1
    */
   validateO1(value) {
-    // TODO: implement oneof validator
+    const validateInt32 = (value: unknown) => {
+      if (typeof value !== "number") {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (value > -3) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    };
+    const validateString = (value: unknown) => {
+      // TODO: implement scalar string
+    };
+    if (bothFailed(value, validateInt32, validateString)) {
+      throw new Error("// TODO: improve error message");
+    }
   },
   /**
    * @generated from oneof examples.Oneofs.o2
    */
   validateO2(value) {
-    // TODO: implement oneof validator
+    const validateTs = (value: unknown) => {
+      // TODO: implement message
+    };
+    const validateBool = (value: unknown) => {
+      if (typeof value !== "boolean") {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    };
+    if (bothFailed(value, validateTs, validateBool)) {
+      throw new Error("// TODO: improve error message");
+    }
   },
-}
+};
 
 /**
  * message type fields are normalized/validated recursively.
@@ -915,7 +995,7 @@ export const ComposedValidators: {
   validateEnums(value) {
     // TODO: implement message
   },
-}
+};
 
 /**
  * @generated from message examples.Nested
@@ -932,5 +1012,4 @@ export const NestedValidators: {
   validateInner(value) {
     // TODO: implement message
   },
-}
-
+};

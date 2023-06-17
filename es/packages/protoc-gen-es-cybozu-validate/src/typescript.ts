@@ -7,9 +7,32 @@ import {
   findCustomScalarOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import { localName, makeJsDoc } from "@bufbuild/protoplugin/ecmascript";
-import { renderField, renderOneof } from "./field";
+import { renderFieldValidator, renderOneof } from "./field";
 import { capitalizeFirstLetter } from "./string-utils";
 import { FieldRules } from "@cybozu/protobuf-validate";
+
+const helpers = [
+  `function bothFailed<T>(
+  value: T,
+  validatorA: (t: T) => void,
+  validatorB: (t: T) => void
+) {
+  let aFailed = false;
+  let bFailed = false;
+  try {
+    validatorA(value);
+  } catch (error) {
+    aFailed = true;
+  }
+  try {
+    validatorB(value);
+  } catch (error) {
+    bFailed = true;
+  }
+  return aFailed && bFailed;
+}
+`,
+];
 
 function printValidatorsType(
   f: GeneratedFile,
@@ -47,6 +70,10 @@ export function generateTs(schema: Schema) {
     const filename = `${file.name}_cybozu_validate.pb.ts`;
     const f = schema.generateFile(filename);
 
+    for (const helper of helpers) {
+      f.print(helper);
+    }
+
     for (const message of file.messages) {
       const ignored = !!findCustomScalarOption(message, 1179, ScalarType.BOOL);
 
@@ -64,8 +91,8 @@ export function generateTs(schema: Schema) {
 
       f.print`} = {`;
 
-      for (const field of message.fields) {
-        renderField(f, field);
+      for (const field of message.fields.filter((field) => !field.oneof)) {
+        renderFieldValidator(f, field);
       }
       for (const oneof of message.oneofs) {
         renderOneof(f, oneof);
