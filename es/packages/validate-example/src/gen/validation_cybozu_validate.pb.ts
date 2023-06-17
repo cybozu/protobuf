@@ -888,7 +888,7 @@ export const EnumsValidators: {
    * @generated from field: examples.Enums.Enum e2 = 2;
    */
   validateE2(value) {
-    if (!Enums_Enum[value]) {
+    if (typeof value !== "number" || !Enums_Enum[value]) {
       // TODO: improve error message
       throw new Error("");
     }
@@ -927,7 +927,7 @@ export const EnumsValidators: {
       // TODO: improve error message
       throw new Error("");
     }
-    if (!Enums_Enum[value]) {
+    if (typeof value !== "number" || !Enums_Enum[value]) {
       // TODO: improve error message
       throw new Error("");
     }

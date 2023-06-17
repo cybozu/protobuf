@@ -311,7 +311,10 @@ function renderEnumItem(
     f.print`  }`;
   }
   if (itemRules?.definedOnly) {
-    f.print`  // TODO: definedOnly validation`;
+    f.print`  if (typeof ${innerName} !== "number" || !${enumImport}[${innerName}]) {`;
+    f.print`    // TODO: improve error message`;
+    f.print`    throw new Error("")`;
+    f.print`  }`;
   }
 }
 
