@@ -261,6 +261,10 @@ describe("validation", () => {
       });
     });
 
+    describe.skip("validateString", () => {
+      // TODO: add test for validate string
+    });
+
     describe("validateBytes", () => {
       it("throws an error when receive non Uint8Array value", () => {
         assert.throws(() => {
