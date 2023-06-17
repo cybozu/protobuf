@@ -1,4 +1,4 @@
-import { DescField, DescOneof, ScalarType } from "@bufbuild/protobuf";
+import { DescField, DescOneof, Enum, ScalarType } from "@bufbuild/protobuf";
 import {
   GeneratedFile,
   findCustomMessageOption,
@@ -14,6 +14,7 @@ import {
   FieldRules,
   BytesRules,
   ItemsRules,
+  EnumRules,
 } from "@cybozu/protobuf-validate";
 import { capitalizeFirstLetter } from "./string-utils";
 
@@ -60,7 +61,12 @@ function renderField(
       renderScalar(f, field, customOption);
       break;
     case "enum":
-      renderEnum(f);
+      renderEnum(
+        f,
+        field,
+        customOption?.items.value,
+        customOption?.type.value as EnumRules
+      );
       break;
     case "map":
       renderMap(f);
@@ -115,6 +121,7 @@ function renderScalar(
 
 type RenderItem<T extends Rules | undefined> = (
   f: GeneratedFile,
+  field: DescField,
   itemRules: T,
   innerName: string,
   baseIndent: number
@@ -122,6 +129,7 @@ type RenderItem<T extends Rules | undefined> = (
 
 function renderItems<T extends Rules | undefined>(
   f: GeneratedFile,
+  field: DescField,
   itemsRules: ItemsRules | undefined,
   rules: T | undefined,
   renderItem: RenderItem<T>
@@ -148,7 +156,7 @@ function renderItems<T extends Rules | undefined>(
 
   if (rules) {
     f.print`    for (const item of value) {`;
-    renderItem(f, rules, "item", 6);
+    renderItem(f, field, rules, "item", 6);
     f.print`    }`;
   }
 }
@@ -161,14 +169,15 @@ function renderScalarBytes(
 ) {
   const { repeated } = field;
   if (repeated) {
-    renderItems(f, itemsRules, bytesRules, renderScalarBytesItem);
+    renderItems(f, field, itemsRules, bytesRules, renderScalarBytesItem);
   } else {
-    renderScalarBytesItem(f, bytesRules, "value", 4);
+    renderScalarBytesItem(f, field, bytesRules, "value", 4);
   }
 }
 
 function renderScalarBytesItem(
   f: GeneratedFile,
+  field: DescField,
   itemRules: BytesRules | undefined,
   innerName: string,
   baseIndent: number
@@ -204,14 +213,15 @@ function renderScalarNumber(
 ) {
   const { repeated } = field;
   if (repeated) {
-    renderItems(f, itemsRules, numberRules, renderScalarNumberItem);
+    renderItems(f, field, itemsRules, numberRules, renderScalarNumberItem);
   } else {
-    renderScalarNumberItem(f, numberRules, "value", 4);
+    renderScalarNumberItem(f, field, numberRules, "value", 4);
   }
 }
 
 function renderScalarNumberItem(
   f: GeneratedFile,
+  field: DescField,
   itemRules: NumberRules | undefined,
   innerName: string,
   baseIndent: number
@@ -252,14 +262,15 @@ function renderScalarBoolean(
 ) {
   const { repeated } = field;
   if (repeated) {
-    renderItems(f, itemsRules, undefined, renderScalarBooleanItem);
+    renderItems(f, field, itemsRules, undefined, renderScalarBooleanItem);
   } else {
-    renderScalarBooleanItem(f, undefined, "value", 4);
+    renderScalarBooleanItem(f, field, undefined, "value", 4);
   }
 }
 
 function renderScalarBooleanItem(
   f: GeneratedFile,
+  field: DescField,
   itemRules: undefined,
   innerName: string,
   baseIndent: number
@@ -271,9 +282,37 @@ function renderScalarBooleanItem(
   f.print(indent + `}`);
 }
 
-function renderEnum(f: GeneratedFile) {
-  // TODO: implement
-  f.print("    // TODO: implement enum");
+function renderEnum(
+  f: GeneratedFile,
+  field: DescField,
+  itemsRules: ItemsRules | undefined,
+  enumRules: EnumRules | undefined
+) {
+  const { repeated } = field;
+  if (repeated) {
+    renderItems(f, field, itemsRules, enumRules, renderEnumItem);
+  } else {
+    renderEnumItem(f, field, enumRules, "value", 4);
+  }
+}
+
+function renderEnumItem(
+  f: GeneratedFile,
+  field: DescField,
+  itemRules: EnumRules | undefined,
+  innerName: string,
+  baseIndent: number
+) {
+  const enumImport = f.import(field.enum!);
+  if (itemRules?.required) {
+    f.print`  if (${innerName} === ${enumImport}[0]) {`;
+    f.print`    // TODO: improve error message`;
+    f.print`    throw new Error("")`;
+    f.print`  }`;
+  }
+  if (itemRules?.definedOnly) {
+    f.print`  // TODO: definedOnly validation`;
+  }
 }
 
 function renderMap(f: GeneratedFile) {

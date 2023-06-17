@@ -1,6 +1,7 @@
 import {
   Composed,
   Enums,
+  Enums_Enum,
   Maps,
   Nested,
   Oneofs,
@@ -876,7 +877,10 @@ export const EnumsValidators: {
    * @generated from field: examples.Enums.Enum e1 = 1;
    */
   validateE1(value) {
-    // TODO: implement enum
+    if (value === Enums_Enum[0]) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforces that `e2` is one of the defined enum value.
@@ -884,7 +888,10 @@ export const EnumsValidators: {
    * @generated from field: examples.Enums.Enum e2 = 2;
    */
   validateE2(value) {
-    // TODO: implement enum
+    if (!Enums_Enum[value]) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforces that `e3` is one of the defined enum value other than zero.
@@ -892,7 +899,20 @@ export const EnumsValidators: {
    * @generated from field: repeated examples.Enums.Enum e3 = 3;
    */
   validateE3(value) {
-    // TODO: implement enum
+    if (!Array.isArray(value)) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (value.length < 2) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    for (const item of value) {
+      if (item === Enums_Enum[0]) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    }
   },
   /**
    * enforces that `e4` is, if given, one of the defined enum value other than zero.
@@ -903,7 +923,14 @@ export const EnumsValidators: {
     if (value == null) {
       return;
     }
-    // TODO: implement enum
+    if (value === Enums_Enum[0]) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (!Enums_Enum[value]) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
 };
 
