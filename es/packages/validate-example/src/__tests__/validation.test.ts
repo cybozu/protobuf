@@ -714,5 +714,9 @@ describe("validation", () => {
         });
       });
     });
+
+    describe.skip("validateString", () => {
+      // TODO: add test for validate string
+    });
   });
 });
