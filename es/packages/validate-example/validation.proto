@@ -193,6 +193,7 @@ message Enums {
     required: true
     defined_only: true
   }];
+  
 }
 
 message Oneofs {

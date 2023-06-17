@@ -830,7 +830,24 @@ export const MapsValidators: {
    * @generated from field: map<string, int32> map1 = 1;
    */
   validateMap1(value) {
-    // TODO: implement map
+    if (typeof value !== "object" || value === null) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (Object.keys(value).length < 1) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    for (const v of Object.values(value)) {
+      if (typeof v !== "number") {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (v <= 3) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    }
   },
   /**
    * or either one of them. The following enforces that the timestamp is set.
@@ -838,7 +855,13 @@ export const MapsValidators: {
    * @generated from field: map<string, google.protobuf.Timestamp> map2 = 2;
    */
   validateMap2(value) {
-    // TODO: implement map
+    if (typeof value !== "object" || value === null) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    for (const v of Object.values(value)) {
+      // TODO: implement message
+    }
   },
 };
 

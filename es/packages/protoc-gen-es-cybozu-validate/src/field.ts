@@ -1,6 +1,7 @@
-import { DescField, DescOneof, Enum, ScalarType } from "@bufbuild/protobuf";
+import { DescField, DescOneof, ScalarType } from "@bufbuild/protobuf";
 import {
   GeneratedFile,
+  ImportSymbol,
   findCustomMessageOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import { localName, makeJsDoc } from "@bufbuild/protoplugin/ecmascript";
@@ -69,7 +70,12 @@ function renderField(
       );
       break;
     case "map":
-      renderMap(f);
+      renderMap(
+        f,
+        field,
+        customOption?.items.value,
+        customOption?.type.value as FieldRules
+      );
       break;
     case "message":
       renderMessage(f);
@@ -304,6 +310,24 @@ function renderEnumItem(
   baseIndent: number
 ) {
   const enumImport = f.import(field.enum!);
+  renderEnumItemValidations(
+    f,
+    field,
+    itemRules,
+    innerName,
+    baseIndent,
+    enumImport
+  );
+}
+
+function renderEnumItemValidations(
+  f: GeneratedFile,
+  field: DescField,
+  itemRules: EnumRules | undefined,
+  innerName: string,
+  baseIndent: number,
+  enumImport: ImportSymbol
+) {
   if (itemRules?.required) {
     f.print`  if (${innerName} === 0) {`;
     f.print`    // TODO: improve error message`;
@@ -318,9 +342,86 @@ function renderEnumItem(
   }
 }
 
-function renderMap(f: GeneratedFile) {
-  // TODO: implement
-  f.print("    // TODO: implement map");
+function renderMap(
+  f: GeneratedFile,
+  field: DescField,
+  itemsRules: ItemsRules | undefined,
+  itemRules: FieldRules | EnumRules | undefined
+) {
+  const { repeated } = field;
+  if (repeated) {
+    // do nothing?
+  } else {
+    f.print`  if (typeof value !== "object" || value === null) {`;
+    f.print`    // TODO: improve error message`;
+    f.print`    throw new Error("")`;
+    f.print`  }`;
+
+    if (itemsRules) {
+      const conditions: string[] = [];
+      if (itemsRules.maxItems) {
+        conditions.push(`Object.keys(value).length > ${itemsRules.maxItems}`);
+      }
+      if (itemsRules.minItems) {
+        conditions.push(`Object.keys(value).length < ${itemsRules.minItems}`);
+      }
+      const condition = conditions.join(" || ");
+      f.print`    if (${condition}) {`;
+      f.print`      // TODO: improve error message`;
+      f.print`      throw new Error("");`;
+      f.print`    }`;
+    }
+
+    f.print`  for (const v of Object.values(value)) {`;
+
+    const kind = field.mapValue?.kind;
+
+    switch (kind) {
+      case "scalar":
+        switch (field.mapValue?.scalar) {
+          case ScalarType.BOOL:
+            renderScalarBooleanItem(f, field, undefined, "v", 4);
+            break;
+          case ScalarType.BYTES:
+            renderScalarBytesItem(f, field, itemRules as BytesRules, "v", 4);
+            break;
+          case ScalarType.STRING:
+            f.print("    // TODO: implement scalar string");
+            break;
+          case ScalarType.FLOAT:
+          case ScalarType.INT64:
+          case ScalarType.INT32:
+          case ScalarType.FIXED64:
+          case ScalarType.FIXED32:
+          case ScalarType.DOUBLE:
+          case ScalarType.SFIXED32:
+          case ScalarType.SFIXED64:
+          case ScalarType.SINT32:
+          case ScalarType.SINT64:
+          case ScalarType.UINT32:
+          case ScalarType.UINT64:
+            renderScalarNumberItem(f, field, itemRules as NumberRules, "v", 4);
+            break;
+        }
+        break;
+      case "enum":
+        renderEnumItemValidations(
+          f,
+          field,
+          itemRules as EnumRules,
+          "v",
+          4,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+          f.import(field.mapValue?.enum!)
+        );
+        break;
+      case "message":
+        f.print`// TODO: implement message`;
+        break;
+    }
+
+    f.print`  }`;
+  }
 }
 
 function renderMessage(f: GeneratedFile) {
