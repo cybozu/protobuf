@@ -14,39 +14,8 @@ import {
   FieldRules,
   BytesRules,
   ItemsRules,
-  MessageRules,
 } from "@cybozu/protobuf-validate";
 import { capitalizeFirstLetter } from "./string-utils";
-
-import * as fs from "node:fs";
-import * as path from "node:path";
-
-function log(value: unknown) {
-  const getCircularReplacer = () => {
-    const seen = new WeakSet();
-    return (key: string, value: any) => {
-      if (typeof value === "object" && value !== null) {
-        if (seen.has(value)) {
-          return;
-        }
-        seen.add(value);
-      }
-      return value;
-    };
-  };
-  fs.appendFileSync(
-    path.join(
-      "/Users/sosuke.suzuki/ghq/github.com/cybozu/protobuf/es/packages/protoc-gen-es-cybozu-validate",
-      "log.txt"
-    ),
-    "[main thread " +
-      new Date().toString() +
-      "]" +
-      "\n    " +
-      JSON.stringify(value, getCircularReplacer()) +
-      "\n"
-  );
-}
 
 type NumberRules =
   | FloatRules
