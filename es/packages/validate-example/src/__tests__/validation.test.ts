@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   ScalarsValidators,
   OptionalScalarsValidators,
+  RepeatedScalarsValidators,
 } from "../gen/validation_cybozu_validate.pb";
 
 describe("validation", () => {
@@ -644,6 +645,72 @@ describe("validation", () => {
       it("does not throws error when receive byteLength <= 10", () => {
         assert.doesNotThrow(() => {
           OptionalScalarsValidators.validateBytes(new Uint8Array(10));
+        });
+      });
+    });
+  });
+
+  describe("RepeatedScalarsValidators", () => {
+    describe("validateFloat", () => {
+      it("throws an error when value is not an array", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateFloat("not an array");
+        });
+      });
+
+      it("throws an error when array length is less than 1", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateFloat([]);
+        });
+      });
+
+      it("throws an error when array items are not numbers", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateFloat([1, 2, "three"]);
+        });
+      });
+
+      it("throws an error when array items are greater than or equal to 3.200000047683716", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateFloat([1, 2, 3.200000047683716]);
+        });
+      });
+
+      it("does not throw an error for valid arrays", () => {
+        assert.doesNotThrow(() => {
+          RepeatedScalarsValidators.validateFloat([1, 2, 3.2]);
+        });
+      });
+    });
+
+    describe("validateDouble", () => {
+      it("throws an error when value is not an array", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateDouble("not an array");
+        });
+      });
+
+      it("throws an error when array length is more than 3", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateDouble([1, 2, 3, 4]);
+        });
+      });
+
+      it("throws an error when array items are not numbers", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateDouble([1, 2, "three"]);
+        });
+      });
+
+      it("throws an error when array items are less than or equal to 3.2", () => {
+        assert.throws(() => {
+          RepeatedScalarsValidators.validateDouble([1, 2, 3.2]);
+        });
+      });
+
+      it("does not throw an error for valid arrays", () => {
+        assert.doesNotThrow(() => {
+          RepeatedScalarsValidators.validateDouble([3.3, 3.4, 3.5]);
         });
       });
     });
