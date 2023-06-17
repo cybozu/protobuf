@@ -14,8 +14,39 @@ import {
   FieldRules,
   BytesRules,
   ItemsRules,
+  MessageRules,
 } from "@cybozu/protobuf-validate";
 import { capitalizeFirstLetter } from "./string-utils";
+
+import * as fs from "node:fs";
+import * as path from "node:path";
+
+function log(value: unknown) {
+  const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key: string, value: any) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
+  fs.appendFileSync(
+    path.join(
+      "/Users/sosuke.suzuki/ghq/github.com/cybozu/protobuf/es/packages/protoc-gen-es-cybozu-validate",
+      "log.txt"
+    ),
+    "[main thread " +
+      new Date().toString() +
+      "]" +
+      "\n    " +
+      JSON.stringify(value, getCircularReplacer()) +
+      "\n"
+  );
+}
 
 type NumberRules =
   | FloatRules
@@ -303,6 +334,12 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
   f.print(makeJsDoc(oneof, "  "));
   f.print`  validate${capitalizedOneofName}(value) {`;
 
+  // If cybozu.validate.required is true, this statement should be skipped,
+  // but there is no way to get the custom option.
+  f.print`    if (value == null) {`;
+  f.print`      return;`;
+  f.print`    }`;
+
   const getFieldFnName = (field: DescField) => {
     const localFieldName = localName(field);
     const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
@@ -310,8 +347,8 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
   };
 
   for (const field of oneof.fields) {
-    const customOption = findCustomMessageOption(field, 1179, FieldRules);
-    renderOneofField(f, getFieldFnName(field), field, customOption);
+    const fieldCustomOption = findCustomMessageOption(field, 1179, FieldRules);
+    renderOneofField(f, getFieldFnName(field), field, fieldCustomOption);
   }
 
   f.print`  if (bothFailed(value, ${oneof.fields

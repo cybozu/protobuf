@@ -924,6 +924,9 @@ export const OneofsValidators: {
    * @generated from oneof examples.Oneofs.o1
    */
   validateO1(value) {
+    if (value == null) {
+      return;
+    }
     const validateInt32 = (value: unknown) => {
       if (typeof value !== "number") {
         // TODO: improve error message
@@ -945,6 +948,9 @@ export const OneofsValidators: {
    * @generated from oneof examples.Oneofs.o2
    */
   validateO2(value) {
+    if (value == null) {
+      return;
+    }
     const validateTs = (value: unknown) => {
       // TODO: implement message
     };
