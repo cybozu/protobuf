@@ -260,5 +260,23 @@ describe("validation", () => {
         });
       });
     });
+
+    describe("validateBytes", () => {
+      it("throws an error when receive non Uint8Array value", () => {
+        assert.throws(() => {
+          ScalarsValidators.validateBytes("foo");
+        });
+      });
+      it("throws an error when recieve byteLength > 10", () => {
+        assert.throws(() => {
+          ScalarsValidators.validateBytes(new Uint8Array(11));
+        });
+      });
+      it("does not throws error when receive byteLength <= 10", () => {
+        assert.doesNotThrow(() => {
+          ScalarsValidators.validateBytes(new Uint8Array(10));
+        });
+      });
+    });
   });
 });
