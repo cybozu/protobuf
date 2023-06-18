@@ -3,26 +3,31 @@ import { renderMessage } from "./message";
 
 const helpers = [
   // for oneof validator
-  `function bothFailed<T>(
-  value: T,
-  validatorA: (t: T) => void,
-  validatorB: (t: T) => void
-) {
-  let aFailed = false;
-  let bFailed = false;
-  try {
-    validatorA(value);
-  } catch (error) {
-    aFailed = true;
+  `function allFailedWithValue<T>(value: T, ...validators: Array<(value: T) => void>) {
+    function throws(validator: (value: T) => void) {
+      let failed = false;
+      try {
+        validator(value);
+      } catch {
+        failed = true;
+      }
+      return failed;
+    }
+    return validators.every(throws);
   }
-  try {
-    validatorB(value);
-  } catch (error) {
-    bFailed = true;
-  }
-  return aFailed && bFailed;
-}
 `,
+  `function someFailed(...validators: Array<() => void>) {
+    function throws(validator: () => void) {
+      let failed = false;
+      try {
+        validator();
+      } catch {
+        failed = true;
+      }
+      return failed;
+    }
+    return validators.some(throws);
+  }`,
 ];
 
 export function generateTs(schema: Schema) {

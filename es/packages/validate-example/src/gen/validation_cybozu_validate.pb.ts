@@ -11,7 +11,10 @@ import {
   Strings,
 } from "./validation_pb.js";
 
-function allFailed<T>(value: T, ...validators: Array<(value: T) => void>) {
+function allFailedWithValue<T>(
+  value: T,
+  ...validators: Array<(value: T) => void>
+) {
   function throws(validator: (value: T) => void) {
     let failed = false;
     try {
@@ -21,10 +24,21 @@ function allFailed<T>(value: T, ...validators: Array<(value: T) => void>) {
     }
     return failed;
   }
-  const allFailed = validators.every(throws);
-  return allFailed;
+  return validators.every(throws);
 }
 
+function someFailed(...validators: Array<() => void>) {
+  function throws(validator: () => void) {
+    let failed = false;
+    try {
+      validator();
+    } catch {
+      failed = true;
+    }
+    return failed;
+  }
+  return validators.some(throws);
+}
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -984,7 +998,7 @@ export const OneofsValidators: {
     const validateString = (value: unknown) => {
       // TODO: implement scalar string
     };
-    if (allFailed(value, validateInt32, validateString)) {
+    if (allFailedWithValue(value, validateInt32, validateString)) {
       throw new Error("// TODO: improve error message");
     }
   },
@@ -996,7 +1010,33 @@ export const OneofsValidators: {
       return;
     }
     const validateTs = (value: unknown) => {
-      // TODO: implement message field
+      if (typeof value !== "object" || value === null) {
+        // TODO: improve error mesage
+        throw new Error("");
+      }
+      const validateSeconds = (value: unknown) => {
+        if (typeof value !== "number") {
+          // TODO: improve error message
+          throw new Error("");
+        }
+      };
+      const validateNanos = (value: unknown) => {
+        if (typeof value !== "number") {
+          // TODO: improve error message
+          throw new Error("");
+        }
+      };
+      if (
+        someFailed(
+          // @ts-ignore
+          () => validateSeconds(value["seconds"]),
+          // @ts-ignore
+          () => validateNanos(value["nanos"])
+        )
+      ) {
+        // TODO: improve error message
+        throw new Error("");
+      }
     };
     const validateBool = (value: unknown) => {
       if (typeof value !== "boolean") {
@@ -1004,7 +1044,7 @@ export const OneofsValidators: {
         throw new Error("");
       }
     };
-    if (allFailed(value, validateTs, validateBool)) {
+    if (allFailedWithValue(value, validateTs, validateBool)) {
       throw new Error("// TODO: improve error message");
     }
   },
@@ -1035,7 +1075,34 @@ export const ComposedValidators: {
    * @generated from field: examples.Ignored ignored = 1;
    */
   validateIgnored(value) {
-    // TODO: implement message field
+    if (typeof value !== "object" || value === null) {
+      // TODO: improve error mesage
+      throw new Error("");
+    }
+    const validateFoo = (value: unknown) => {
+      // TODO: implement scalar string
+    };
+    const validateBar = (value: unknown) => {
+      if (typeof value !== "number") {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (value >= 100) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    };
+    if (
+      someFailed(
+        // @ts-ignore
+        () => validateFoo(value["foo"]),
+        // @ts-ignore
+        () => validateBar(value["bar"])
+      )
+    ) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforces that all messages in `enums` are set.
@@ -1043,7 +1110,66 @@ export const ComposedValidators: {
    * @generated from field: repeated examples.Enums enums = 4;
    */
   validateEnums(value) {
-    // TODO: implement message field
+    if (typeof value !== "object" || value === null) {
+      // TODO: improve error mesage
+      throw new Error("");
+    }
+    const validateE1 = (value: unknown) => {
+      if (value === 0) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    };
+    const validateE2 = (value: unknown) => {
+      if (typeof value !== "number" || !Enums_Enum[value]) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    };
+    const validateE3 = (value: unknown) => {
+      if (!Array.isArray(value)) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (value.length < 2) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      for (const item of value) {
+        if (item === 0) {
+          // TODO: improve error message
+          throw new Error("");
+        }
+      }
+    };
+    const validateE4 = (value: unknown) => {
+      if (value == null) {
+        return;
+      }
+      if (value === 0) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (typeof value !== "number" || !Enums_Enum[value]) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    };
+    if (
+      someFailed(
+        // @ts-ignore
+        () => validateE1(value["e1"]),
+        // @ts-ignore
+        () => validateE2(value["e2"]),
+        // @ts-ignore
+        () => validateE3(value["e3"]),
+        // @ts-ignore
+        () => validateE4(value["e4"])
+      )
+    ) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
 };
 
@@ -1060,6 +1186,28 @@ export const NestedValidators: {
    * @generated from field: examples.Nested.Inner inner = 1;
    */
   validateInner(value) {
-    // TODO: implement message field
+    if (typeof value !== "object" || value === null) {
+      // TODO: improve error mesage
+      throw new Error("");
+    }
+    const validateInt32 = (value: unknown) => {
+      if (typeof value !== "number") {
+        // TODO: improve error message
+        throw new Error("");
+      }
+      if (value <= 3) {
+        // TODO: improve error message
+        throw new Error("");
+      }
+    };
+    if (
+      someFailed(
+        // @ts-ignore
+        () => validateInt32(value["int32"])
+      )
+    ) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
 };

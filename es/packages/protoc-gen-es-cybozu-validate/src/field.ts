@@ -426,10 +426,38 @@ function renderMap(
 }
 
 function renderMessageField(f: GeneratedFile, field: DescField) {
-  f.print`// TODO: implement message field`;
+  f.print`  if (typeof value !== "object" || value === null) {`;
+  f.print`    // TODO: improve error mesage`;
+  f.print`    throw new Error("");`;
+  f.print`  }`;
+
+  if (!field.message) {
+    return;
+  }
+
+  const calls: string[] = [];
+
+  for (const innerField of field.message.fields) {
+    const innerFieldCustomOption = findCustomMessageOption(
+      innerField,
+      1179,
+      FieldRules
+    );
+    const fnName = getFieldFnName(innerField);
+    renderEachFieldValidation(f, fnName, innerField, innerFieldCustomOption);
+    calls.push(
+      "\n    // @ts-ignore\n" +
+        `    () => ${fnName}(value["${localName(innerField)}"])`
+    );
+  }
+
+  f.print`  if(someFailed(${calls.join(", ")})) {`;
+  f.print`    // TODO: improve error message`;
+  f.print`    throw new Error("")`;
+  f.print`  }`;
 }
 
-function renderOneofField(
+function renderEachFieldValidation(
   f: GeneratedFile,
   fnName: string,
   field: DescField,
@@ -438,6 +466,12 @@ function renderOneofField(
   f.print`  const ${fnName} = (value: unknown) => {`;
   renderField(f, field, customOption);
   f.print`  }`;
+}
+
+function getFieldFnName(field: DescField) {
+  const localFieldName = localName(field);
+  const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
+  return `validate${capitalizedFieldName}`;
 }
 
 function renderOneof(f: GeneratedFile, oneof: DescOneof) {
@@ -452,18 +486,17 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
   f.print`      return;`;
   f.print`    }`;
 
-  const getFieldFnName = (field: DescField) => {
-    const localFieldName = localName(field);
-    const capitalizedFieldName = capitalizeFirstLetter(localFieldName);
-    return `validate${capitalizedFieldName}`;
-  };
-
   for (const field of oneof.fields) {
     const fieldCustomOption = findCustomMessageOption(field, 1179, FieldRules);
-    renderOneofField(f, getFieldFnName(field), field, fieldCustomOption);
+    renderEachFieldValidation(
+      f,
+      getFieldFnName(field),
+      field,
+      fieldCustomOption
+    );
   }
 
-  f.print`  if (bothFailed(value, ${oneof.fields
+  f.print`  if (allFailedWithValue(value, ${oneof.fields
     .map(getFieldFnName)
     .join(", ")})) {`;
   f.print`    throw new Error("// TODO: improve error message")`;
