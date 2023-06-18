@@ -1002,7 +1002,7 @@ export const OneofsValidators: {
       return;
     }
     const validateTs = (value: unknown) => {
-      // TODO: implement message
+      // TODO: implement message field
     };
     const validateBool = (value: unknown) => {
       if (typeof value !== "boolean") {
@@ -1041,7 +1041,7 @@ export const ComposedValidators: {
    * @generated from field: examples.Ignored ignored = 1;
    */
   validateIgnored(value) {
-    // TODO: implement message
+    // TODO: implement message field
   },
   /**
    * enforces that all messages in `enums` are set.
@@ -1049,7 +1049,7 @@ export const ComposedValidators: {
    * @generated from field: repeated examples.Enums enums = 4;
    */
   validateEnums(value) {
-    // TODO: implement message
+    // TODO: implement message field
   },
 };
 
@@ -1066,6 +1066,6 @@ export const NestedValidators: {
    * @generated from field: examples.Nested.Inner inner = 1;
    */
   validateInner(value) {
-    // TODO: implement message
+    // TODO: implement message field
   },
 };

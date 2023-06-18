@@ -18,6 +18,7 @@ import {
   EnumRules,
 } from "@cybozu/protobuf-validate";
 import { capitalizeFirstLetter } from "./string-utils";
+import { renderMessage } from "./message";
 
 type NumberRules =
   | FloatRules
@@ -78,7 +79,7 @@ function renderField(
       );
       break;
     case "message":
-      renderMessage(f);
+      renderMessageField(f, field);
       break;
   }
 }
@@ -424,9 +425,8 @@ function renderMap(
   }
 }
 
-function renderMessage(f: GeneratedFile) {
-  // TODO: implement
-  f.print("    // TODO: implement message");
+function renderMessageField(f: GeneratedFile, field: DescField) {
+  f.print`// TODO: implement message field`;
 }
 
 function renderOneofField(
