@@ -18,7 +18,6 @@ import {
   EnumRules,
 } from "@cybozu/protobuf-validate";
 import { capitalizeFirstLetter } from "./string-utils";
-import { renderMessage } from "./message";
 
 type NumberRules =
   | FloatRules
@@ -435,7 +434,7 @@ function renderMessageField(f: GeneratedFile, field: DescField) {
     return;
   }
 
-  const calls: string[] = [];
+  const callEachFieldValidations: string[] = [];
 
   for (const innerField of field.message.fields) {
     const innerFieldCustomOption = findCustomMessageOption(
@@ -445,13 +444,13 @@ function renderMessageField(f: GeneratedFile, field: DescField) {
     );
     const fnName = getFieldFnName(innerField);
     renderEachFieldValidation(f, fnName, innerField, innerFieldCustomOption);
-    calls.push(
+    callEachFieldValidations.push(
       "\n    // @ts-ignore\n" +
         `    () => ${fnName}(value["${localName(innerField)}"])`
     );
   }
 
-  f.print`  if(someFailed(${calls.join(", ")})) {`;
+  f.print`  if(someFailed(${callEachFieldValidations.join(", ")})) {`;
   f.print`    // TODO: improve error message`;
   f.print`    throw new Error("")`;
   f.print`  }`;
