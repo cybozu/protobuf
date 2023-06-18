@@ -16,6 +16,7 @@ import {
   BytesRules,
   ItemsRules,
   EnumRules,
+  StringRules,
 } from "@cybozu/protobuf-validate";
 import { capitalizeFirstLetter } from "./string-utils";
 
@@ -101,7 +102,12 @@ function renderScalar(
       );
       break;
     case ScalarType.STRING:
-      f.print("    // TODO: implement scalar string");
+      renderScalarString(
+        f,
+        field,
+        customOption?.type.value as StringRules,
+        customOption?.items.value
+      );
       break;
     case ScalarType.FLOAT:
     case ScalarType.INT64:
@@ -257,6 +263,62 @@ function renderScalarNumberItem(
       f.print(indent + `  // TODO: improve error message`);
       f.print(indent + `  throw new Error("");`);
       f.print(indent + `}`);
+    }
+  }
+}
+
+function renderScalarString(
+  f: GeneratedFile,
+  field: DescField,
+  stringRules: StringRules,
+  itemsRules: ItemsRules | undefined
+) {
+  const { repeated } = field;
+  if (repeated) {
+    renderItems(f, field, itemsRules, stringRules, renderScalarStringItem);
+  } else {
+    renderScalarStringItem(f, field, stringRules, "value", 4);
+  }
+}
+
+function renderScalarStringItem(
+  f: GeneratedFile,
+  field: DescField,
+  itemRules: StringRules,
+  innerName: string,
+  baseIndent: number
+) {
+  f.print`if (typeof ${innerName} !== "string") {`;
+  f.print`  // TODO: improve error message`;
+  f.print`  throw new Error("")`;
+  f.print`}`;
+
+  if (itemRules) {
+    if (itemRules.ignoreEmpty) {
+      f.print`if (${innerName} === "") {`;
+      f.print`  return;`;
+      f.print`}`;
+    }
+
+    // count as a UNICODE code points
+    const valueLength = `[...${innerName}].length`;
+    const lengthConditions: string[] = [];
+    if (itemRules.maxLength) {
+      lengthConditions.push(`${valueLength} > ${itemRules.maxLength}`);
+    }
+    if (itemRules.minLength) {
+      lengthConditions.push(`${valueLength} < ${itemRules.minLength}`);
+    }
+    if (lengthConditions.length > 0) {
+      const condition = lengthConditions.join(" || ");
+      f.print`if (${condition}) {`;
+      f.print`  // TODO: improve error message`;
+      f.print`  throw new Error("")`;
+      f.print`}`;
+    }
+
+    if (itemRules.regex) {
+      // TODO: support RegExp?
     }
   }
 }

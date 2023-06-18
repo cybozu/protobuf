@@ -11,7 +11,7 @@ import {
   Strings,
 } from "./validation_pb.js";
 
-function allFailed<T>(...validators: Array<() => void>) {
+function allFailed(...validators: Array<() => void>) {
   function throws(validator: () => void) {
     let failed = false;
     try {
@@ -259,7 +259,17 @@ export const ScalarsValidators: {
    * @generated from field: string string = 14;
    */
   validateString(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (value === "") {
+      return;
+    }
+    if ([...value].length < 3) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * @generated from field: bytes bytes = 15;
@@ -558,7 +568,17 @@ export const OptionalScalarsValidators: {
     if (value == null) {
       return;
     }
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (value === "") {
+      return;
+    }
+    if ([...value].length < 3) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * @generated from field: optional bytes bytes = 15;
@@ -661,7 +681,14 @@ export const RepeatedScalarsValidators: {
    * @generated from field: repeated string string = 3;
    */
   validateString(value) {
-    // TODO: implement scalar string
+    if (!Array.isArray(value)) {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (value.length < 2) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
 };
 
@@ -736,7 +763,10 @@ export const StringsValidators: {
    * @generated from field: string s2 = 2;
    */
   validateS2(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforce the minimum length of the string if the string is NOT empty.
@@ -745,7 +775,17 @@ export const StringsValidators: {
    * @generated from field: string s3 = 3;
    */
   validateS3(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
+    if (value === "") {
+      return;
+    }
+    if ([...value].length < 10) {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * normalize and validate the string with a PRECIS profile.
@@ -753,7 +793,10 @@ export const StringsValidators: {
    * @generated from field: string s4 = 4;
    */
   validateS4(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * normalize and validate the string with a PRECIS profile.
@@ -761,7 +804,10 @@ export const StringsValidators: {
    * @generated from field: string s5 = 5;
    */
   validateS5(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * normalize and validate the string with a PRECIS profile.
@@ -769,7 +815,10 @@ export const StringsValidators: {
    * @generated from field: string s6 = 6;
    */
   validateS6(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforce that the string matches a regular expresson. The regular expression syntax is RE2.
@@ -778,7 +827,10 @@ export const StringsValidators: {
    * @generated from field: string s7 = 7;
    */
   validateS7(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforce that the string is a valid email address as defined in RFC 5322.
@@ -786,7 +838,10 @@ export const StringsValidators: {
    * @generated from field: string s8 = 8;
    */
   validateS8(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforce that the string is a valid URI as defined in RFC 3986.
@@ -795,7 +850,10 @@ export const StringsValidators: {
    * @generated from field: string s9 = 9;
    */
   validateS9(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
   /**
    * enforce that the string is a valid telephone number as defined by E.164.
@@ -804,7 +862,10 @@ export const StringsValidators: {
    * @generated from field: string s10 = 10;
    */
   validateS10(value) {
-    // TODO: implement scalar string
+    if (typeof value !== "string") {
+      // TODO: improve error message
+      throw new Error("");
+    }
   },
 };
 
@@ -993,7 +1054,10 @@ export const OneofsValidators: {
       }
     };
     const validateString = (value: unknown) => {
-      // TODO: implement scalar string
+      if (typeof value !== "string") {
+        // TODO: improve error message
+        throw new Error("");
+      }
     };
     if (
       allFailed(
@@ -1091,7 +1155,10 @@ export const ComposedValidators: {
       throw new Error("");
     }
     const validateFoo = (value: unknown) => {
-      // TODO: implement scalar string
+      if (typeof value !== "string") {
+        // TODO: improve error message
+        throw new Error("");
+      }
     };
     const validateBar = (value: unknown) => {
       if (typeof value !== "number") {
