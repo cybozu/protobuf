@@ -2,7 +2,7 @@ import { Schema } from "@bufbuild/protoplugin/ecmascript";
 import { renderMessage } from "./message";
 
 const helpers = [
-  `function allFailed<T>(...validators: Array<() => void>) {
+  `function allFailed(...validators: Array<() => void>) {
     function throws(validator: () => void) {
       let failed = false;
       try {
