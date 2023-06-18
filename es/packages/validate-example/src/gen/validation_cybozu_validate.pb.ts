@@ -11,24 +11,18 @@ import {
   Strings,
 } from "./validation_pb.js";
 
-function bothFailed<T>(
-  value: T,
-  validatorA: (t: T) => void,
-  validatorB: (t: T) => void
-) {
-  let aFailed = false;
-  let bFailed = false;
-  try {
-    validatorA(value);
-  } catch (error) {
-    aFailed = true;
+function allFailed<T>(value: T, ...validators: Array<(value: T) => void>) {
+  function throws(validator: (value: T) => void) {
+    let failed = false;
+    try {
+      validator(value);
+    } catch {
+      failed = true;
+    }
+    return failed;
   }
-  try {
-    validatorB(value);
-  } catch (error) {
-    bFailed = true;
-  }
-  return aFailed && bFailed;
+  const allFailed = validators.every(throws);
+  return allFailed;
 }
 
 /**
@@ -990,7 +984,7 @@ export const OneofsValidators: {
     const validateString = (value: unknown) => {
       // TODO: implement scalar string
     };
-    if (bothFailed(value, validateInt32, validateString)) {
+    if (allFailed(value, validateInt32, validateString)) {
       throw new Error("// TODO: improve error message");
     }
   },
@@ -1010,7 +1004,7 @@ export const OneofsValidators: {
         throw new Error("");
       }
     };
-    if (bothFailed(value, validateTs, validateBool)) {
+    if (allFailed(value, validateTs, validateBool)) {
       throw new Error("// TODO: improve error message");
     }
   },
