@@ -495,9 +495,14 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
     );
   }
 
-  f.print`  if (allFailedWithValue(value, ${oneof.fields
-    .map(getFieldFnName)
-    .join(", ")})) {`;
+  const fieldsValidationsCalls = oneof.fields
+    .map((field) => {
+      const fnName = getFieldFnName(field);
+      return "\n// @ts-ignore\n" + `() => ${fnName}(value)`;
+    })
+    .join(", ");
+
+  f.print`  if (allFailed(${fieldsValidationsCalls})) {`;
   f.print`    throw new Error("// TODO: improve error message")`;
   f.print`  }`;
 

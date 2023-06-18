@@ -2,12 +2,11 @@ import { Schema } from "@bufbuild/protoplugin/ecmascript";
 import { renderMessage } from "./message";
 
 const helpers = [
-  // for oneof validator
-  `function allFailedWithValue<T>(value: T, ...validators: Array<(value: T) => void>) {
-    function throws(validator: (value: T) => void) {
+  `function allFailed<T>(...validators: Array<() => void>) {
+    function throws(validator: () => void) {
       let failed = false;
       try {
-        validator(value);
+        validator();
       } catch {
         failed = true;
       }
