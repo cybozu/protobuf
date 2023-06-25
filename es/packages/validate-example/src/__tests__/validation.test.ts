@@ -646,8 +646,38 @@ describe("validation", () => {
       });
     });
 
-    describe.skip("validateString", () => {
-      // TODO: add tests for validateString
+    describe("validateString", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          OptionalScalarsValidators.validateString(3);
+        });
+      });
+
+      it("throws an error when receive length < 3", () => {
+        assert.throws(() => {
+          OptionalScalarsValidators.validateString("f");
+        });
+      });
+
+      it("throws an error when receive length < 3", () => {
+        assert.throws(() => {
+          // `"𠮟る".length` is 3 but consists of 2 code points.
+          // Our validator counts strings by code points.
+          OptionalScalarsValidators.validateString("𠮟る");
+        });
+      });
+
+      it("does not throws error when receive null", () => {
+        assert.doesNotThrow(() => {
+          OptionalScalarsValidators.validateString(null);
+        });
+      });
+
+      it("does not throws error when receive length >= 3", () => {
+        assert.doesNotThrow(() => {
+          OptionalScalarsValidators.validateString("foo");
+        });
+      });
     });
 
     describe("validateBytes", () => {
