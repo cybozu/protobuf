@@ -5,6 +5,7 @@ import {
   ScalarsValidators,
   OptionalScalarsValidators,
   RepeatedScalarsValidators,
+  StringsValidators,
 } from "../gen/validation_cybozu_validate.pb";
 
 describe("validation", () => {
@@ -771,6 +772,134 @@ describe("validation", () => {
 
     describe.skip("validateString", () => {
       // TODO: add test for validate string
+    });
+  });
+
+  describe("String Validators", () => {
+    describe("validateS2", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS2(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS2("test");
+        });
+      });
+    });
+
+    describe("validateS3", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS3(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS3("test");
+        });
+      });
+    });
+
+    describe("validateS4", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS4(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS4("test");
+        });
+      });
+    });
+
+    describe("validateS5", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS5(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS5("test");
+        });
+      });
+    });
+
+    describe("validateS6", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS6(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS6("test");
+        });
+      });
+    });
+
+    describe("validateS7", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS7(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS7("test");
+        });
+      });
+    });
+
+    describe("validateS8", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS8(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS8("test");
+        });
+      });
+    });
+
+    describe("validateS9", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS9(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS9("test");
+        });
+      });
+    });
+
+    describe("validateS10", () => {
+      it("throws an error when receive non String value", () => {
+        assert.throws(() => {
+          StringsValidators.validateS10(3);
+        });
+      });
+
+      it("does not throw error when receive a String", () => {
+        assert.doesNotThrow(() => {
+          StringsValidators.validateS10("test");
+        });
+      });
     });
   });
 });
