@@ -125,6 +125,12 @@ class CybozuValidateEnumRuleError extends Error {
     super("expected " + JSON.stringify(expected) + ", but got " + actual);
   }
 }
+class CybozuValidateNonNullError extends Error {
+  name = "CybozuValidateNonNullError";
+  constructor() {
+    super("expected is non-null, but actual is null");
+  }
+}
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -913,8 +919,7 @@ export const MapsValidators: {
    */
   validateMap1(value) {
     if (typeof value !== "object" || value === null) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNonNullError();
     }
     if (Object.keys(value).length < 1) {
       // TODO: improve error message
@@ -936,8 +941,7 @@ export const MapsValidators: {
    */
   validateMap2(value) {
     if (typeof value !== "object" || value === null) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNonNullError();
     }
     for (const v of Object.values(value)) {
       // TODO: implement message
@@ -1098,8 +1102,7 @@ export const OneofsValidators: {
     }
     const validateTs = (value: unknown) => {
       if (typeof value !== "object" || value === null) {
-        // TODO: improve error mesage
-        throw new Error("");
+        throw new CybozuValidateNonNullError();
       }
       const validateSeconds = (value: unknown) => {
         if (typeof value !== "number") {
@@ -1167,8 +1170,7 @@ export const ComposedValidators: {
    */
   validateIgnored(value) {
     if (typeof value !== "object" || value === null) {
-      // TODO: improve error mesage
-      throw new Error("");
+      throw new CybozuValidateNonNullError();
     }
     const validateFoo = (value: unknown) => {
       if (typeof value !== "string") {
@@ -1202,8 +1204,7 @@ export const ComposedValidators: {
    */
   validateEnums(value) {
     if (typeof value !== "object" || value === null) {
-      // TODO: improve error mesage
-      throw new Error("");
+      throw new CybozuValidateNonNullError();
     }
     const validateE1 = (value: unknown) => {
       if (value === 0) {
@@ -1286,8 +1287,7 @@ export const NestedValidators: {
    */
   validateInner(value) {
     if (typeof value !== "object" || value === null) {
-      // TODO: improve error mesage
-      throw new Error("");
+      throw new CybozuValidateNonNullError();
     }
     const validateInt32 = (value: unknown) => {
       if (typeof value !== "number") {

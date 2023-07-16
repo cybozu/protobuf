@@ -423,8 +423,7 @@ function renderMap(
     // do nothing?
   } else {
     f.print`  if (typeof value !== "object" || value === null) {`;
-    f.print`    // TODO: improve error message`;
-    f.print`    throw new Error("")`;
+    f.print`    throw new CybozuValidateNonNullError()`;
     f.print`  }`;
 
     if (itemsRules) {
@@ -496,8 +495,7 @@ function renderMap(
 
 function renderMessageField(f: GeneratedFile, field: DescField) {
   f.print`  if (typeof value !== "object" || value === null) {`;
-  f.print`    // TODO: improve error mesage`;
-  f.print`    throw new Error("");`;
+  f.print`    throw new CybozuValidateNonNullError()`;
   f.print`  }`;
 
   if (!field.message) {

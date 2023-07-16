@@ -116,6 +116,12 @@ const helpers = [
       super("expected " + JSON.stringify(expected) + ", but got " + actual);
     }
   }`,
+  `class CybozuValidateNonNullError extends Error {
+    name = "CybozuValidateNonNullError";
+    constructor() {
+      super("expected is non-null, but actual is null");
+    }
+  }`,
 ];
 
 export function generateTs(schema: Schema) {
