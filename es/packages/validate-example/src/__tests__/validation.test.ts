@@ -930,5 +930,25 @@ describe("validation", () => {
         });
       });
     });
+
+    describe("validateMap2", () => {
+      it("throws an error when receive null value", () => {
+        assert.throws(() => {
+          MapsValidators.validateMap2(null);
+        });
+      });
+
+      it("throws an error when receive object that values includes null", () => {
+        assert.throws(() => {
+          MapsValidators.validateMap2({ key: null });
+        });
+      });
+
+      it("does not throw an error when receive object filled with non-null values", () => {
+        assert.doesNotThrow(() => {
+          MapsValidators.validateMap2({ key: { innerKey: 3 } });
+        });
+      });
+    });
   });
 });
