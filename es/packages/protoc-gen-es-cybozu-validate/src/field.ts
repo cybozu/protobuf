@@ -79,7 +79,7 @@ function renderField(
       );
       break;
     case "message":
-      renderMessageField(f, field);
+      renderMessageField(f, field, "value");
       break;
   }
 }
@@ -490,7 +490,7 @@ function renderMap(
         );
         break;
       case "message":
-        f.print`// TODO: implement message`;
+        renderMessageField(f, field, "v");
         break;
     }
 
@@ -498,8 +498,12 @@ function renderMap(
   }
 }
 
-function renderMessageField(f: GeneratedFile, field: DescField) {
-  f.print`  if (typeof value !== "object" || value === null) {`;
+function renderMessageField(
+  f: GeneratedFile,
+  field: DescField,
+  innerName: string
+) {
+  f.print`  if (typeof ${innerName} !== "object" || ${innerName} === null) {`;
   f.print`    throw new CybozuValidateNonNullError()`;
   f.print`  }`;
 
@@ -519,7 +523,7 @@ function renderMessageField(f: GeneratedFile, field: DescField) {
     renderEachFieldValidation(f, fnName, innerField, innerFieldCustomOption);
     callEachFieldValidations.push(
       "\n    // @ts-ignore\n" +
-        `    () => ${fnName}(value["${localName(innerField)}"])`
+        `    () => ${fnName}(${innerName}["${localName(innerField)}"])`
     );
   }
 

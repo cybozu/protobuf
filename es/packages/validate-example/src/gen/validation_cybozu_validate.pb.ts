@@ -939,7 +939,9 @@ export const MapsValidators: {
       throw new CybozuValidateNonNullError();
     }
     for (const v of Object.values(value)) {
-      // TODO: implement message
+      if (typeof v !== "object" || v === null) {
+        throw new CybozuValidateNonNullError();
+      }
     }
   },
 };
