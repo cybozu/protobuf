@@ -1,6 +1,7 @@
 import { Schema } from "@bufbuild/protoplugin/ecmascript";
 import { renderMessage } from "./message";
 
+// TODO: extract these helpers to a separate runtime package
 const helpers = [
   `function throwIfEveryFailed(...validators: Array<() => void>) {
     const validatorsLength = validators.length;
