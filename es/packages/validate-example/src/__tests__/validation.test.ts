@@ -7,6 +7,7 @@ import {
   RepeatedScalarsValidators,
   StringsValidators,
   MapsValidators,
+  OneofsValidators,
 } from "../gen/validation_cybozu_validate.pb";
 
 describe("validation", () => {
@@ -947,6 +948,44 @@ describe("validation", () => {
       it("does not throw an error when receive object filled with non-null values", () => {
         assert.doesNotThrow(() => {
           MapsValidators.validateMap2({ key: { innerKey: 3 } });
+        });
+      });
+    });
+  });
+
+  describe.skip("EnumValidators", () => {
+    // TODO: add test for enum validators
+  });
+
+  describe("OneOfValidators", () => {
+    describe("validateO1", () => {
+      it("does not throw an error when receive null", () => {
+        assert.doesNotThrow(() => {
+          OneofsValidators.validateO1(null);
+        });
+      });
+
+      it("does not throws an error when receive string", () => {
+        assert.doesNotThrow(() => {
+          OneofsValidators.validateO1("test");
+        });
+      });
+
+      it("does not throws an error when receive number that less than -3", () => {
+        assert.doesNotThrow(() => {
+          OneofsValidators.validateO1(-4);
+        });
+      });
+
+      it("throws an error when receive symbol", () => {
+        assert.throws(() => {
+          OneofsValidators.validateO1(Symbol("test"));
+        });
+      });
+
+      it("throws an error when recieve number greater than -3", () => {
+        assert.throws(() => {
+          OneofsValidators.validateO1(-2);
         });
       });
     });
