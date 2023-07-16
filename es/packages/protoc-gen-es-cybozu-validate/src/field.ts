@@ -202,17 +202,20 @@ function renderScalarBytesItem(
   f.print(indent + `}`);
   if (itemRules) {
     const conditions: string[] = [];
+    const expectedFields: string[] = [];
     if (itemRules.maxLength) {
       conditions.push(`${innerName}.byteLength > ${itemRules.maxLength}`);
+      expectedFields.push(`maxLength: ${itemRules.maxLength}`);
     }
     if (itemRules.minLength) {
       conditions.push(`${innerName}.byteLength < ${itemRules.minLength}`);
+      expectedFields.push(`minLength: ${itemRules.minLength}`);
     }
     if (conditions.length > 0) {
       const condition = conditions.join(" || ");
+      const expected = expectedFields.join(", ");
       f.print(indent + `if (${condition}) {`);
-      f.print(indent + `  // TODO: improve error message`);
-      f.print(indent + `  throw new Error("")`);
+      f.print`    throw new CybozuValidateBytesRuleError({ ${expected} }, ${innerName})`;
       f.print(indent + `}`);
     }
   }

@@ -51,8 +51,7 @@ const helpers = [
     }
   }
   `,
-  `
-  class CybozuValidateItemsRuleError extends Error {
+  `class CybozuValidateItemsRuleError extends Error {
     name = "CybozuValidateItemsRuleError";
 
     constructor(
@@ -76,6 +75,19 @@ const helpers = [
       public readonly actual: number
     ) {
       super("expected: " + JSON.stringify(expected) + ", actual: " + actual);
+    }
+  }`,
+  `class CybozuValidateBytesRuleError extends Error {
+    name = "CybozuValidateBytesRuleError";
+  
+    constructor(
+      public expected: {
+        maxLength?: number;
+        minLength?: number;
+      },
+      public actual: Uint8Array
+    ) {
+      super("expected " + JSON.stringify(expected) + ", but got " + actual);
     }
   }`,
 ];

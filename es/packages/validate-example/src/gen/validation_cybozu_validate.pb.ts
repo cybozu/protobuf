@@ -86,6 +86,19 @@ class CybozuValidateNumberRuleError extends Error {
     super("expected: " + JSON.stringify(expected) + ", actual: " + actual);
   }
 }
+class CybozuValidateBytesRuleError extends Error {
+  name = "CybozuValidateBytesRuleError";
+
+  constructor(
+    public expected: {
+      maxLength?: number;
+      minLength?: number;
+    },
+    public actual: Uint8Array
+  ) {
+    super("expected " + JSON.stringify(expected) + ", but got " + actual);
+  }
+}
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -304,8 +317,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("uint8array", typeof value);
     }
     if (value.byteLength > 10) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateBytesRuleError({ maxLength: 10 }, value);
     }
   },
 };
@@ -590,8 +602,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("uint8array", typeof value);
     }
     if (value.byteLength > 10) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateBytesRuleError({ maxLength: 10 }, value);
     }
   },
 };
