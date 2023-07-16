@@ -73,6 +73,19 @@ class CybozuValidateItemsRuleError extends Error {
     super("expected " + JSON.stringify(expected) + ", but got " + actual);
   }
 }
+class CybozuValidateNumberRuleError extends Error {
+  constructor(
+    public readonly expected: {
+      gt?: number;
+      lt?: number;
+      gte?: number;
+      lte?: number;
+    },
+    public readonly actual: number
+  ) {
+    super("expected: " + JSON.stringify(expected) + ", actual: " + actual);
+  }
+}
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -144,8 +157,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value >= 3.200000047683716) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ lt: 3.200000047683716 }, value);
     }
   },
   /**
@@ -156,8 +168,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 3.2) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 3.2 }, value);
     }
   },
   /**
@@ -168,8 +179,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value > -3) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ lte: -3 }, value);
     }
   },
   /**
@@ -180,8 +190,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1 }, value);
     }
   },
   /**
@@ -192,8 +201,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -204,8 +212,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1, lte: 5 }, value);
     }
   },
   /**
@@ -216,8 +223,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -228,8 +234,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1, lte: 5 }, value);
     }
   },
   /**
@@ -240,8 +245,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -252,8 +256,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -264,8 +267,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -276,8 +278,7 @@ export const ScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -403,8 +404,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value >= 3.200000047683716) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ lt: 3.200000047683716 }, value);
     }
   },
   /**
@@ -418,8 +418,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 3.2) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 3.2 }, value);
     }
   },
   /**
@@ -433,8 +432,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value > -3) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ lte: -3 }, value);
     }
   },
   /**
@@ -448,8 +446,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1 }, value);
     }
   },
   /**
@@ -463,8 +460,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -478,8 +474,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1, lte: 5 }, value);
     }
   },
   /**
@@ -493,8 +488,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -508,8 +502,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1, lte: 5 }, value);
     }
   },
   /**
@@ -523,8 +516,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -538,8 +530,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1, lte: 5 }, value);
     }
   },
   /**
@@ -553,8 +544,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gt: 1, lt: 5 }, value);
     }
   },
   /**
@@ -568,8 +558,7 @@ export const OptionalScalarsValidators: {
       throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateNumberRuleError({ gte: 1, lte: 5 }, value);
     }
   },
   /**
@@ -651,8 +640,10 @@ export const RepeatedScalarsValidators: {
         throw new CybozuValidateTypeError("number", typeof item);
       }
       if (item >= 3.200000047683716) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateNumberRuleError(
+          { lt: 3.200000047683716 },
+          item
+        );
       }
     }
   },
@@ -673,8 +664,7 @@ export const RepeatedScalarsValidators: {
         throw new CybozuValidateTypeError("number", typeof item);
       }
       if (item <= 3.2) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateNumberRuleError({ gt: 3.2 }, item);
       }
     }
   },
@@ -901,8 +891,7 @@ export const MapsValidators: {
         throw new CybozuValidateTypeError("number", typeof v);
       }
       if (v <= 3) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateNumberRuleError({ gt: 3 }, v);
       }
     }
   },
@@ -1037,8 +1026,7 @@ export const OneofsValidators: {
         throw new CybozuValidateTypeError("number", typeof value);
       }
       if (value > -3) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateNumberRuleError({ lte: -3 }, value);
       }
     };
     const validateString = (value: unknown) => {
@@ -1148,8 +1136,7 @@ export const ComposedValidators: {
         throw new CybozuValidateTypeError("number", typeof value);
       }
       if (value >= 100) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateNumberRuleError({ lt: 100 }, value);
       }
     };
     if (
@@ -1253,8 +1240,7 @@ export const NestedValidators: {
         throw new CybozuValidateTypeError("number", typeof value);
       }
       if (value <= 3) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateNumberRuleError({ gt: 3 }, value);
       }
     };
     if (

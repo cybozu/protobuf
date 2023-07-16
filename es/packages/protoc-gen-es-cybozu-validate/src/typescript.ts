@@ -65,6 +65,19 @@ const helpers = [
       super("expected " + JSON.stringify(expected) + ", but got " + actual);
     }
   }`,
+  `class CybozuValidateNumberRuleError extends Error {
+    constructor(
+      public readonly expected: {
+        gt?: number;
+        lt?: number;
+        gte?: number;
+        lte?: number;
+      },
+      public readonly actual: number
+    ) {
+      super("expected: " + JSON.stringify(expected) + ", actual: " + actual);
+    }
+  }`,
 ];
 
 export function generateTs(schema: Schema) {

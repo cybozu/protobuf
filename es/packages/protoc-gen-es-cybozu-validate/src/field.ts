@@ -245,23 +245,28 @@ function renderScalarNumberItem(
   f.print(indent + `}`);
   if (itemRules) {
     const conditions: string[] = [];
+    const expectedFields: string[] = [];
     if (itemRules.gt) {
       conditions.push(`${innerName} <= ${itemRules.gt}`);
+      expectedFields.push(`gt: ${itemRules.gt}`);
     }
     if (itemRules.lt) {
       conditions.push(`${innerName} >= ${itemRules.lt}`);
+      expectedFields.push(`lt: ${itemRules.lt}`);
     }
     if (itemRules.gte) {
       conditions.push(`${innerName} < ${itemRules.gte}`);
+      expectedFields.push(`gte: ${itemRules.gte}`);
     }
     if (itemRules.lte) {
       conditions.push(`${innerName} > ${itemRules.lte}`);
+      expectedFields.push(`lte: ${itemRules.lte}`);
     }
     if (conditions.length > 0) {
       const condition = conditions.join(" || ");
+      const expected = expectedFields.join(", ");
       f.print(indent + `if (${condition}) {`);
-      f.print(indent + `  // TODO: improve error message`);
-      f.print(indent + `  throw new Error("");`);
+      f.print`   throw new CybozuValidateNumberRuleError({ ${expected} }, ${innerName})`;
       f.print(indent + `}`);
     }
   }
