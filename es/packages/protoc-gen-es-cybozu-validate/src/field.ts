@@ -416,7 +416,7 @@ function renderMap(
   f: GeneratedFile,
   field: DescField,
   itemsRules: ItemsRules | undefined,
-  itemRules: FieldRules | EnumRules | undefined
+  itemRules: FieldRules | EnumRules | StringRules | undefined
 ) {
   const { repeated } = field;
   if (repeated) {
@@ -460,7 +460,7 @@ function renderMap(
             renderScalarBytesItem(f, field, itemRules as BytesRules, "v", 4);
             break;
           case ScalarType.STRING:
-            f.print("    // TODO: implement scalar string");
+            renderScalarStringItem(f, field, itemRules as StringRules, "v", 4);
             break;
           case ScalarType.FLOAT:
           case ScalarType.INT64:
