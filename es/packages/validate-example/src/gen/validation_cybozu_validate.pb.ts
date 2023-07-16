@@ -99,6 +99,19 @@ class CybozuValidateBytesRuleError extends Error {
     super("expected " + JSON.stringify(expected) + ", but got " + actual);
   }
 }
+class CybozuValidateStringRuleError extends Error {
+  name = "CybozuValidateStringRuleError";
+
+  constructor(
+    public expected: {
+      maxLength?: number;
+      minLength?: number;
+    },
+    public actual: string
+  ) {
+    super("expected " + JSON.stringify(expected) + ", but got " + actual);
+  }
+}
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -305,8 +318,7 @@ export const ScalarsValidators: {
       return;
     }
     if ([...value].length < 3) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateStringRuleError({ minLength: 3 }, value);
     }
   },
   /**
@@ -587,8 +599,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if ([...value].length < 3) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateStringRuleError({ minLength: 3 }, value);
     }
   },
   /**
@@ -783,8 +794,7 @@ export const StringsValidators: {
       return;
     }
     if ([...value].length < 10) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateStringRuleError({ minLength: 10 }, value);
     }
   },
   /**

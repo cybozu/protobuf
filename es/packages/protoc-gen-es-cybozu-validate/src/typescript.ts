@@ -90,6 +90,19 @@ const helpers = [
       super("expected " + JSON.stringify(expected) + ", but got " + actual);
     }
   }`,
+  `class CybozuValidateStringRuleError extends Error {
+    name = "CybozuValidateStringRuleError";
+  
+    constructor(
+      public expected: {
+        maxLength?: number;
+        minLength?: number;
+      },
+      public actual: string
+    ) {
+      super("expected " + JSON.stringify(expected) + ", but got " + actual);
+    }
+  }`,
 ];
 
 export function generateTs(schema: Schema) {

@@ -292,7 +292,7 @@ function renderScalarString(
 function renderScalarStringItem(
   f: GeneratedFile,
   field: DescField,
-  itemRules: StringRules,
+  stringRules: StringRules,
   innerName: string,
   baseIndent: number
 ) {
@@ -300,8 +300,8 @@ function renderScalarStringItem(
   f.print`  throw new CybozuValidateTypeError("string", typeof ${innerName})`;
   f.print`}`;
 
-  if (itemRules) {
-    if (itemRules.ignoreEmpty) {
+  if (stringRules) {
+    if (stringRules.ignoreEmpty) {
       f.print`if (${innerName} === "") {`;
       f.print`  return;`;
       f.print`}`;
@@ -310,21 +310,24 @@ function renderScalarStringItem(
     // count as a UNICODE code points
     const valueLength = `[...${innerName}].length`;
     const lengthConditions: string[] = [];
-    if (itemRules.maxLength) {
-      lengthConditions.push(`${valueLength} > ${itemRules.maxLength}`);
+    const expectedFields: string[] = [];
+    if (stringRules.maxLength) {
+      lengthConditions.push(`${valueLength} > ${stringRules.maxLength}`);
+      expectedFields.push(`maxLength: ${stringRules.maxLength}`);
     }
-    if (itemRules.minLength) {
-      lengthConditions.push(`${valueLength} < ${itemRules.minLength}`);
+    if (stringRules.minLength) {
+      lengthConditions.push(`${valueLength} < ${stringRules.minLength}`);
+      expectedFields.push(`minLength: ${stringRules.minLength}`);
     }
     if (lengthConditions.length > 0) {
       const condition = lengthConditions.join(" || ");
+      const expected = expectedFields.join(", ");
       f.print`if (${condition}) {`;
-      f.print`  // TODO: improve error message`;
-      f.print`  throw new Error("")`;
+      f.print`  throw new CybozuValidateStringRuleError({ ${expected} }, ${innerName})`;
       f.print`}`;
     }
 
-    if (itemRules.regex) {
+    if (stringRules.regex) {
       // TODO: support RegExp?
     }
   }
