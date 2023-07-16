@@ -152,16 +152,19 @@ function renderItems<T extends Rules | undefined>(
 
   if (itemsRules) {
     const conditions: string[] = [];
+    const expectedFields: string[] = [];
     if (itemsRules.maxItems) {
       conditions.push(`value.length > ${itemsRules.maxItems}`);
+      expectedFields.push(`maxItems: ${itemsRules.maxItems}`);
     }
     if (itemsRules.minItems) {
       conditions.push(`value.length < ${itemsRules.minItems}`);
+      expectedFields.push(`minItems: ${itemsRules.minItems}`);
     }
     const condition = conditions.join(" || ");
+    const expected = expectedFields.join(", ");
     f.print`    if (${condition}) {`;
-    f.print`      // TODO: improve error message`;
-    f.print`      throw new Error("");`;
+    f.print`      throw new CybozuValidateItemsRuleError({ ${expected} }, value)`;
     f.print`    }`;
   }
 

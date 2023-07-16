@@ -43,14 +43,28 @@ const helpers = [
   class CybozuValidateTypeError extends Error {
     name = "CybozuValidateTypeError";
     constructor(
-      public expectedType: CybozuValidateValueType,
-      public actualType: CybozuValidateValueType
+      public expected: CybozuValidateValueType,
+      public actual: CybozuValidateValueType
     ) {
-      const message = \`Expected \${expectedType} but got \${actualType}\`;
+      const message = \`Expected \${expected} but got \${actual}\`;
       super(message);
     }
   }
   `,
+  `
+  class CybozuValidateItemsRuleError extends Error {
+    name = "CybozuValidateItemsRuleError";
+
+    constructor(
+      public expected: {
+        maxItems?: number;
+        minItems?: number;
+      },
+      public actual: Array<unknown>
+    ) {
+      super("expected " + JSON.stringify(expected) + ", but got " + actual);
+    }
+  }`,
 ];
 
 export function generateTs(schema: Schema) {

@@ -52,14 +52,27 @@ type CybozuValidateValueType =
 class CybozuValidateTypeError extends Error {
   name = "CybozuValidateTypeError";
   constructor(
-    public expectedType: CybozuValidateValueType,
-    public actualType: CybozuValidateValueType
+    public expected: CybozuValidateValueType,
+    public actual: CybozuValidateValueType
   ) {
-    const message = `Expected ${expectedType} but got ${actualType}`;
+    const message = `Expected ${expected} but got ${actual}`;
     super(message);
   }
 }
 
+class CybozuValidateItemsRuleError extends Error {
+  name = "CybozuValidateItemsRuleError";
+
+  constructor(
+    public expected: {
+      maxItems?: number;
+      minItems?: number;
+    },
+    public actual: Array<unknown>
+  ) {
+    super("expected " + JSON.stringify(expected) + ", but got " + actual);
+  }
+}
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -631,8 +644,7 @@ export const RepeatedScalarsValidators: {
       throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length < 1) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateItemsRuleError({ minItems: 1 }, value);
     }
     for (const item of value) {
       if (typeof item !== "number") {
@@ -654,8 +666,7 @@ export const RepeatedScalarsValidators: {
       throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length > 3) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateItemsRuleError({ maxItems: 3 }, value);
     }
     for (const item of value) {
       if (typeof item !== "number") {
@@ -677,8 +688,7 @@ export const RepeatedScalarsValidators: {
       throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length < 2) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateItemsRuleError({ minItems: 2 }, value);
     }
   },
 };
@@ -973,8 +983,7 @@ export const EnumsValidators: {
       throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length < 2) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateItemsRuleError({ minItems: 2 }, value);
     }
     for (const item of value) {
       if (item === 0) {
@@ -1182,8 +1191,7 @@ export const ComposedValidators: {
         throw new CybozuValidateTypeError("array", typeof value);
       }
       if (value.length < 2) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateItemsRuleError({ minItems: 2 }, value);
       }
       for (const item of value) {
         if (item === 0) {
