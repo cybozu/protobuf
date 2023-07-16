@@ -6,6 +6,7 @@ import {
   OptionalScalarsValidators,
   RepeatedScalarsValidators,
   StringsValidators,
+  MapsValidators,
 } from "../gen/validation_cybozu_validate.pb";
 
 describe("validation", () => {
@@ -775,7 +776,7 @@ describe("validation", () => {
     });
   });
 
-  describe("String Validators", () => {
+  describe("StringValidators", () => {
     describe("validateS2", () => {
       it("throws an error when receive non String value", () => {
         assert.throws(() => {
@@ -898,6 +899,34 @@ describe("validation", () => {
       it("does not throw error when receive a String", () => {
         assert.doesNotThrow(() => {
           StringsValidators.validateS10("test");
+        });
+      });
+    });
+  });
+
+  describe("MapsValidators", () => {
+    describe("validateMap1", () => {
+      it("throws an error when receive null value", () => {
+        assert.throws(() => {
+          MapsValidators.validateMap1(null);
+        });
+      });
+
+      it("throws an error when receive object that entries are less than 1", () => {
+        assert.throws(() => {
+          MapsValidators.validateMap1({});
+        });
+      });
+
+      it("throws an error when receive object that values are not number that less than equal 3", () => {
+        assert.throws(() => {
+          MapsValidators.validateMap1({ key: 2 });
+        });
+      });
+
+      it("does not throws an error when receive object that values are number that greater than 3", () => {
+        assert.doesNotThrow(() => {
+          MapsValidators.validateMap1({ key: 4 });
         });
       });
     });
