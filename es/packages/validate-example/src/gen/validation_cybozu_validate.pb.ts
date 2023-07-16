@@ -112,6 +112,19 @@ class CybozuValidateStringRuleError extends Error {
     super("expected " + JSON.stringify(expected) + ", but got " + actual);
   }
 }
+class CybozuValidateEnumRuleError extends Error {
+  name = "CybozuValidateEnumRuleError";
+
+  constructor(
+    public expected: {
+      required?: boolean;
+      definedOnly?: boolean;
+    },
+    public actual: unknown
+  ) {
+    super("expected " + JSON.stringify(expected) + ", but got " + actual);
+  }
+}
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -968,8 +981,10 @@ export const EnumsValidators: {
    */
   validateE1(value) {
     if (value === 0) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateEnumRuleError(
+        { required: true, definedOnly: false },
+        value
+      );
     }
   },
   /**
@@ -979,8 +994,10 @@ export const EnumsValidators: {
    */
   validateE2(value) {
     if (typeof value !== "number" || !Enums_Enum[value]) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateEnumRuleError(
+        { required: false, definedOnly: true },
+        value
+      );
     }
   },
   /**
@@ -997,8 +1014,10 @@ export const EnumsValidators: {
     }
     for (const item of value) {
       if (item === 0) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateEnumRuleError(
+          { required: true, definedOnly: false },
+          item
+        );
       }
     }
   },
@@ -1012,12 +1031,16 @@ export const EnumsValidators: {
       return;
     }
     if (value === 0) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateEnumRuleError(
+        { required: true, definedOnly: true },
+        value
+      );
     }
     if (typeof value !== "number" || !Enums_Enum[value]) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateEnumRuleError(
+        { required: true, definedOnly: true },
+        value
+      );
     }
   },
 };
@@ -1184,14 +1207,18 @@ export const ComposedValidators: {
     }
     const validateE1 = (value: unknown) => {
       if (value === 0) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateEnumRuleError(
+          { required: true, definedOnly: false },
+          value
+        );
       }
     };
     const validateE2 = (value: unknown) => {
       if (typeof value !== "number" || !Enums_Enum[value]) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateEnumRuleError(
+          { required: false, definedOnly: true },
+          value
+        );
       }
     };
     const validateE3 = (value: unknown) => {
@@ -1203,8 +1230,10 @@ export const ComposedValidators: {
       }
       for (const item of value) {
         if (item === 0) {
-          // TODO: improve error message
-          throw new Error("");
+          throw new CybozuValidateEnumRuleError(
+            { required: true, definedOnly: false },
+            item
+          );
         }
       }
     };
@@ -1213,12 +1242,16 @@ export const ComposedValidators: {
         return;
       }
       if (value === 0) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateEnumRuleError(
+          { required: true, definedOnly: true },
+          value
+        );
       }
       if (typeof value !== "number" || !Enums_Enum[value]) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateEnumRuleError(
+          { required: true, definedOnly: true },
+          value
+        );
       }
     };
     if (

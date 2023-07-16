@@ -103,6 +103,19 @@ const helpers = [
       super("expected " + JSON.stringify(expected) + ", but got " + actual);
     }
   }`,
+  `class CybozuValidateEnumRuleError extends Error {
+    name = "CybozuValidateEnumRuleError";
+
+    constructor(
+      public expected: {
+        required?: boolean;
+        definedOnly?: boolean;
+      },
+      public actual: unknown
+    ) {
+      super("expected " + JSON.stringify(expected) + ", but got " + actual);
+    }
+  }`,
 ];
 
 export function generateTs(schema: Schema) {

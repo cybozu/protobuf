@@ -399,16 +399,15 @@ function renderEnumItemValidations(
   baseIndent: number,
   enumImport: ImportSymbol
 ) {
+  const throwError = `throw new CybozuValidateEnumRuleError({ required: ${!!itemRules?.required}, definedOnly: ${!!itemRules?.definedOnly} }, ${innerName})`;
   if (itemRules?.required) {
     f.print`  if (${innerName} === 0) {`;
-    f.print`    // TODO: improve error message`;
-    f.print`    throw new Error("")`;
+    f.print`    ${throwError}`;
     f.print`  }`;
   }
   if (itemRules?.definedOnly) {
     f.print`  if (typeof ${innerName} !== "number" || !${enumImport}[${innerName}]) {`;
-    f.print`    // TODO: improve error message`;
-    f.print`    throw new Error("")`;
+    f.print`    ${throwError}`;
     f.print`  }`;
   }
 }
