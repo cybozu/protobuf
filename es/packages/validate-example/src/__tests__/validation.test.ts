@@ -799,7 +799,7 @@ describe("validation", () => {
 
       it("does not throw error when receive a String", () => {
         assert.doesNotThrow(() => {
-          StringsValidators.validateS3("test");
+          StringsValidators.validateS3("testtesttest");
         });
       });
     });
