@@ -11,30 +11,26 @@ import {
   Strings,
 } from "./validation_pb.js";
 
-function allFailed(...validators: Array<() => void>) {
-  function throws(validator: () => void) {
-    let failed = false;
-    try {
-      validator();
-    } catch {
-      failed = true;
-    }
-    return failed;
+function throwIfEveryFailed(...validators: Array<() => void>) {
+  const validatorsLength = validators.length;
+  const validatorErrors = validators
+    .map((validator) => {
+      try {
+        validator();
+      } catch (e) {
+        return e;
+      }
+      return null;
+    })
+    .filter(Boolean);
+  if (validatorsLength === validatorErrors.length) {
+    throw new AggregateError(validatorErrors);
   }
-  return validators.every(throws);
 }
-
-function someFailed(...validators: Array<() => void>) {
-  function throws(validator: () => void) {
-    let failed = false;
-    try {
-      validator();
-    } catch {
-      failed = true;
-    }
-    return failed;
+function throwIfSomeFailed(...validators: Array<() => void>) {
+  for (const validator of validators) {
+    validator();
   }
-  return validators.some(throws);
 }
 type CybozuValidateValueType =
   | "boolean"
@@ -1081,16 +1077,12 @@ export const OneofsValidators: {
         throw new CybozuValidateTypeError("string", typeof value);
       }
     };
-    if (
-      allFailed(
-        // @ts-ignore
-        () => validateInt32(value),
-        // @ts-ignore
-        () => validateString(value)
-      )
-    ) {
-      throw new Error("// TODO: improve error message");
-    }
+    throwIfEveryFailed(
+      // @ts-ignore
+      () => validateInt32(value),
+      // @ts-ignore
+      () => validateString(value)
+    );
   },
   /**
    * @generated from oneof examples.Oneofs.o2
@@ -1113,33 +1105,24 @@ export const OneofsValidators: {
           throw new CybozuValidateTypeError("number", typeof value);
         }
       };
-      if (
-        someFailed(
-          // @ts-ignore
-          () => validateSeconds(value["seconds"]),
-          // @ts-ignore
-          () => validateNanos(value["nanos"])
-        )
-      ) {
-        // TODO: improve error message
-        throw new Error("");
-      }
+      throwIfSomeFailed(
+        // @ts-ignore
+        () => validateSeconds(value["seconds"]),
+        // @ts-ignore
+        () => validateNanos(value["nanos"])
+      );
     };
     const validateBool = (value: unknown) => {
       if (typeof value !== "boolean") {
         throw new CybozuValidateTypeError("boolean", typeof value);
       }
     };
-    if (
-      allFailed(
-        // @ts-ignore
-        () => validateTs(value),
-        // @ts-ignore
-        () => validateBool(value)
-      )
-    ) {
-      throw new Error("// TODO: improve error message");
-    }
+    throwIfEveryFailed(
+      // @ts-ignore
+      () => validateTs(value),
+      // @ts-ignore
+      () => validateBool(value)
+    );
   },
 };
 
@@ -1184,17 +1167,12 @@ export const ComposedValidators: {
         throw new CybozuValidateNumberRuleError({ lt: 100 }, value);
       }
     };
-    if (
-      someFailed(
-        // @ts-ignore
-        () => validateFoo(value["foo"]),
-        // @ts-ignore
-        () => validateBar(value["bar"])
-      )
-    ) {
-      // TODO: improve error message
-      throw new Error("");
-    }
+    throwIfSomeFailed(
+      // @ts-ignore
+      () => validateFoo(value["foo"]),
+      // @ts-ignore
+      () => validateBar(value["bar"])
+    );
   },
   /**
    * enforces that all messages in `enums` are set.
@@ -1254,21 +1232,16 @@ export const ComposedValidators: {
         );
       }
     };
-    if (
-      someFailed(
-        // @ts-ignore
-        () => validateE1(value["e1"]),
-        // @ts-ignore
-        () => validateE2(value["e2"]),
-        // @ts-ignore
-        () => validateE3(value["e3"]),
-        // @ts-ignore
-        () => validateE4(value["e4"])
-      )
-    ) {
-      // TODO: improve error message
-      throw new Error("");
-    }
+    throwIfSomeFailed(
+      // @ts-ignore
+      () => validateE1(value["e1"]),
+      // @ts-ignore
+      () => validateE2(value["e2"]),
+      // @ts-ignore
+      () => validateE3(value["e3"]),
+      // @ts-ignore
+      () => validateE4(value["e4"])
+    );
   },
 };
 
@@ -1296,14 +1269,9 @@ export const NestedValidators: {
         throw new CybozuValidateNumberRuleError({ gt: 3 }, value);
       }
     };
-    if (
-      someFailed(
-        // @ts-ignore
-        () => validateInt32(value["int32"])
-      )
-    ) {
-      // TODO: improve error message
-      throw new Error("");
-    }
+    throwIfSomeFailed(
+      // @ts-ignore
+      () => validateInt32(value["int32"])
+    );
   },
 };

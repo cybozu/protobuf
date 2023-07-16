@@ -523,10 +523,7 @@ function renderMessageField(f: GeneratedFile, field: DescField) {
     );
   }
 
-  f.print`  if(someFailed(${callEachFieldValidations.join(", ")})) {`;
-  f.print`    // TODO: improve error message`;
-  f.print`    throw new Error("")`;
-  f.print`  }`;
+  f.print`  throwIfSomeFailed(${callEachFieldValidations.join(", ")})`;
 }
 
 function renderEachFieldValidation(
@@ -575,9 +572,7 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
     })
     .join(", ");
 
-  f.print`  if (allFailed(${fieldsValidationsCalls})) {`;
-  f.print`    throw new Error("// TODO: improve error message")`;
-  f.print`  }`;
+  f.print`  throwIfEveryFailed(${fieldsValidationsCalls})`;
 
   f.print`  },`;
 }

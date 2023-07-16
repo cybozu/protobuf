@@ -8,6 +8,7 @@
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "composite": true
+    "composite": true,
+    "lib": ["es2022"]
   }
 }

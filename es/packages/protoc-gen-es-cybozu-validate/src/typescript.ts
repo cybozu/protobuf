@@ -2,30 +2,26 @@ import { Schema } from "@bufbuild/protoplugin/ecmascript";
 import { renderMessage } from "./message";
 
 const helpers = [
-  `function allFailed(...validators: Array<() => void>) {
-    function throws(validator: () => void) {
-      let failed = false;
-      try {
-        validator();
-      } catch {
-        failed = true;
-      }
-      return failed;
+  `function throwIfEveryFailed(...validators: Array<() => void>) {
+    const validatorsLength = validators.length;
+    const validatorErrors = validators
+      .map((validator) => {
+        try {
+          validator();
+        } catch (e) {
+          return e;
+        }
+        return null;
+      })
+      .filter(Boolean);
+    if (validatorsLength === validatorErrors.length) {
+      throw new AggregateError(validatorErrors);
     }
-    return validators.every(throws);
-  }
-`,
-  `function someFailed(...validators: Array<() => void>) {
-    function throws(validator: () => void) {
-      let failed = false;
-      try {
-        validator();
-      } catch {
-        failed = true;
-      }
-      return failed;
+  }`,
+  `function throwIfSomeFailed(...validators: Array<() => void>) {
+    for (const validator of validators) {
+      validator();
     }
-    return validators.some(throws);
   }`,
   `type CybozuValidateValueType =
   | "boolean"
