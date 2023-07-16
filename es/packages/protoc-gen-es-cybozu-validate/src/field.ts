@@ -17,7 +17,7 @@ import {
   ItemsRules,
   EnumRules,
   StringRules,
-} from "@cybozu/protobuf-validate";
+} from "@cybozu/protobuf/dist/validate/options_pb";
 import { capitalizeFirstLetter } from "./string-utils";
 
 type NumberRules =

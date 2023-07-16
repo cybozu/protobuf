@@ -1,0 +1,12 @@
+{
+  "name": "@cybozu/protobuf",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node ./scripts/build.mjs",
+    "test": "node --loader tsx --test ./__tests__/*.test.ts"
+  },
+  "devDependencies": {
+    "esbuild": "^0.18.13",
+    "tsx": "^3.12.6"
+  }
+}

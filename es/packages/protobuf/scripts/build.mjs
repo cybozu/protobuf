@@ -4,18 +4,18 @@ import path from "node:path";
 
 /** @type {import('esbuild').BuildOptions} */
 const options = {
-  entryPoints: ["./lib/validate_pb.js"],
+  entryPoints: ["./gen/cybozu/validate/options_pb.js"],
   minify: true,
   bundle: true,
-  outfile: "./dist/index.js",
+  outfile: "./dist/validate/options_pb.js",
   target: "node14.11",
   platform: "node",
   format: "cjs",
 };
 
 await fs.cp(
-  path.join(process.cwd(), "lib", "validate_pb.d.ts"),
-  path.join(process.cwd(), "dist", "index.d.ts")
+  path.join(process.cwd(), "gen", "cybozu", "validate", "options_pb.d.ts"),
+  path.join(process.cwd(), "dist", "validate", "options_pb.d.ts")
 );
 
 build(options).catch((err) => {

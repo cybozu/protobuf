@@ -7,7 +7,7 @@ import {
   findCustomScalarOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import { renderFieldValidator, renderOneof } from "./field";
-import { FieldRules } from "@cybozu/protobuf-validate";
+import { FieldRules } from "@cybozu/protobuf/dist/validate/options_pb";
 import { capitalizeFirstLetter } from "./string-utils";
 
 function renderValidatorsType(
