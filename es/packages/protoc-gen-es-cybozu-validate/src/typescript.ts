@@ -59,7 +59,7 @@ const helpers = [
         maxItems?: number;
         minItems?: number;
       },
-      public actual: Array<unknown>
+      public actual: unknown
     ) {
       super("expected " + JSON.stringify(expected) + ", but got " + actual);
     }

@@ -428,17 +428,22 @@ function renderMap(
 
     if (itemsRules) {
       const conditions: string[] = [];
+      const expectedFields: string[] = [];
       if (itemsRules.maxItems) {
         conditions.push(`Object.keys(value).length > ${itemsRules.maxItems}`);
+        expectedFields.push(`maxItems: ${itemsRules.maxItems}`);
       }
       if (itemsRules.minItems) {
         conditions.push(`Object.keys(value).length < ${itemsRules.minItems}`);
+        expectedFields.push(`minItems: ${itemsRules.minItems}`);
       }
-      const condition = conditions.join(" || ");
-      f.print`    if (${condition}) {`;
-      f.print`      // TODO: improve error message`;
-      f.print`      throw new Error("");`;
-      f.print`    }`;
+      if (conditions.length > 0) {
+        const condition = conditions.join(" || ");
+        const expected = expectedFields.join(", ");
+        f.print`    if (${condition}) {`;
+        f.print`      throw new CybozuValidateItemsRuleError({ ${expected} }, value)`;
+        f.print`    }`;
+      }
     }
 
     f.print`  for (const v of Object.values(value)) {`;

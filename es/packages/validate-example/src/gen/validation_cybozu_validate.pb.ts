@@ -68,7 +68,7 @@ class CybozuValidateItemsRuleError extends Error {
       maxItems?: number;
       minItems?: number;
     },
-    public actual: Array<unknown>
+    public actual: unknown
   ) {
     super("expected " + JSON.stringify(expected) + ", but got " + actual);
   }
@@ -922,8 +922,7 @@ export const MapsValidators: {
       throw new CybozuValidateNonNullError();
     }
     if (Object.keys(value).length < 1) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateItemsRuleError({ minItems: 1 }, value);
     }
     for (const v of Object.values(value)) {
       if (typeof v !== "number") {
