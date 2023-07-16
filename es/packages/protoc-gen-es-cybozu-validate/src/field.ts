@@ -147,8 +147,7 @@ function renderItems<T extends Rules | undefined>(
   renderItem: RenderItem<T>
 ) {
   f.print`    if (!Array.isArray(value)) {`;
-  f.print`      // TODO: improve error message`;
-  f.print`      throw new Error("");`;
+  f.print`      throw new CybozuValidateTypeError("array", typeof value)`;
   f.print`    }`;
 
   if (itemsRules) {
@@ -196,8 +195,7 @@ function renderScalarBytesItem(
 ) {
   const indent = " ".repeat(baseIndent);
   f.print(indent + `if (!(${innerName} instanceof Uint8Array)) {`);
-  f.print(indent + `  // TODO: improve error message`);
-  f.print(indent + `  throw new Error("");`);
+  f.print`  throw new CybozuValidateTypeError("uint8array", typeof ${innerName})`;
   f.print(indent + `}`);
   if (itemRules) {
     const conditions: string[] = [];
@@ -240,8 +238,7 @@ function renderScalarNumberItem(
 ) {
   const indent = " ".repeat(baseIndent);
   f.print(indent + `if (typeof ${innerName} !== "number") {`);
-  f.print(indent + `  // TODO: improve error message`);
-  f.print(indent + `  throw new Error("");`);
+  f.print`  throw new CybozuValidateTypeError("number", typeof ${innerName})`;
   f.print(indent + `}`);
   if (itemRules) {
     const conditions: string[] = [];
@@ -289,8 +286,7 @@ function renderScalarStringItem(
   baseIndent: number
 ) {
   f.print`if (typeof ${innerName} !== "string") {`;
-  f.print`  // TODO: improve error message`;
-  f.print`  throw new Error("")`;
+  f.print`  throw new CybozuValidateTypeError("string", typeof ${innerName})`;
   f.print`}`;
 
   if (itemRules) {
@@ -345,8 +341,7 @@ function renderScalarBooleanItem(
 ) {
   const indent = " ".repeat(baseIndent);
   f.print(indent + `if (typeof ${innerName} !== "boolean") {`);
-  f.print(indent + `  // TODO: improve error message`);
-  f.print(indent + `  throw new Error("");`);
+  f.print`  throw new CybozuValidateTypeError("boolean", typeof ${innerName})`;
   f.print(indent + `}`);
 }
 

@@ -36,6 +36,30 @@ function someFailed(...validators: Array<() => void>) {
   }
   return validators.some(throws);
 }
+type CybozuValidateValueType =
+  | "boolean"
+  | "number"
+  | "string"
+  | "object"
+  | "array"
+  | "null"
+  | "bigint"
+  | "function"
+  | "symbol"
+  | "undefined"
+  | "uint8array";
+
+class CybozuValidateTypeError extends Error {
+  name = "CybozuValidateTypeError";
+  constructor(
+    public expectedType: CybozuValidateValueType,
+    public actualType: CybozuValidateValueType
+  ) {
+    const message = `Expected ${expectedType} but got ${actualType}`;
+    super(message);
+  }
+}
+
 /**
  * All scalar types can have constraint rules except for bools.
  *
@@ -104,8 +128,7 @@ export const ScalarsValidators: {
    */
   validateFloat(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value >= 3.200000047683716) {
       // TODO: improve error message
@@ -117,8 +140,7 @@ export const ScalarsValidators: {
    */
   validateDouble(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 3.2) {
       // TODO: improve error message
@@ -130,8 +152,7 @@ export const ScalarsValidators: {
    */
   validateInt32(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value > -3) {
       // TODO: improve error message
@@ -143,8 +164,7 @@ export const ScalarsValidators: {
    */
   validateInt64(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1) {
       // TODO: improve error message
@@ -156,8 +176,7 @@ export const ScalarsValidators: {
    */
   validateUint32(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -169,8 +188,7 @@ export const ScalarsValidators: {
    */
   validateUint64(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
       // TODO: improve error message
@@ -182,8 +200,7 @@ export const ScalarsValidators: {
    */
   validateSint32(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -195,8 +212,7 @@ export const ScalarsValidators: {
    */
   validateSint64(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
       // TODO: improve error message
@@ -208,8 +224,7 @@ export const ScalarsValidators: {
    */
   validateFixed32(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -221,8 +236,7 @@ export const ScalarsValidators: {
    */
   validateFixed64(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -234,8 +248,7 @@ export const ScalarsValidators: {
    */
   validateSfixed32(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -247,8 +260,7 @@ export const ScalarsValidators: {
    */
   validateSfixed64(value) {
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -260,8 +272,7 @@ export const ScalarsValidators: {
    */
   validateString(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
     if (value === "") {
       return;
@@ -276,8 +287,7 @@ export const ScalarsValidators: {
    */
   validateBytes(value) {
     if (!(value instanceof Uint8Array)) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("uint8array", typeof value);
     }
     if (value.byteLength > 10) {
       // TODO: improve error message
@@ -377,8 +387,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value >= 3.200000047683716) {
       // TODO: improve error message
@@ -393,8 +402,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 3.2) {
       // TODO: improve error message
@@ -409,8 +417,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value > -3) {
       // TODO: improve error message
@@ -425,8 +432,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1) {
       // TODO: improve error message
@@ -441,8 +447,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -457,8 +462,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
       // TODO: improve error message
@@ -473,8 +477,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -489,8 +492,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
       // TODO: improve error message
@@ -505,8 +507,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -521,8 +522,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
       // TODO: improve error message
@@ -537,8 +537,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value <= 1 || value >= 5) {
       // TODO: improve error message
@@ -553,8 +552,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "number") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("number", typeof value);
     }
     if (value < 1 || value > 5) {
       // TODO: improve error message
@@ -569,8 +567,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
     if (value === "") {
       return;
@@ -588,8 +585,7 @@ export const OptionalScalarsValidators: {
       return;
     }
     if (!(value instanceof Uint8Array)) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("uint8array", typeof value);
     }
     if (value.byteLength > 10) {
       // TODO: improve error message
@@ -632,8 +628,7 @@ export const RepeatedScalarsValidators: {
    */
   validateFloat(value) {
     if (!Array.isArray(value)) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length < 1) {
       // TODO: improve error message
@@ -641,8 +636,7 @@ export const RepeatedScalarsValidators: {
     }
     for (const item of value) {
       if (typeof item !== "number") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("number", typeof item);
       }
       if (item >= 3.200000047683716) {
         // TODO: improve error message
@@ -657,8 +651,7 @@ export const RepeatedScalarsValidators: {
    */
   validateDouble(value) {
     if (!Array.isArray(value)) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length > 3) {
       // TODO: improve error message
@@ -666,8 +659,7 @@ export const RepeatedScalarsValidators: {
     }
     for (const item of value) {
       if (typeof item !== "number") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("number", typeof item);
       }
       if (item <= 3.2) {
         // TODO: improve error message
@@ -682,8 +674,7 @@ export const RepeatedScalarsValidators: {
    */
   validateString(value) {
     if (!Array.isArray(value)) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length < 2) {
       // TODO: improve error message
@@ -764,8 +755,7 @@ export const StringsValidators: {
    */
   validateS2(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
   /**
@@ -776,8 +766,7 @@ export const StringsValidators: {
    */
   validateS3(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
     if (value === "") {
       return;
@@ -794,8 +783,7 @@ export const StringsValidators: {
    */
   validateS4(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
   /**
@@ -805,8 +793,7 @@ export const StringsValidators: {
    */
   validateS5(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
   /**
@@ -816,8 +803,7 @@ export const StringsValidators: {
    */
   validateS6(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
   /**
@@ -828,8 +814,7 @@ export const StringsValidators: {
    */
   validateS7(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
   /**
@@ -839,8 +824,7 @@ export const StringsValidators: {
    */
   validateS8(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
   /**
@@ -851,8 +835,7 @@ export const StringsValidators: {
    */
   validateS9(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
   /**
@@ -863,8 +846,7 @@ export const StringsValidators: {
    */
   validateS10(value) {
     if (typeof value !== "string") {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("string", typeof value);
     }
   },
 };
@@ -906,8 +888,7 @@ export const MapsValidators: {
     }
     for (const v of Object.values(value)) {
       if (typeof v !== "number") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("number", typeof v);
       }
       if (v <= 3) {
         // TODO: improve error message
@@ -989,8 +970,7 @@ export const EnumsValidators: {
    */
   validateE3(value) {
     if (!Array.isArray(value)) {
-      // TODO: improve error message
-      throw new Error("");
+      throw new CybozuValidateTypeError("array", typeof value);
     }
     if (value.length < 2) {
       // TODO: improve error message
@@ -1045,8 +1025,7 @@ export const OneofsValidators: {
     }
     const validateInt32 = (value: unknown) => {
       if (typeof value !== "number") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("number", typeof value);
       }
       if (value > -3) {
         // TODO: improve error message
@@ -1055,8 +1034,7 @@ export const OneofsValidators: {
     };
     const validateString = (value: unknown) => {
       if (typeof value !== "string") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("string", typeof value);
       }
     };
     if (
@@ -1084,14 +1062,12 @@ export const OneofsValidators: {
       }
       const validateSeconds = (value: unknown) => {
         if (typeof value !== "number") {
-          // TODO: improve error message
-          throw new Error("");
+          throw new CybozuValidateTypeError("number", typeof value);
         }
       };
       const validateNanos = (value: unknown) => {
         if (typeof value !== "number") {
-          // TODO: improve error message
-          throw new Error("");
+          throw new CybozuValidateTypeError("number", typeof value);
         }
       };
       if (
@@ -1108,8 +1084,7 @@ export const OneofsValidators: {
     };
     const validateBool = (value: unknown) => {
       if (typeof value !== "boolean") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("boolean", typeof value);
       }
     };
     if (
@@ -1156,14 +1131,12 @@ export const ComposedValidators: {
     }
     const validateFoo = (value: unknown) => {
       if (typeof value !== "string") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("string", typeof value);
       }
     };
     const validateBar = (value: unknown) => {
       if (typeof value !== "number") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("number", typeof value);
       }
       if (value >= 100) {
         // TODO: improve error message
@@ -1206,8 +1179,7 @@ export const ComposedValidators: {
     };
     const validateE3 = (value: unknown) => {
       if (!Array.isArray(value)) {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("array", typeof value);
       }
       if (value.length < 2) {
         // TODO: improve error message
@@ -1270,8 +1242,7 @@ export const NestedValidators: {
     }
     const validateInt32 = (value: unknown) => {
       if (typeof value !== "number") {
-        // TODO: improve error message
-        throw new Error("");
+        throw new CybozuValidateTypeError("number", typeof value);
       }
       if (value <= 3) {
         // TODO: improve error message

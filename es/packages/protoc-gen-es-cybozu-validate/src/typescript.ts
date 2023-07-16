@@ -27,6 +27,30 @@ const helpers = [
     }
     return validators.some(throws);
   }`,
+  `type CybozuValidateValueType =
+  | "boolean"
+  | "number"
+  | "string"
+  | "object"
+  | "array"
+  | "null"
+  | "bigint"
+  | "function"
+  | "symbol"
+  | "undefined"
+  | "uint8array";
+
+  class CybozuValidateTypeError extends Error {
+    name = "CybozuValidateTypeError";
+    constructor(
+      public expectedType: CybozuValidateValueType,
+      public actualType: CybozuValidateValueType
+    ) {
+      const message = \`Expected \${expectedType} but got \${actualType}\`;
+      super(message);
+    }
+  }
+  `,
 ];
 
 export function generateTs(schema: Schema) {
