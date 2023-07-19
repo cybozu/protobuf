@@ -4,7 +4,7 @@
 BUF_VERSION = 1.15.0
 GO_VERSION := $(shell awk '/^go / {print $$2}' go.mod)
 PROTOC_GEN_GO_VERSION := $(shell awk '/google.golang.org\/protobuf/ {print substr($$NF, 2)}' go.mod)
-
+PROTOC_ES_GEN_VERSION := $(shell jq -r '.dependencies["@bufbuild/protoc-gen-es"]' es/package.json)
 
 ## sanity checks
 ifeq ($(shell go version | grep -F $(GO_VERSION)),)
@@ -16,6 +16,9 @@ PWD := $(shell pwd)
 BUF = $(PWD)/bin/buf
 RUN_BUF = PATH=$(PWD)/bin:$$PATH ./bin/buf
 PROTOC_GEN_GO = $(PWD)/bin/protoc-gen-go
+PROTOC_GEN_ES = $(PWD)/bin/protoc-gen-es
+ES_PACKAGES_PROTOBUF = ./es/packages/protobuf
+ES_PACKAGES_PROTOC_GEN_ES_CYBOZU_VALIDATE = ./es/packages/protoc-gen-es-cybozu-validate
 
 help:
 	@echo 'Available targets:'
@@ -36,6 +39,9 @@ $(BUF):
 $(PROTOC_GEN_GO):
 	mkdir -p bin
 	GOBIN=$(PWD)/bin go install google.golang.org/protobuf/cmd/protoc-gen-go@v$(PROTOC_GEN_GO_VERSION)
+
+$(PROTOC_GEN_ES):
+	npm i -g @bufbuild/protoc-gen-es@$(PROTOC_ES_GEN_VERSION)
 
 .PHONY: all
 all:
@@ -78,6 +84,13 @@ validate: $(BUF)
 	mkdir -p bin
 	go build -o bin/protoc-gen-go-cybozu-validate ./cmd/protoc-gen-go-cybozu-validate
 	$(RUN_BUF) generate --template buf.go-cybozu-validate.gen.yaml
+
+.PHONY: es-build
+es-build: $(BUF) $(PROTOC_GEN_ES)
+	$(RUN_BUF) generate --template ./buf.es.gen.yaml
+	cd $(ES_PACKAGES_PROTOBUF) && npm run build
+	cd $(ES_PACKAGES_PROTOC_GEN_ES_CYBOZU_VALIDATE) && npm run build
+	$(RUN_BUF) generate --template ./buf.es-cybozu-validate.gen.yaml
 
 .PHONY: create-tag
 create-tag:
