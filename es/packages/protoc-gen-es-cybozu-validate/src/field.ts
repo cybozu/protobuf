@@ -31,7 +31,12 @@ type NumberRules =
 type Rules = NonNullable<FieldRules["type"]["value"]>;
 
 function renderFieldValidator(f: GeneratedFile, field: DescField) {
-  const customOption = findCustomMessageOption(field, 1179, FieldRules);
+  const customOption = findCustomMessageOption(
+    field,
+    1179,
+    // @ts-expect-error -- foo
+    FieldRules
+  );
   // no available rules for bools
   if (field.scalar === ScalarType.BOOL || !customOption) {
     return;
@@ -42,7 +47,12 @@ function renderFieldValidator(f: GeneratedFile, field: DescField) {
   f.print(makeJsDoc(field, "  "));
   f.print`  validate${capitalizedFieldName}(value) {`;
 
-  renderField(f, field, customOption);
+  renderField(
+    f,
+    field,
+    // @ts-expect-error -- foo
+    customOption
+  );
 
   f.print`  },`;
 }
@@ -517,10 +527,17 @@ function renderMessageField(
     const innerFieldCustomOption = findCustomMessageOption(
       innerField,
       1179,
+      // @ts-expect-error -- foo
       FieldRules
     );
     const fnName = getFieldFnName(innerField);
-    renderEachFieldValidation(f, fnName, innerField, innerFieldCustomOption);
+    renderEachFieldValidation(
+      f,
+      fnName,
+      innerField,
+      // @ts-expect-error -- foo
+      innerFieldCustomOption
+    );
     callEachFieldValidations.push(
       "\n    // @ts-ignore\n" +
         `    () => ${fnName}(${innerName}["${localName(innerField)}"])`
@@ -560,11 +577,17 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
   f.print`    }`;
 
   for (const field of oneof.fields) {
-    const fieldCustomOption = findCustomMessageOption(field, 1179, FieldRules);
+    const fieldCustomOption = findCustomMessageOption(
+      field,
+      1179,
+      // @ts-expect-error -- foo
+      FieldRules
+    );
     renderEachFieldValidation(
       f,
       getFieldFnName(field),
       field,
+      // @ts-expect-error -- foo
       fieldCustomOption
     );
   }

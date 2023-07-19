@@ -17,7 +17,12 @@ function renderValidatorsType(
 ) {
   for (const field of message.fields) {
     if (!field.oneof) {
-      const customOption = findCustomMessageOption(field, 1179, FieldRules);
+      const customOption = findCustomMessageOption(
+        field,
+        1179,
+        // @ts-expect-error -- foo
+        FieldRules
+      );
       // no available rule for boolean
       if (field.scalar === ScalarType.BOOL || !customOption) {
         continue;

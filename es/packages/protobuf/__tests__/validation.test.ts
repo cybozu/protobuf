@@ -8,7 +8,7 @@ import {
   StringsValidators,
   MapsValidators,
   OneofsValidators,
-} from "../examples/validation_cybozu_validate.pb";
+} from "../gen/examples/validation_cybozu_validate.pb";
 
 describe("validation", () => {
   describe("ScalarsValidators", () => {
