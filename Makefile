@@ -17,6 +17,7 @@ BUF = $(PWD)/bin/buf
 RUN_BUF = PATH=$(PWD)/bin:$$PATH ./bin/buf
 PROTOC_GEN_GO = $(PWD)/bin/protoc-gen-go
 PROTOC_GEN_ES = $(PWD)/bin/protoc-gen-es
+ES_PACKAGES = ./es/packages
 ES_PACKAGES_PROTOBUF = ./es/packages/protobuf
 ES_PACKAGES_PROTOC_GEN_ES_CYBOZU_VALIDATE = ./es/packages/protoc-gen-es-cybozu-validate
 
@@ -89,6 +90,7 @@ validate: $(BUF)
 
 .PHONY: es
 es: $(BUF) $(PROTOC_GEN_ES)
+	cd $(ES_PACKAGES) && npm ci
 	$(RUN_BUF) generate --template ./buf.es.gen.yaml
 	cd $(ES_PACKAGES_PROTOBUF) && npm run build
 

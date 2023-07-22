@@ -16,9 +16,6 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './es/package-lock.json'
     - run: make lint
-    - name: "Install dependencies for Node.js"
-      run: npm ci
-      working-directory: ./es
     - run: make check-generate
     - run: make test
     - run: make es-test
