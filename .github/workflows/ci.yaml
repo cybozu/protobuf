@@ -10,6 +10,11 @@ jobs:
       with:
         go-version-file: go.mod
         cache: true
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: ./es/package.json
+        cache: 'npm'
     - run: make lint
     - run: make check-generate
     - run: make test
+    - run: make es-test
