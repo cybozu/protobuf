@@ -85,15 +85,18 @@ validate: $(BUF)
 	go build -o bin/protoc-gen-go-cybozu-validate ./cmd/protoc-gen-go-cybozu-validate
 	$(RUN_BUF) generate --template buf.go-cybozu-validate.gen.yaml
 
-.PHONY: es-build
-es-build: $(BUF) $(PROTOC_GEN_ES)
+.PHONY: es
+ed: $(BUF) $(PROTOC_GEN_ES)
 	$(RUN_BUF) generate --template ./buf.es.gen.yaml
 	cd $(ES_PACKAGES_PROTOBUF) && npm run build
+
+.PHONY: es-validate
+es-validate: es
 	cd $(ES_PACKAGES_PROTOC_GEN_ES_CYBOZU_VALIDATE) && npm run build
 	$(RUN_BUF) generate --template ./buf.es-cybozu-validate.gen.yaml
 
 .PHONY: es-test
-es-test: es-build
+es-test: es-validate
 	cd $(ES_PACKAGES_PROTOBUF) && npm run test
 
 .PHONY: create-tag
