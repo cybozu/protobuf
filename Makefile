@@ -88,7 +88,7 @@ validate: $(BUF)
 	$(RUN_BUF) generate --template buf.go-cybozu-validate.gen.yaml
 
 .PHONY: es
-ed: $(BUF) $(PROTOC_GEN_ES)
+es: $(BUF) $(PROTOC_GEN_ES)
 	$(RUN_BUF) generate --template ./buf.es.gen.yaml
 	cd $(ES_PACKAGES_PROTOBUF) && npm run build
 
