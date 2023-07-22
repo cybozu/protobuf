@@ -1,1 +1,1 @@
-# `@cybozu/protobuf`
+# @cybozu/protobuf
