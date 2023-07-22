@@ -48,6 +48,8 @@ all:
 	$(MAKE) format
 	$(MAKE) go
 	$(MAKE) validate
+	$(MAKE) es
+	$(MAKE) es-validate
 
 .PHONY: test
 test:
