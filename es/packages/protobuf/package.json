@@ -6,7 +6,7 @@
     "test": "node --loader tsx --test ./__tests__/*.test.ts"
   },
   "devDependencies": {
-    "esbuild": "^0.18.13",
-    "tsx": "^3.12.6"
+    "esbuild": "0.18.13",
+    "tsx": "3.12.6"
   }
 }
