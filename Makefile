@@ -4,7 +4,7 @@
 BUF_VERSION = 1.15.0
 GO_VERSION := $(shell awk '/^go / {print $$2}' go.mod)
 PROTOC_GEN_GO_VERSION := $(shell awk '/google.golang.org\/protobuf/ {print substr($$NF, 2)}' go.mod)
-PROTOC_ES_GEN_VERSION := $(shell jq -r '.dependencies["@bufbuild/protoc-gen-es"]' es/package.json)
+PROTOC_GEN_ES_VERSION := $(shell jq -r '.dependencies["@bufbuild/protoc-gen-es"]' es/package.json)
 
 ## sanity checks
 ifeq ($(shell go version | grep -F $(GO_VERSION)),)
@@ -42,7 +42,7 @@ $(PROTOC_GEN_GO):
 	GOBIN=$(PWD)/bin go install google.golang.org/protobuf/cmd/protoc-gen-go@v$(PROTOC_GEN_GO_VERSION)
 
 $(PROTOC_GEN_ES):
-	npm i -g @bufbuild/protoc-gen-es@$(PROTOC_ES_GEN_VERSION)
+	npm i -g @bufbuild/protoc-gen-es@$(PROTOC_GEN_ES_VERSION)
 
 .PHONY: all
 all:
