@@ -95,12 +95,14 @@ es: $(BUF) $(PROTOC_GEN_ES)
 	cd $(ES_PACKAGES_PROTOBUF) && npm run build
 
 .PHONY: es-validate
-es-validate: es
+es-validate:
+	$(MAKE) es
 	cd $(ES_PACKAGES_PROTOC_GEN_ES_CYBOZU_VALIDATE) && npm run build
 	$(RUN_BUF) generate --template ./buf.es-cybozu-validate.gen.yaml
 
 .PHONY: es-test
-es-test: es-validate
+es-test:
+	$(MAKE) es-validate
 	cd $(ES_PACKAGES_PROTOBUF) && npm run test
 
 .PHONY: create-tag
