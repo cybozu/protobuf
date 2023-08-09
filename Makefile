@@ -23,12 +23,15 @@ help:
 	@echo 'Available targets:'
 	@echo '    all:             build everything.'
 	@echo '    test:            run tests.'
+	@echo '    es-test:         run tests for ECMAScript.'
 	@echo '    clean:           remove downloaded files.'
 	@echo '    check-generate:  test if the generated files are up-to-date or not.'
 	@echo '    lint:            lint protobuf files.'
 	@echo '    format:          format protobuf files.'
 	@echo '    go:              generate Go code with protoc-gen-go.'
-	@echo '    validate:        generate code for normalization/validation.'
+	@echo '    es:              generate ECMAScript code with protoc-gen-es.'
+	@echo '    validate:        generate code for normalization/validation for Go.'
+	@echo '    es-validate:     generate code for normalization/validation for ECMAScript.'
 	@echo '    create-tag:      creates a new Git tag.'
 
 $(BUF):
