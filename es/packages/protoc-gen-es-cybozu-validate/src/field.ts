@@ -565,7 +565,7 @@ function getFieldFnName(field: DescField) {
   return `validate${capitalizedFieldName}`;
 }
 
-function renderOneof(f: GeneratedFile, oneof: DescOneof) {
+function renderOneofValidator(f: GeneratedFile, oneof: DescOneof) {
   const localOneofName = localName(oneof);
   const capitalizedOneofName = capitalizeFirstLetter(localOneofName);
   f.print(makeJsDoc(oneof, "  "));
@@ -605,4 +605,4 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
   f.print`  },`;
 }
 
-export { renderFieldValidator, renderOneof };
+export { renderFieldValidator, renderOneofValidator };
