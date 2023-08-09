@@ -19,6 +19,7 @@ import {
   StringRules,
 } from "@cybozu/protobuf/dist/validate/options_pb";
 import { capitalizeFirstLetter } from "./string-utils";
+import { EXTENSION_NUMBER } from "./constants";
 
 type NumberRules =
   | FloatRules
@@ -33,7 +34,7 @@ type Rules = NonNullable<FieldRules["type"]["value"]>;
 function renderFieldValidator(f: GeneratedFile, field: DescField) {
   const customOption = findCustomMessageOption(
     field,
-    1179,
+    EXTENSION_NUMBER,
     // @ts-expect-error -- foo
     FieldRules
   );
@@ -526,7 +527,7 @@ function renderMessageField(
   for (const innerField of field.message.fields) {
     const innerFieldCustomOption = findCustomMessageOption(
       innerField,
-      1179,
+      EXTENSION_NUMBER,
       // @ts-expect-error -- foo
       FieldRules
     );
@@ -579,7 +580,7 @@ function renderOneof(f: GeneratedFile, oneof: DescOneof) {
   for (const field of oneof.fields) {
     const fieldCustomOption = findCustomMessageOption(
       field,
-      1179,
+      EXTENSION_NUMBER,
       // @ts-expect-error -- foo
       FieldRules
     );

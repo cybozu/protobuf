@@ -9,6 +9,7 @@ import {
 import { renderFieldValidator, renderOneof } from "./field";
 import { FieldRules } from "@cybozu/protobuf/dist/validate/options_pb";
 import { capitalizeFirstLetter } from "./string-utils";
+import { EXTENSION_NUMBER } from "./constants";
 
 function renderValidatorsType(
   f: GeneratedFile,
@@ -19,7 +20,7 @@ function renderValidatorsType(
     if (!field.oneof) {
       const customOption = findCustomMessageOption(
         field,
-        1179,
+        EXTENSION_NUMBER,
         // @ts-expect-error -- foo
         FieldRules
       );
@@ -43,7 +44,11 @@ function renderValidatorsType(
 }
 
 export function renderMessage(f: GeneratedFile, message: DescMessage) {
-  const ignored = !!findCustomScalarOption(message, 1179, ScalarType.BOOL);
+  const ignored = !!findCustomScalarOption(
+    message,
+    EXTENSION_NUMBER,
+    ScalarType.BOOL
+  );
 
   if (ignored) {
     return;
