@@ -5,7 +5,6 @@ BUF_VERSION = 1.15.0
 GO_VERSION := $(shell awk '/^go / {print $$2}' go.mod)
 PROTOC_GEN_GO_VERSION := $(shell awk '/google.golang.org\/protobuf/ {print substr($$NF, 2)}' go.mod)
 
-
 ## sanity checks
 ifeq ($(shell go version | grep -F $(GO_VERSION)),)
 $(error Go must be version $(GO_VERSION))
@@ -16,17 +15,23 @@ PWD := $(shell pwd)
 BUF = $(PWD)/bin/buf
 RUN_BUF = PATH=$(PWD)/bin:$$PATH ./bin/buf
 PROTOC_GEN_GO = $(PWD)/bin/protoc-gen-go
+ES_PACKAGES = ./es/packages
+ES_PACKAGES_PROTOBUF = ./es/packages/protobuf
+ES_PACKAGES_PROTOC_GEN_ES_CYBOZU_VALIDATE = ./es/packages/protoc-gen-es-cybozu-validate
 
 help:
 	@echo 'Available targets:'
 	@echo '    all:             build everything.'
 	@echo '    test:            run tests.'
+	@echo '    es-test:         run tests for ECMAScript.'
 	@echo '    clean:           remove downloaded files.'
 	@echo '    check-generate:  test if the generated files are up-to-date or not.'
 	@echo '    lint:            lint protobuf files.'
 	@echo '    format:          format protobuf files.'
 	@echo '    go:              generate Go code with protoc-gen-go.'
-	@echo '    validate:        generate code for normalization/validation.'
+	@echo '    es:              generate ECMAScript code with protoc-gen-es.'
+	@echo '    validate:        generate code for normalization/validation for Go.'
+	@echo '    es-validate:     generate code for normalization/validation for ECMAScript.'
 	@echo '    create-tag:      creates a new Git tag.'
 
 $(BUF):
@@ -42,6 +47,8 @@ all:
 	$(MAKE) format
 	$(MAKE) go
 	$(MAKE) validate
+	$(MAKE) es
+	$(MAKE) es-validate
 
 .PHONY: test
 test:
@@ -78,6 +85,23 @@ validate: $(BUF)
 	mkdir -p bin
 	go build -o bin/protoc-gen-go-cybozu-validate ./cmd/protoc-gen-go-cybozu-validate
 	$(RUN_BUF) generate --template buf.go-cybozu-validate.gen.yaml
+
+.PHONY: es
+es: $(BUF)
+	cd $(ES_PACKAGES) && npm ci
+	$(RUN_BUF) generate --template ./buf.es.gen.yaml
+	cd $(ES_PACKAGES_PROTOBUF) && npm run build
+
+.PHONY: es-validate
+es-validate:
+	$(MAKE) es
+	cd $(ES_PACKAGES_PROTOC_GEN_ES_CYBOZU_VALIDATE) && npm run build
+	$(RUN_BUF) generate --template ./buf.es-cybozu-validate.gen.yaml
+
+.PHONY: es-test
+es-test:
+	$(MAKE) es-validate
+	cd $(ES_PACKAGES_PROTOBUF) && npm run test
 
 .PHONY: create-tag
 create-tag:

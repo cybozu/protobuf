@@ -1,0 +1,5 @@
+version: v1
+plugins:
+  - name: es-cybozu-validate
+    out: ./es/packages/protobuf/gen
+    path: ./es/packages/protoc-gen-es-cybozu-validate/bin/protoc-gen-es-cybozu-validate

@@ -1,0 +1,34 @@
+{
+  "name": "cybozu-protobuf-es",
+  "private": "true",
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "clean": "rimraf \"packages/**/lib\" \"packages/**/*.tsbuildinfo\"",
+    "fix": "npm run fix:eslint && npm run fix:prettier",
+    "fix:eslint": "npm run lint:eslint -- --fix",
+    "fix:prettier": "npm run lint:prettier -- --write",
+    "lint": "concurrently \"npm:lint:*\"",
+    "lint:eslint": "eslint --ext .ts ./packages/**/src",
+    "lint:prettier": "prettier --check ./packages/**/src",
+    "lint:tsc": "tsc -b tsconfig.build.json --noEmit"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.56.0",
+    "@typescript-eslint/parser": "5.56.0",
+    "concurrently": "7.6.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-unicorn": "46.0.0",
+    "prettier": "3.0.1",
+    "rimraf": "5.0.0",
+    "typescript": "5.0.2"
+  },
+  "dependencies": {
+    "@bufbuild/protoc-gen-es": "1.3.0"
+  },
+  "volta": {
+    "node": "18.17.0"
+  }
+}

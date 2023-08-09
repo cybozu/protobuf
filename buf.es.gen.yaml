@@ -1,0 +1,6 @@
+version: v1
+plugins:
+  - plugin: buf.build/bufbuild/es:v1.3.0
+    out: ./es/packages/protobuf/gen
+    opt:
+      - target=js+dts
