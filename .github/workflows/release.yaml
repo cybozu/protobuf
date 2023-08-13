@@ -20,6 +20,11 @@ jobs:
       with:
         go-version-file: go.mod
         cache: true
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: ./es/package.json
+        cache: 'npm'
+        cache-dependency-path: './es/package-lock.json'
     - uses: bufbuild/buf-setup-action@c9fa470ff8561150a2f7ce2cf52a11026c44db72 # v1.25.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
