@@ -25,7 +25,7 @@ plugins:
 
 ## Examples
 
-This protoc plugin takes the following message type as input:
+`protoc-gen-es-cybozu-validate` takes the following message type as input:
 
 ```proto
 message Scalars {
@@ -73,3 +73,10 @@ export const ScalarsValidators: {
 ```
 
 This is designed to provide validation functions for each field, not for each message type, as it is intended for frontend form validation.
+
+## Limitation
+
+`protoc-gen-es-cybozu-validate` does not support following features:
+
+- RegExp validation
+- UNICODE and PRECIS normalization
