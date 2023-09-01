@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/stretchr/testify v1.8.4
-	golang.org/x/text v0.11.0
+	golang.org/x/text v0.12.0
 	google.golang.org/protobuf v1.31.0
 )
 
