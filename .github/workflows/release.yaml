@@ -25,14 +25,14 @@ jobs:
         node-version-file: ./es/package.json
         cache: 'npm'
         cache-dependency-path: './es/package-lock.json'
-    - uses: bufbuild/buf-setup-action@c9fa470ff8561150a2f7ce2cf52a11026c44db72 # v1.25.0
+    - uses: bufbuild/buf-setup-action@eb60cd0de4f14f1f57cf346916b8cd69a9e7ed0b # v1.26.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - uses: bufbuild/buf-push-action@1c45f6a21ec277ee4c1fa2772e49b9541ea17f38 # v1.1.1
       with:
         buf_token: ${{ secrets.BSR_TOKEN }}
     - name: GoReleaser
-      uses: goreleaser/goreleaser-action@336e29918d653399e599bfca99fadc1d7ffbc9f7 # v4.3.0
+      uses: goreleaser/goreleaser-action@3fa32b8bb5620a2c1afe798654bbad59f9da4906 # v4.4.0
       with:
         distribution: goreleaser
         version: latest
