@@ -20,6 +20,11 @@ jobs:
       with:
         go-version-file: go.mod
         cache: true
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: ./es/package.json
+        cache: 'npm'
+        cache-dependency-path: './es/package-lock.json'
     - uses: bufbuild/buf-setup-action@eb60cd0de4f14f1f57cf346916b8cd69a9e7ed0b # v1.26.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -34,3 +39,8 @@ jobs:
         args: release --clean
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish to npm
+      run: ./scripts/release.sh
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      working-directory: ./es
