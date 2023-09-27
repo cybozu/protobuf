@@ -10,3 +10,7 @@ VERSION=${TAG#v}
 
 npm version $VERSION --no-git-tag-version --workspaces
 npm publish --workspaces
+
+git add .
+git commit -m "Release $VERSION"
+git push origin main
