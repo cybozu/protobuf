@@ -12,10 +12,12 @@ npm version $VERSION --no-git-tag-version --workspaces
 npm publish --workspaces --access=public
 
 # create a branch and push it to github
-git checkout -b update-version-$VERSION
+BRANCH_NAME=npm-version/$VERSION
+
+git checkout -b $BRANCH_NAME
 git add .
 git commit -m "Release $VERSION"
-git push origin update-version-$VERSION
+git push origin $BRANCH_NAME
 
 # create a PR
-gh pr create --title "Update ES packages version to $VERSION" --body "Update version to $VERSION" --base main --head update-version-$VERSION
+gh pr create --title "Update ES packages version to $VERSION" --body "Update version to $VERSION" --base main --head $BRANCH_NAME
