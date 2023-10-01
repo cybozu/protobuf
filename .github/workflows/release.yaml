@@ -49,4 +49,5 @@ jobs:
       run: ./scripts/release.sh
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        GH_TOKEN: ${{ github.token }}
       working-directory: ./es
