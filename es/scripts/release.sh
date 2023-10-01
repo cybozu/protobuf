@@ -20,6 +20,9 @@ git add .
 git commit -m "Release $VERSION"
 
 # print branch for debugging
-git branch
+git branch -a
 
+git branch tmp
+git checkout -b main origin/main
+git merge tmp
 git push origin main
