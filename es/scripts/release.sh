@@ -22,4 +22,4 @@ git commit -m "Release $VERSION"
 # print repository name for debugging
 echo $GITHUB_REPOSITORY
 
-git push https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+git push https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git main
