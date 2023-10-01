@@ -9,7 +9,7 @@ TAG=${REF##*/}
 VERSION=${TAG#v}
 
 npm version $VERSION --no-git-tag-version --workspaces
-npm publish --workspaces
+npm publish --workspaces --access=public
 
 git add .
 git commit -m "Release $VERSION"
