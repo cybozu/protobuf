@@ -1,10 +1,5 @@
 name: CI
-on:
-  push:
-    branches-ignore: ["npm-version/*"]
-  pull_request:
-    types: [opened]
-    branches: ["npm-version/*"]
+on: [push]
 jobs:
   test:
     name: Run tests
