@@ -1,6 +1,6 @@
 {
   "name": "@cybozu/protobuf",
-  "version": "1.0.0",
+  "version": "0.20231001.9",
   "scripts": {
     "build": "node ./scripts/build.mjs",
     "test": "node --loader tsx --test ./__tests__/*.test.ts"
