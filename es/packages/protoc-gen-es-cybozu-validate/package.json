@@ -1,6 +1,6 @@
 {
   "name": "@cybozu/protoc-gen-es-cybozu-validate",
-  "version": "1.0.0",
+  "version": "0.20231001.8",
   "bin": {
     "protoc-gen-es-cybozu-validate": "bin/protoc-gen-es-cybozu-validate"
   },
