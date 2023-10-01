@@ -11,18 +11,11 @@ VERSION=${TAG#v}
 npm version $VERSION --no-git-tag-version --workspaces
 npm publish --workspaces --access=public
 
-# print current branch for debugging
-git rev-parse --abbrev-ref HEAD
-# print diff for debugging
-git diff
-
+# create a branch and push it to github
+git checkout -b update-version-$VERSION
 git add .
 git commit -m "Release $VERSION"
+git push origin update-version-$VERSION
 
-# print branch for debugging
-git branch -a
-
-git branch tmp
-git checkout -b main origin/main
-git merge tmp
-git push origin main
+# create a PR
+gh pr create --title "Update ES packages version to $VERSION" --body "Update version to $VERSION" --base main --head update-version-$VERSION
