@@ -6,7 +6,7 @@ toolchain go1.21.1
 
 require (
 	github.com/stretchr/testify v1.8.4
-	golang.org/x/text v0.12.0
+	golang.org/x/text v0.13.0
 	google.golang.org/protobuf v1.31.0
 )
 
