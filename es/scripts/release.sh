@@ -19,7 +19,7 @@ git diff
 git add .
 git commit -m "Release $VERSION"
 
-# print repository name for debugging
-echo $GITHUB_REPOSITORY
+# print branch for debugging
+git branch
 
-git push https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git main
+git push origin main
