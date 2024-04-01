@@ -1,7 +1,7 @@
 # Makefile for compiling protobuf files
 
 # Tool versions
-BUF_VERSION = 1.15.0
+BUF_VERSION = 1.30.0
 GO_VERSION := $(shell awk '/^go / {print $$2}' go.mod)
 PROTOC_GEN_GO_VERSION := $(shell awk '/google.golang.org\/protobuf/ {print substr($$NF, 2)}' go.mod)
 
