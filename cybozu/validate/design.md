@@ -87,10 +87,10 @@ are doing.
 For Go, we will add `Validate() error` method to generated structs.
 The error returned is not a gRPC error to avoid dependency on a specific
 gRPC implementation. Distinct errors are also generated for each type of
-validation/normalization which can be used in conjunction with `errors.Is` 
-by callers to take specific actions based the failed validation.
+validation/normalization and can be used in conjunction with `errors.Is` 
+by callers to take specific actions based on certain validation failures.
 
-These distinct errors are in the format of 
+These distinct errors are generally in the format of 
 `Err<Failed validation>_<Message Name>_<Field NAME>`. For example, failed
 PRECIS username case mapped normalization in message `Strings` field `s4`
 is `ErrPRECISUsernameCaseMapped_Strings_S4`.
