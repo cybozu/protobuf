@@ -37,7 +37,7 @@ func (r *Renderer) addRegexp(f *protogen.Field, reStr string) {
 }
 
 func (r *Renderer) addError(f *protogen.Field, errNamePrefix string, msg string) errorInfo {
-	ei := errorInfo{name: errNamePrefix + f.GoIdent.GoName, msg: msg}
+	ei := errorInfo{name: errNamePrefix + "_" + f.GoIdent.GoName, msg: msg}
 	r.errors = append(r.errors, ei)
 	return ei
 }
@@ -190,7 +190,7 @@ func (r *Renderer) renderOneof(o *protogen.Oneof) error {
 	required := proto.GetExtension(o.Desc.Options(), validate.E_Required).(bool)
 	if required {
 		ei := errorInfo{
-			name: "OneOfRequired" + o.GoIdent.GoName,
+			name: "OneOfRequired_" + o.GoIdent.GoName,
 			msg:  fmt.Sprintf("one of the fields is required in %s of %s", od.Name(), od.Parent().FullName())}
 		r.errors = append(r.errors, ei)
 		r.FL(`if x.%s == nil {`, o.GoName)
