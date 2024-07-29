@@ -13,10 +13,16 @@ type reInfo struct {
 	reStr string
 }
 
+type errorInfo struct {
+	name string
+	msg  string
+}
+
 type Renderer struct {
 	me      string
 	gen     *protogen.GeneratedFile
 	regexps []reInfo
+	errors  []errorInfo
 }
 
 func NewRenderer(me string, gen *protogen.GeneratedFile) *Renderer {
@@ -28,6 +34,12 @@ func NewRenderer(me string, gen *protogen.GeneratedFile) *Renderer {
 
 func (r *Renderer) addRegexp(f *protogen.Field, reStr string) {
 	r.regexps = append(r.regexps, reInfo{field: f, reStr: reStr})
+}
+
+func (r *Renderer) addError(f *protogen.Field, errNamePrefix string, msg string) errorInfo {
+	ei := errorInfo{name: errNamePrefix + "_" + f.GoIdent.GoName, msg: msg}
+	r.errors = append(r.errors, ei)
+	return ei
 }
 
 // P appends the arguments to the internal buffer without a newline at the end.
@@ -111,6 +123,15 @@ func (r *Renderer) Execute(pkg protogen.GoPackageName, msgs []*protogen.Message)
 		r.PL(`)`)
 	}
 
+	if len(r.errors) > 0 {
+		r.L()
+		r.PL(`var (`)
+		for _, ei := range r.errors {
+			r.FL(`Err%s = %s(%q)`, ei.name, identErrorsNew, ei.msg)
+		}
+		r.PL(`)`)
+	}
+
 	return nil
 }
 
@@ -168,8 +189,12 @@ func (r *Renderer) renderOneof(o *protogen.Oneof) error {
 	od := o.Desc
 	required := proto.GetExtension(o.Desc.Options(), validate.E_Required).(bool)
 	if required {
+		ei := errorInfo{
+			name: "OneOfRequired_" + o.GoIdent.GoName,
+			msg:  fmt.Sprintf("one of the fields is required in %s of %s", od.Name(), od.Parent().FullName())}
+		r.errors = append(r.errors, ei)
 		r.FL(`if x.%s == nil {`, o.GoName)
-		r.FL(`el = append(el, %s("one of the fields is required in %s of %s"))`, identErrorf, od.Name(), od.Parent().FullName())
+		r.FL(`el = append(el, Err%s)`, ei.name)
 		r.PL(`}`)
 	}
 

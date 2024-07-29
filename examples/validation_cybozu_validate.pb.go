@@ -18,76 +18,76 @@ func (x *Scalars) Validate() error {
 	var el []error
 	if v := x.Float; true {
 		if v >= 3.2 {
-			el = append(el, fmt.Errorf("invalid value for float of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrFloatCmp_Scalars_Float, v))
 		}
 	}
 	if v := x.Double; true {
 		if v <= 3.2 {
-			el = append(el, fmt.Errorf("invalid value for double of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrDoubleCmp_Scalars_Double, v))
 		}
 	}
 	if v := x.Int32; true {
 		if v > -3 {
-			el = append(el, fmt.Errorf("invalid value for int32 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrInt32Cmp_Scalars_Int32, v))
 		}
 	}
 	if v := x.Int64; true {
 		if v < 1 {
-			el = append(el, fmt.Errorf("invalid value for int64 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrInt64Cmp_Scalars_Int64, v))
 		}
 	}
 	if v := x.Uint32; true {
 		if v <= 0x1 || v >= 0x5 {
-			el = append(el, fmt.Errorf("invalid value for uint32 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrUint32Cmp_Scalars_Uint32, v))
 		}
 	}
 	if v := x.Uint64; true {
 		if v < 0x1 || v > 0x5 {
-			el = append(el, fmt.Errorf("invalid value for uint64 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrUint64Cmp_Scalars_Uint64, v))
 		}
 	}
 	if v := x.Sint32; true {
 		if v <= 1 || v >= 5 {
-			el = append(el, fmt.Errorf("invalid value for sint32 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSint32Cmp_Scalars_Sint32, v))
 		}
 	}
 	if v := x.Sint64; true {
 		if v < 1 || v > 5 {
-			el = append(el, fmt.Errorf("invalid value for sint64 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSint64Cmp_Scalars_Sint64, v))
 		}
 	}
 	if v := x.Fixed32; true {
 		if v <= 0x1 || v >= 0x5 {
-			el = append(el, fmt.Errorf("invalid value for fixed32 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrFixed32Cmp_Scalars_Fixed32, v))
 		}
 	}
 	if v := x.Fixed64; true {
 		if v <= 0x1 || v >= 0x5 {
-			el = append(el, fmt.Errorf("invalid value for fixed64 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrFixed64Cmp_Scalars_Fixed64, v))
 		}
 	}
 	if v := x.Sfixed32; true {
 		if v <= 1 || v >= 5 {
-			el = append(el, fmt.Errorf("invalid value for sfixed32 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSfixed32Cmp_Scalars_Sfixed32, v))
 		}
 	}
 	if v := x.Sfixed64; true {
 		if v <= 1 || v >= 5 {
-			el = append(el, fmt.Errorf("invalid value for sfixed64 of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSfixed64Cmp_Scalars_Sfixed64, v))
 		}
 	}
 	if v := x.String_; true {
 		v = norm.NFC.String(v)
 		if v != "" {
 			if vlen := utf8.RuneCountInString(v); vlen < 0x3 {
-				el = append(el, fmt.Errorf("invalid value for string of examples.Scalars: %v", v))
+				el = append(el, fmt.Errorf("%w: %v", ErrStringLen_Scalars_String_, v))
 			}
 		}
 		x.String_ = v
 	}
 	if v := x.Bytes; true {
 		if vlen := len(v); vlen > 0xa {
-			el = append(el, fmt.Errorf("invalid value for bytes of examples.Scalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrBytesLen_Scalars_Bytes, v))
 		}
 	}
 
@@ -110,73 +110,73 @@ func (x *OptionalScalars) Validate() error {
 	if x.Float != nil {
 		v := *x.Float
 		if v >= 3.2 {
-			el = append(el, fmt.Errorf("invalid value for float of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrFloatCmp_OptionalScalars_Float, v))
 		}
 	}
 	if x.Double != nil {
 		v := *x.Double
 		if v <= 3.2 {
-			el = append(el, fmt.Errorf("invalid value for double of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrDoubleCmp_OptionalScalars_Double, v))
 		}
 	}
 	if x.Int32 != nil {
 		v := *x.Int32
 		if v > -3 {
-			el = append(el, fmt.Errorf("invalid value for int32 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrInt32Cmp_OptionalScalars_Int32, v))
 		}
 	}
 	if x.Int64 != nil {
 		v := *x.Int64
 		if v < 1 {
-			el = append(el, fmt.Errorf("invalid value for int64 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrInt64Cmp_OptionalScalars_Int64, v))
 		}
 	}
 	if x.Uint32 != nil {
 		v := *x.Uint32
 		if v <= 0x1 || v >= 0x5 {
-			el = append(el, fmt.Errorf("invalid value for uint32 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrUint32Cmp_OptionalScalars_Uint32, v))
 		}
 	}
 	if x.Uint64 != nil {
 		v := *x.Uint64
 		if v < 0x1 || v > 0x5 {
-			el = append(el, fmt.Errorf("invalid value for uint64 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrUint64Cmp_OptionalScalars_Uint64, v))
 		}
 	}
 	if x.Sint32 != nil {
 		v := *x.Sint32
 		if v <= 1 || v >= 5 {
-			el = append(el, fmt.Errorf("invalid value for sint32 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSint32Cmp_OptionalScalars_Sint32, v))
 		}
 	}
 	if x.Sint64 != nil {
 		v := *x.Sint64
 		if v < 1 || v > 5 {
-			el = append(el, fmt.Errorf("invalid value for sint64 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSint64Cmp_OptionalScalars_Sint64, v))
 		}
 	}
 	if x.Fixed32 != nil {
 		v := *x.Fixed32
 		if v <= 0x1 || v >= 0x5 {
-			el = append(el, fmt.Errorf("invalid value for fixed32 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrFixed32Cmp_OptionalScalars_Fixed32, v))
 		}
 	}
 	if x.Fixed64 != nil {
 		v := *x.Fixed64
 		if v < 0x1 || v > 0x5 {
-			el = append(el, fmt.Errorf("invalid value for fixed64 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrFixed64Cmp_OptionalScalars_Fixed64, v))
 		}
 	}
 	if x.Sfixed32 != nil {
 		v := *x.Sfixed32
 		if v <= 1 || v >= 5 {
-			el = append(el, fmt.Errorf("invalid value for sfixed32 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSfixed32Cmp_OptionalScalars_Sfixed32, v))
 		}
 	}
 	if x.Sfixed64 != nil {
 		v := *x.Sfixed64
 		if v < 1 || v > 5 {
-			el = append(el, fmt.Errorf("invalid value for sfixed64 of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrSfixed64Cmp_OptionalScalars_Sfixed64, v))
 		}
 	}
 	if x.String_ != nil {
@@ -184,14 +184,14 @@ func (x *OptionalScalars) Validate() error {
 		v = norm.NFC.String(v)
 		if v != "" {
 			if vlen := utf8.RuneCountInString(v); vlen < 0x3 {
-				el = append(el, fmt.Errorf("invalid value for string of examples.OptionalScalars: %v", v))
+				el = append(el, fmt.Errorf("%w: %v", ErrStringLen_OptionalScalars_String_, v))
 			}
 		}
 		x.String_ = &v
 	}
 	if v := x.Bytes; v != nil {
 		if vlen := len(v); vlen > 0xa {
-			el = append(el, fmt.Errorf("invalid value for bytes of examples.OptionalScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrBytesLen_OptionalScalars_Bytes, v))
 		}
 	}
 
@@ -213,26 +213,26 @@ func (x *RepeatedScalars) Validate() error {
 	var el []error
 	for _, v := range x.Float {
 		if v >= 3.2 {
-			el = append(el, fmt.Errorf("invalid value for float of examples.RepeatedScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrFloatCmp_RepeatedScalars_Float, v))
 		}
 	}
 	if len(x.Float) < 0x1 {
-		el = append(el, fmt.Errorf("too few items in float of RepeatedScalars"))
+		el = append(el, ErrMinItems_RepeatedScalars_Float)
 	}
 	for _, v := range x.Double {
 		if v <= 3.2 {
-			el = append(el, fmt.Errorf("invalid value for double of examples.RepeatedScalars: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrDoubleCmp_RepeatedScalars_Double, v))
 		}
 	}
 	if len(x.Double) > 0x3 {
-		el = append(el, fmt.Errorf("too many items in double of RepeatedScalars"))
+		el = append(el, ErrMaxItems_RepeatedScalars_Double)
 	}
 	for i, v := range x.String_ {
 		v = norm.NFC.String(v)
 		x.String_[i] = v
 	}
 	if len(x.String_) < 0x2 {
-		el = append(el, fmt.Errorf("too few items in string of RepeatedScalars"))
+		el = append(el, ErrMinItems_RepeatedScalars_String_)
 	}
 
 	if err := validate.CallValidateCustom(x); err != nil {
@@ -263,14 +263,14 @@ func (x *Strings) Validate() error {
 		v = norm.NFC.String(v)
 		if v != "" {
 			if vlen := utf8.RuneCountInString(v); vlen < 0xa {
-				el = append(el, fmt.Errorf("invalid value for s3 of examples.Strings: %v", v))
+				el = append(el, fmt.Errorf("%w: %v", ErrStringLen_Strings_S3, v))
 			}
 		}
 		x.S3 = v
 	}
 	if v := x.S4; true {
 		if v2, err := precis.UsernameCaseMapped.String(v); err != nil {
-			el = append(el, fmt.Errorf("invalid value for s4 of examples.Strings: %v, %w", v, err))
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrPRECISUsernameCaseMapped_Strings_S4, v, err))
 		} else {
 			v = v2
 		}
@@ -278,7 +278,7 @@ func (x *Strings) Validate() error {
 	}
 	if v := x.S5; true {
 		if v2, err := precis.UsernameCasePreserved.String(v); err != nil {
-			el = append(el, fmt.Errorf("invalid value for s5 of examples.Strings: %v, %w", v, err))
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrPRECISUsernameCasePreserved_Strings_S5, v, err))
 		} else {
 			v = v2
 		}
@@ -286,7 +286,7 @@ func (x *Strings) Validate() error {
 	}
 	if v := x.S6; true {
 		if v2, err := precis.OpaqueString.String(v); err != nil {
-			el = append(el, fmt.Errorf("invalid value for s6 of examples.Strings: %v, %w", v, err))
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrPRECISOpaqueString_Strings_S6, v, err))
 		} else {
 			v = v2
 		}
@@ -295,16 +295,16 @@ func (x *Strings) Validate() error {
 	if v := x.S7; true {
 		v = norm.NFC.String(v)
 		if !regex_Strings_S7.MatchString(v) {
-			el = append(el, fmt.Errorf("invalid value for s7 of examples.Strings: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrStringRegexp_Strings_S7, v))
 		}
 		x.S7 = v
 	}
 	if v := x.S8; true {
 		v = norm.NFC.String(v)
 		if a, err := mail.ParseAddress(v); err != nil {
-			el = append(el, fmt.Errorf("invalid value for s8 of examples.Strings: %v, %w", v, err))
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrEmail_Strings_S8, v, err))
 		} else if a.Name != "" {
-			el = append(el, fmt.Errorf("invalid value for s8 of examples.Strings: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrEmail_Strings_S8, v))
 		} else {
 			v = a.Address
 		}
@@ -313,9 +313,9 @@ func (x *Strings) Validate() error {
 	if v := x.S9; true {
 		v = norm.NFC.String(v)
 		if u, err := url.Parse(v); err != nil {
-			el = append(el, fmt.Errorf("invalid value for s9 of examples.Strings: %v, %w", v, err))
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrURI_Strings_S9, v, err))
 		} else if !u.IsAbs() {
-			el = append(el, fmt.Errorf("invalid value for s9 of examples.Strings: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrURI_Strings_S9, v))
 		} else {
 			v = u.String()
 		}
@@ -324,9 +324,9 @@ func (x *Strings) Validate() error {
 	if v := x.S10; true {
 		v = norm.NFC.String(v)
 		if !validate.E164Pattern.MatchString(v) {
-			el = append(el, fmt.Errorf("invalid value for s10 of examples.Strings: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrE164_Strings_S10, v))
 		} else if len(v)-strings.Count(v, "-") > 16 {
-			el = append(el, fmt.Errorf("invalid value for s10 of examples.Strings: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrE164_Strings_S10, v))
 		}
 		x.S10 = v
 	}
@@ -353,11 +353,11 @@ func (x *Maps) Validate() error {
 	}
 	for _, v := range x.Map1 {
 		if v <= 3 {
-			el = append(el, fmt.Errorf("invalid value for map1 of examples.Maps: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrInt32Cmp_Maps_Map1, v))
 		}
 	}
 	if len(x.Map1) < 0x1 {
-		el = append(el, fmt.Errorf("too few items in map1 of Maps"))
+		el = append(el, ErrMinItems_Maps_Map1)
 	}
 	for k, v := range x.Map2 {
 		delete(x.Map2, k)
@@ -365,7 +365,7 @@ func (x *Maps) Validate() error {
 	}
 	for _, v := range x.Map2 {
 		if v == nil {
-			el = append(el, errors.New("required field map2 of examples.Maps is missing"))
+			el = append(el, ErrMessageRequiredField_Maps_Map2)
 		}
 		if v != nil {
 			if err := validate.CallValidate(v); err != nil {
@@ -415,29 +415,29 @@ func (x *Enums) Validate() error {
 	var el []error
 	if v := x.E1; true {
 		if v == Enums_Enum(0) {
-			el = append(el, errors.New("field e1 of examples.Enums must not be zero-value"))
+			el = append(el, ErrEnumRequired_Enums_E1)
 		}
 	}
 	if v := x.E2; true {
 		if _, ok := Enums_Enum_name[int32(v)]; !ok {
-			el = append(el, fmt.Errorf("invalid value for e2 of examples.Enums: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrEnumDefinedOnly_Enums_E2, v))
 		}
 	}
 	for _, v := range x.E3 {
 		if v == Enums_Enum(0) {
-			el = append(el, errors.New("field e3 of examples.Enums must not be zero-value"))
+			el = append(el, ErrEnumRequired_Enums_E3)
 		}
 	}
 	if len(x.E3) < 0x2 {
-		el = append(el, fmt.Errorf("too few items in e3 of Enums"))
+		el = append(el, ErrMinItems_Enums_E3)
 	}
 	if x.E4 != nil {
 		v := *x.E4
 		if v == Enums_Enum(0) {
-			el = append(el, errors.New("field e4 of examples.Enums must not be zero-value"))
+			el = append(el, ErrEnumRequired_Enums_E4)
 		}
 		if _, ok := Enums_Enum_name[int32(v)]; !ok {
-			el = append(el, fmt.Errorf("invalid value for e4 of examples.Enums: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrEnumDefinedOnly_Enums_E4, v))
 		}
 	}
 
@@ -461,7 +461,7 @@ func (x *Oneofs) Validate() error {
 	case *Oneofs_Int32:
 		if v := x.Int32; true {
 			if v > -3 {
-				el = append(el, fmt.Errorf("invalid value for int32 of examples.Oneofs: %v", v))
+				el = append(el, fmt.Errorf("%w: %v", ErrInt32Cmp_Oneofs_Int32, v))
 			}
 		}
 	case *Oneofs_String_:
@@ -473,7 +473,7 @@ func (x *Oneofs) Validate() error {
 		_ = x
 	}
 	if x.O2 == nil {
-		el = append(el, fmt.Errorf("one of the fields is required in o2 of examples.Oneofs"))
+		el = append(el, ErrOneOfRequired_Oneofs_O2)
 	}
 	switch x := x.O2.(type) {
 	case *Oneofs_Ts:
@@ -511,7 +511,7 @@ func (x *Composed) Validate() error {
 	var el []error
 	if v := x.Ignored; true {
 		if v == nil {
-			el = append(el, errors.New("required field ignored of examples.Composed is missing"))
+			el = append(el, ErrMessageRequiredField_Composed_Ignored)
 		}
 		if v != nil {
 			if err := validate.CallValidate(v); err != nil {
@@ -547,7 +547,7 @@ func (x *Composed) Validate() error {
 	}
 	for _, v := range x.Enums {
 		if v == nil {
-			el = append(el, errors.New("required field enums of examples.Composed is missing"))
+			el = append(el, ErrMessageRequiredField_Composed_Enums)
 		}
 		if v != nil {
 			if err := validate.CallValidate(v); err != nil {
@@ -578,7 +578,7 @@ func (x *Nested) Validate() error {
 	var el []error
 	if v := x.Inner; true {
 		if v == nil {
-			el = append(el, errors.New("required field inner of examples.Nested is missing"))
+			el = append(el, ErrMessageRequiredField_Nested_Inner)
 		}
 		if v != nil {
 			if err := validate.CallValidate(v); err != nil {
@@ -609,7 +609,7 @@ func (x *Nested_Inner) Validate() error {
 	var el []error
 	if v := x.Int32; true {
 		if v <= 3 {
-			el = append(el, fmt.Errorf("invalid value for int32 of examples.Nested.Inner: %v", v))
+			el = append(el, fmt.Errorf("%w: %v", ErrInt32Cmp_Nested_Inner_Int32, v))
 		}
 	}
 
@@ -629,4 +629,63 @@ func (x *Nested_Inner) Validate() error {
 
 var (
 	regex_Strings_S7 = regexp.MustCompile("^abc")
+)
+
+var (
+	ErrFloatCmp_Scalars_Float                 = errors.New("invalid value for float of examples.Scalars")
+	ErrDoubleCmp_Scalars_Double               = errors.New("invalid value for double of examples.Scalars")
+	ErrInt32Cmp_Scalars_Int32                 = errors.New("invalid value for int32 of examples.Scalars")
+	ErrInt64Cmp_Scalars_Int64                 = errors.New("invalid value for int64 of examples.Scalars")
+	ErrUint32Cmp_Scalars_Uint32               = errors.New("invalid value for uint32 of examples.Scalars")
+	ErrUint64Cmp_Scalars_Uint64               = errors.New("invalid value for uint64 of examples.Scalars")
+	ErrSint32Cmp_Scalars_Sint32               = errors.New("invalid value for sint32 of examples.Scalars")
+	ErrSint64Cmp_Scalars_Sint64               = errors.New("invalid value for sint64 of examples.Scalars")
+	ErrFixed32Cmp_Scalars_Fixed32             = errors.New("invalid value for fixed32 of examples.Scalars")
+	ErrFixed64Cmp_Scalars_Fixed64             = errors.New("invalid value for fixed64 of examples.Scalars")
+	ErrSfixed32Cmp_Scalars_Sfixed32           = errors.New("invalid value for sfixed32 of examples.Scalars")
+	ErrSfixed64Cmp_Scalars_Sfixed64           = errors.New("invalid value for sfixed64 of examples.Scalars")
+	ErrStringLen_Scalars_String_              = errors.New("invalid value for string of examples.Scalars")
+	ErrBytesLen_Scalars_Bytes                 = errors.New("invalid value for bytes of examples.Scalars")
+	ErrFloatCmp_OptionalScalars_Float         = errors.New("invalid value for float of examples.OptionalScalars")
+	ErrDoubleCmp_OptionalScalars_Double       = errors.New("invalid value for double of examples.OptionalScalars")
+	ErrInt32Cmp_OptionalScalars_Int32         = errors.New("invalid value for int32 of examples.OptionalScalars")
+	ErrInt64Cmp_OptionalScalars_Int64         = errors.New("invalid value for int64 of examples.OptionalScalars")
+	ErrUint32Cmp_OptionalScalars_Uint32       = errors.New("invalid value for uint32 of examples.OptionalScalars")
+	ErrUint64Cmp_OptionalScalars_Uint64       = errors.New("invalid value for uint64 of examples.OptionalScalars")
+	ErrSint32Cmp_OptionalScalars_Sint32       = errors.New("invalid value for sint32 of examples.OptionalScalars")
+	ErrSint64Cmp_OptionalScalars_Sint64       = errors.New("invalid value for sint64 of examples.OptionalScalars")
+	ErrFixed32Cmp_OptionalScalars_Fixed32     = errors.New("invalid value for fixed32 of examples.OptionalScalars")
+	ErrFixed64Cmp_OptionalScalars_Fixed64     = errors.New("invalid value for fixed64 of examples.OptionalScalars")
+	ErrSfixed32Cmp_OptionalScalars_Sfixed32   = errors.New("invalid value for sfixed32 of examples.OptionalScalars")
+	ErrSfixed64Cmp_OptionalScalars_Sfixed64   = errors.New("invalid value for sfixed64 of examples.OptionalScalars")
+	ErrStringLen_OptionalScalars_String_      = errors.New("invalid value for string of examples.OptionalScalars")
+	ErrBytesLen_OptionalScalars_Bytes         = errors.New("invalid value for bytes of examples.OptionalScalars")
+	ErrFloatCmp_RepeatedScalars_Float         = errors.New("invalid value for float of examples.RepeatedScalars")
+	ErrMinItems_RepeatedScalars_Float         = errors.New("too few items in float of RepeatedScalars")
+	ErrDoubleCmp_RepeatedScalars_Double       = errors.New("invalid value for double of examples.RepeatedScalars")
+	ErrMaxItems_RepeatedScalars_Double        = errors.New("too many items in double of RepeatedScalars")
+	ErrMinItems_RepeatedScalars_String_       = errors.New("too few items in string of RepeatedScalars")
+	ErrStringLen_Strings_S3                   = errors.New("invalid value for s3 of examples.Strings")
+	ErrPRECISUsernameCaseMapped_Strings_S4    = errors.New("invalid value for s4 of examples.Strings")
+	ErrPRECISUsernameCasePreserved_Strings_S5 = errors.New("invalid value for s5 of examples.Strings")
+	ErrPRECISOpaqueString_Strings_S6          = errors.New("invalid value for s6 of examples.Strings")
+	ErrStringRegexp_Strings_S7                = errors.New("invalid value for s7 of examples.Strings")
+	ErrEmail_Strings_S8                       = errors.New("invalid value for s8 of examples.Strings")
+	ErrURI_Strings_S9                         = errors.New("invalid value for s9 of examples.Strings")
+	ErrE164_Strings_S10                       = errors.New("invalid value for s10 of examples.Strings")
+	ErrInt32Cmp_Maps_Map1                     = errors.New("invalid value for map1 of examples.Maps")
+	ErrMinItems_Maps_Map1                     = errors.New("too few items in map1 of Maps")
+	ErrMessageRequiredField_Maps_Map2         = errors.New("required field map2 of examples.Maps is missing")
+	ErrEnumRequired_Enums_E1                  = errors.New("field e1 of examples.Enums must not be zero-value")
+	ErrEnumDefinedOnly_Enums_E2               = errors.New("invalid value for e2 of examples.Enums")
+	ErrEnumRequired_Enums_E3                  = errors.New("field e3 of examples.Enums must not be zero-value")
+	ErrMinItems_Enums_E3                      = errors.New("too few items in e3 of Enums")
+	ErrEnumRequired_Enums_E4                  = errors.New("field e4 of examples.Enums must not be zero-value")
+	ErrEnumDefinedOnly_Enums_E4               = errors.New("invalid value for e4 of examples.Enums")
+	ErrInt32Cmp_Oneofs_Int32                  = errors.New("invalid value for int32 of examples.Oneofs")
+	ErrOneOfRequired_Oneofs_O2                = errors.New("one of the fields is required in o2 of examples.Oneofs")
+	ErrMessageRequiredField_Composed_Ignored  = errors.New("required field ignored of examples.Composed is missing")
+	ErrMessageRequiredField_Composed_Enums    = errors.New("required field enums of examples.Composed is missing")
+	ErrMessageRequiredField_Nested_Inner      = errors.New("required field inner of examples.Nested is missing")
+	ErrInt32Cmp_Nested_Inner_Int32            = errors.New("invalid value for int32 of examples.Nested.Inner")
 )

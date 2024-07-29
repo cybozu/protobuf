@@ -97,13 +97,15 @@ func (r *Renderer) renderItemsRule(f *protogen.Field, ext *validate.FieldRules) 
 	}
 
 	if rule.MaxItems != nil {
+		ei := r.addError(f, "MaxItems", fmt.Sprintf("too many items in %s of %s", fd.Name(), fd.Parent().Name()))
 		r.FL(`if len(x.%s) > %#v {`, f.GoName, *rule.MaxItems)
-		r.FL(`el = append(el, %s("too many items in %s of %s"))`, identErrorf, fd.Name(), fd.Parent().Name())
+		r.FL(`el = append(el, Err%s)`, ei.name)
 		r.PL(`}`)
 	}
 	if rule.MinItems != nil {
+		ei := r.addError(f, "MinItems", fmt.Sprintf("too few items in %s of %s", fd.Name(), fd.Parent().Name()))
 		r.FL(`if len(x.%s) < %#v {`, f.GoName, *rule.MinItems)
-		r.FL(`el = append(el, %s("too few items in %s of %s"))`, identErrorf, fd.Name(), fd.Parent().Name())
+		r.FL(`el = append(el, Err%s)`, ei.name)
 		r.PL(`}`)
 	}
 	return nil
@@ -147,8 +149,9 @@ func (r *Renderer) renderFloat(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "FloatCmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -195,8 +198,9 @@ func (r *Renderer) renderDouble(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "DoubleCmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -243,8 +247,9 @@ func (r *Renderer) renderInt32(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Int32Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -291,8 +296,9 @@ func (r *Renderer) renderInt64(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Int64Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -339,8 +345,9 @@ func (r *Renderer) renderUint32(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Uint32Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -387,8 +394,9 @@ func (r *Renderer) renderUint64(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Uint64Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -435,8 +443,9 @@ func (r *Renderer) renderSint32(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Sint32Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -483,8 +492,9 @@ func (r *Renderer) renderSint64(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Sint64Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -531,8 +541,9 @@ func (r *Renderer) renderFixed32(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Fixed32Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -579,8 +590,9 @@ func (r *Renderer) renderFixed64(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Fixed64Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -627,8 +639,9 @@ func (r *Renderer) renderSfixed32(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Sfixed32Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -675,8 +688,9 @@ func (r *Renderer) renderSfixed64(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "Sfixed64Cmp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -736,20 +750,23 @@ func (r *Renderer) renderString(f *protogen.Field) error {
 		case validate.StringRules_NFKD:
 			r.FL(`v = %s.String(v)`, identNormNFKD)
 		case validate.StringRules_PRECIS_USERNAME_CASE_MAPPED:
+			ei := r.addError(f, "PRECISUsernameCaseMapped", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if v2, err := %s.String(v); err != nil {`, identPRECISUsernameCaseMapped)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v, %%w", v, err))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v, %%w", Err%s, v, err))`, identErrorf, ei.name)
 			r.PL(`} else {`)
 			r.PL(`v = v2`)
 			r.PL(`}`)
 		case validate.StringRules_PRECIS_USERNAME_CASE_PRESERVED:
+			ei := r.addError(f, "PRECISUsernameCasePreserved", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if v2, err := %s.String(v); err != nil {`, identPRECISUsernameCasePreserved)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v, %%w", v, err))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v, %%w", Err%s, v, err))`, identErrorf, ei.name)
 			r.PL(`} else {`)
 			r.PL(`v = v2`)
 			r.PL(`}`)
 		case validate.StringRules_PRECIS_OPAQUE_STRING:
+			ei := r.addError(f, "PRECISOpaqueString", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if v2, err := %s.String(v); err != nil {`, identPRECISOpaqueString)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v, %%w", v, err))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v, %%w", Err%s, v, err))`, identErrorf, ei.name)
 			r.PL(`} else {`)
 			r.PL(`v = v2`)
 			r.PL(`}`)
@@ -767,8 +784,9 @@ func (r *Renderer) renderString(f *protogen.Field) error {
 			if rule.MinLength != nil {
 				conds = append(conds, fmt.Sprintf("vlen < %#v", *rule.MinLength))
 			}
+			ei := r.addError(f, "StringLen", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if vlen := %s(v); %s {`, identRuneCountInString, strings.Join(conds, " || "))
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 		}
 		if rule.Regex != nil {
@@ -777,38 +795,42 @@ func (r *Renderer) renderString(f *protogen.Field) error {
 				return fieldError(fmt.Sprintf("invalid regular expression %q: %v", *rule.Regex, err), fd)
 			}
 			r.addRegexp(f, *rule.Regex)
+			ei := r.addError(f, "StringRegexp", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if !regex_%s.MatchString(v) {`, f.GoIdent.GoName)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 		}
 		if rule.Predefined != nil {
 			switch val := rule.Predefined.(type) {
 			case *validate.StringRules_Email:
 				if val.Email {
+					ei := r.addError(f, "Email", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 					r.FL(`if a, err := %s(v); err != nil {`, identMailParseAddress)
-					r.FL(`el = append(el, %s("invalid value for %s of %s: %%v, %%w", v, err))`, identErrorf, fd.Name(), fd.Parent().FullName())
+					r.FL(`el = append(el, %s("%%w: %%v, %%w", Err%s, v, err))`, identErrorf, ei.name)
 					r.PL(`} else if a.Name != "" {`)
-					r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+					r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 					r.PL(`} else {`)
 					r.PL(`v = a.Address`)
 					r.PL(`}`)
 				}
 			case *validate.StringRules_Uri:
 				if val.Uri {
+					ei := r.addError(f, "URI", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 					r.FL(`if u, err := %s(v); err != nil {`, identURLParse)
-					r.FL(`el = append(el, %s("invalid value for %s of %s: %%v, %%w", v, err))`, identErrorf, fd.Name(), fd.Parent().FullName())
+					r.FL(`el = append(el, %s("%%w: %%v, %%w", Err%s, v, err))`, identErrorf, ei.name)
 					r.PL(`} else if !u.IsAbs() {`)
-					r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+					r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 					r.PL(`} else {`)
 					r.PL(`v = u.String()`)
 					r.PL(`}`)
 				}
 			case *validate.StringRules_E164:
 				if val.E164 {
+					ei := r.addError(f, "E164", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 					r.FL(`if !%s.MatchString(v) {`, identE164Pattern)
-					r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+					r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 					r.FL(`} else if len(v)-%s(v, "-") > 16 {`, identStringsCount)
-					r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+					r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 					r.PL(`}`)
 				}
 			default:
@@ -856,8 +878,9 @@ func (r *Renderer) renderBytes(f *protogen.Field) error {
 			default:
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
+			ei := r.addError(f, "BytesLen", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 			r.FL(`if vlen := len(v); %s {`, cond)
-			r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+			r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 			r.PL(`}`)
 			r.PL(`}`)
 		}
@@ -891,13 +914,15 @@ func (r *Renderer) renderEnum(f *protogen.Field) error {
 				r.FL(`if v := x.%s; true {`, f.GoName)
 			}
 			if rule.Required {
+				ei := r.addError(f, "EnumRequired", fmt.Sprintf("field %s of %s must not be zero-value", fd.Name(), fd.Parent().FullName()))
 				r.FL(`if v == %s(0) {`, f.Enum.GoIdent)
-				r.FL(`el = append(el, %s("field %s of %s must not be zero-value"))`, identErrorsNew, fd.Name(), fd.Parent().FullName())
+				r.FL(`el = append(el, Err%s)`, ei.name)
 				r.PL(`}`)
 			}
 			if rule.DefinedOnly {
+				ei := r.addError(f, "EnumDefinedOnly", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
 				r.FL(`if _, ok := %s_name[int32(v)]; !ok {`, f.Enum.GoIdent)
-				r.FL(`el = append(el, %s("invalid value for %s of %s: %%v", v))`, identErrorf, fd.Name(), fd.Parent().FullName())
+				r.FL(`el = append(el, %s("%%w: %%v", Err%s, v))`, identErrorf, ei.name)
 				r.PL(`}`)
 			}
 			r.PL(`}`)
@@ -929,8 +954,9 @@ func (r *Renderer) renderMessageField(f *protogen.Field) error {
 	}
 
 	if required {
+		ei := r.addError(f, "MessageRequiredField", fmt.Sprintf("required field %s of %s is missing", fd.Name(), fd.Parent().FullName()))
 		r.PL(`if v == nil {`)
-		r.FL(`el = append(el, %s("required field %s of %s is missing"))`, identErrorsNew, fd.Name(), fd.Parent().FullName())
+		r.FL(`el = append(el, Err%s)`, ei.name)
 		r.PL(`}`)
 	}
 

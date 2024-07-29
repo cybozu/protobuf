@@ -14,10 +14,12 @@ import (
 func (x *Maps) ValidateCustom() error {
 	total := len(x.Map1) + len(x.Map2) + len(x.Map3)
 	if total > 10 {
-		return fmt.Errorf("too many items: %d", total)
+		return fmt.Errorf("%w: %d", ErrValidateCustom, total)
 	}
 	return nil
 }
 
 // A Go idiom to statically check if a type implements an interface, here `validate.CustomValidator`.
 var _ validate.CustomValidator = &Maps{}
+
+var ErrValidateCustom = fmt.Errorf("too many items")
