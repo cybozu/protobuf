@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './es/package-lock.json'
         registry-url: 'https://registry.npmjs.org'
-    - uses: bufbuild/buf-setup-action@35c243d7f2a909b1d4e40399b348a7fdab27d78d # v1.34.0
+    - uses: bufbuild/buf-setup-action@aceb106d2419c4cff48863df90161d92decb8591 # v1.35.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - uses: bufbuild/buf-push-action@a654ff18effe4641ebea4a4ce242c49800728459 # v1.2.0
