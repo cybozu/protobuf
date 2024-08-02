@@ -22,18 +22,13 @@ jobs:
       with:
         go-version-file: go.mod
         cache: true
-    - uses: actions/setup-node@v4
-      with:
-        node-version-file: ./es/package.json
-        cache: 'npm'
-        cache-dependency-path: './es/package-lock.json'
-        registry-url: 'https://registry.npmjs.org'
-    - uses: bufbuild/buf-setup-action@aceb106d2419c4cff48863df90161d92decb8591 # v1.35.1
+    - uses: bufbuild/buf-action@e08102e131956fce8553dcde03dc7b05c0c88c46 # v1.0.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: bufbuild/buf-push-action@a654ff18effe4641ebea4a4ce242c49800728459 # v1.2.0
-      with:
-        buf_token: ${{ secrets.BSR_TOKEN }}
+        token: ${{ secrets.BSR_TOKEN }}
+        format: false
+        lint: false
+        breaking: false
     - name: GoReleaser
       uses: goreleaser/goreleaser-action@286f3b13b1b49da4ac219696163fb8c1c93e1200 # v6.0.0
       with:
@@ -42,15 +37,3 @@ jobs:
         args: release --clean
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Set up git user
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-    - name: Build ES packages
-      run: make es
-    - name: Publish to npm
-      run: ./scripts/release.sh
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GH_TOKEN: ${{ github.token }}
-      working-directory: ./es
