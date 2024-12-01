@@ -5,9 +5,9 @@ go 1.22
 toolchain go1.22.1
 
 require (
-	github.com/stretchr/testify v1.9.0
-	golang.org/x/text v0.18.0
-	google.golang.org/protobuf v1.34.2
+	github.com/stretchr/testify v1.10.0
+	golang.org/x/text v0.20.0
+	google.golang.org/protobuf v1.35.2
 )
 
 require (
