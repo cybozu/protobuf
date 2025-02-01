@@ -4,8 +4,8 @@ go 1.23.3
 
 require (
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/text v0.20.0
-	google.golang.org/protobuf v1.35.2
+	golang.org/x/text v0.21.0
+	google.golang.org/protobuf v1.36.4
 )
 
 require (
