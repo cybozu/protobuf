@@ -39,6 +39,8 @@ plugins:
     opt: paths=source_relative
 ```
 
+If you want to generate TypeScript validation code, please see [`@cybozu/protoc-gen-es-cybozu-validate`](es/packages/protoc-gen-es-cybozu-validate/README.md).
+
 ## API documentation
 
 Visit https://buf.build/cybozu/protobuf
