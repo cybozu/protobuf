@@ -232,6 +232,9 @@ message StringRules {
 
     // PRECIS OpaqueString profile as defined by RFC 8265
     PRECIS_OPAQUE_STRING = 102;
+
+    // PRECIS Nickname profile as defined by RFC 8266
+    PRECIS_NICKNAME = 103;
   }
 
   // `norm` specifies which normalization is to be applied to the string.

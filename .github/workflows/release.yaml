@@ -22,7 +22,7 @@ jobs:
       with:
         go-version-file: go.mod
         cache: true
-    - uses: bufbuild/buf-action@5150a1eef5c10b6a5cf8a69fc872f24a09473195 # v1.1.1
+    - uses: bufbuild/buf-action@c231a1aa9281e5db706c970f468f0744a37561fd # v1.2.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         token: ${{ secrets.BSR_TOKEN }}
@@ -30,7 +30,7 @@ jobs:
         lint: false
         breaking: false
     - name: GoReleaser
-      uses: goreleaser/goreleaser-action@9c156ee8a17a598857849441385a2041ef570552 # v6.3.0
+      uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6.4.0
       with:
         distribution: goreleaser
         version: "~> v2"

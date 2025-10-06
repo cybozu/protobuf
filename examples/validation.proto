@@ -140,17 +140,19 @@ message Strings {
   string s5 = 5 [(cybozu.validate.rules).string = {norm: PRECIS_USERNAME_CASE_PRESERVED}];
   // normalize and validate the string with a PRECIS profile.
   string s6 = 6 [(cybozu.validate.rules).string = {norm: PRECIS_OPAQUE_STRING}];
-  // enforce that the string matches a regular expresson. The regular expression syntax is RE2.
+  // normalize and validate the string with a PRECIS profile.
+  string s7 = 7 [(cybozu.validate.rules).string = {norm: PRECIS_NICKNAME}];
+  // enforce that the string matches a regular expression. The regular expression syntax is RE2.
   // See https://github.com/google/re2/wiki/Syntax
-  string s7 = 7 [(cybozu.validate.rules).string = {regex: '^abc'}];
+  string s8 = 8 [(cybozu.validate.rules).string = {regex: '^abc'}];
   // enforce that the string is a valid email address as defined in RFC 5322.
-  string s8 = 8 [(cybozu.validate.rules).string = {email: true}];
+  string s9 = 9 [(cybozu.validate.rules).string = {email: true}];
   // enforce that the string is a valid URI as defined in RFC 3986.
   // The string will also be canonicalized.
-  string s9 = 9 [(cybozu.validate.rules).string = {uri: true}];
+  string s10 = 10 [(cybozu.validate.rules).string = {uri: true}];
   // enforce that the string is a valid telephone number as defined by E.164.
   // An example is "+81-80-0000-0000".
-  string s10 = 10 [(cybozu.validate.rules).string = {e164: true}];
+  string s11 = 11 [(cybozu.validate.rules).string = {e164: true}];
 }
 
 // In addition to the validation code generated from the protobuf options,

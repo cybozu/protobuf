@@ -1,11 +1,11 @@
 module github.com/cybozu/protobuf
 
-go 1.23.3
+go 1.25.1
 
 require (
-	github.com/stretchr/testify v1.10.0
-	golang.org/x/text v0.20.0
-	google.golang.org/protobuf v1.35.2
+	github.com/stretchr/testify v1.11.1
+	golang.org/x/text v0.29.0
+	google.golang.org/protobuf v1.36.10
 )
 
 require (
