@@ -83,4 +83,8 @@ var (
 		GoImportPath: "golang.org/x/text/secure/precis",
 		GoName:       "OpaqueString",
 	}
+	identPRECISNickname = protogen.GoIdent{
+		GoImportPath: "golang.org/x/text/secure/precis",
+		GoName:       "Nickname",
+	}
 )

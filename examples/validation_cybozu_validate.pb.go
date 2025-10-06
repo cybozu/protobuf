@@ -293,42 +293,50 @@ func (x *Strings) Validate() error {
 		x.S6 = v
 	}
 	if v := x.S7; true {
-		v = norm.NFC.String(v)
-		if !regex_Strings_S7.MatchString(v) {
-			el = append(el, fmt.Errorf("%w: %v", ErrStringRegexp_Strings_S7, v))
+		if v2, err := precis.Nickname.String(v); err != nil {
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrPRECISNickname_Strings_S7, v, err))
+		} else {
+			v = v2
 		}
 		x.S7 = v
 	}
 	if v := x.S8; true {
 		v = norm.NFC.String(v)
-		if a, err := mail.ParseAddress(v); err != nil {
-			el = append(el, fmt.Errorf("%w: %v, %w", ErrEmail_Strings_S8, v, err))
-		} else if a.Name != "" {
-			el = append(el, fmt.Errorf("%w: %v", ErrEmail_Strings_S8, v))
-		} else {
-			v = a.Address
+		if !regex_Strings_S8.MatchString(v) {
+			el = append(el, fmt.Errorf("%w: %v", ErrStringRegexp_Strings_S8, v))
 		}
 		x.S8 = v
 	}
 	if v := x.S9; true {
 		v = norm.NFC.String(v)
-		if u, err := url.Parse(v); err != nil {
-			el = append(el, fmt.Errorf("%w: %v, %w", ErrURI_Strings_S9, v, err))
-		} else if !u.IsAbs() {
-			el = append(el, fmt.Errorf("%w: %v", ErrURI_Strings_S9, v))
+		if a, err := mail.ParseAddress(v); err != nil {
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrEmail_Strings_S9, v, err))
+		} else if a.Name != "" {
+			el = append(el, fmt.Errorf("%w: %v", ErrEmail_Strings_S9, v))
 		} else {
-			v = u.String()
+			v = a.Address
 		}
 		x.S9 = v
 	}
 	if v := x.S10; true {
 		v = norm.NFC.String(v)
-		if !validate.E164Pattern.MatchString(v) {
-			el = append(el, fmt.Errorf("%w: %v", ErrE164_Strings_S10, v))
-		} else if len(v)-strings.Count(v, "-") > 16 {
-			el = append(el, fmt.Errorf("%w: %v", ErrE164_Strings_S10, v))
+		if u, err := url.Parse(v); err != nil {
+			el = append(el, fmt.Errorf("%w: %v, %w", ErrURI_Strings_S10, v, err))
+		} else if !u.IsAbs() {
+			el = append(el, fmt.Errorf("%w: %v", ErrURI_Strings_S10, v))
+		} else {
+			v = u.String()
 		}
 		x.S10 = v
+	}
+	if v := x.S11; true {
+		v = norm.NFC.String(v)
+		if !validate.E164Pattern.MatchString(v) {
+			el = append(el, fmt.Errorf("%w: %v", ErrE164_Strings_S11, v))
+		} else if len(v)-strings.Count(v, "-") > 16 {
+			el = append(el, fmt.Errorf("%w: %v", ErrE164_Strings_S11, v))
+		}
+		x.S11 = v
 	}
 
 	if err := validate.CallValidateCustom(x); err != nil {
@@ -628,7 +636,7 @@ func (x *Nested_Inner) Validate() error {
 }
 
 var (
-	regex_Strings_S7 = regexp.MustCompile("^abc")
+	regex_Strings_S8 = regexp.MustCompile("^abc")
 )
 
 var (
@@ -669,10 +677,11 @@ var (
 	ErrPRECISUsernameCaseMapped_Strings_S4    = errors.New("invalid value for s4 of examples.Strings")
 	ErrPRECISUsernameCasePreserved_Strings_S5 = errors.New("invalid value for s5 of examples.Strings")
 	ErrPRECISOpaqueString_Strings_S6          = errors.New("invalid value for s6 of examples.Strings")
-	ErrStringRegexp_Strings_S7                = errors.New("invalid value for s7 of examples.Strings")
-	ErrEmail_Strings_S8                       = errors.New("invalid value for s8 of examples.Strings")
-	ErrURI_Strings_S9                         = errors.New("invalid value for s9 of examples.Strings")
-	ErrE164_Strings_S10                       = errors.New("invalid value for s10 of examples.Strings")
+	ErrPRECISNickname_Strings_S7              = errors.New("invalid value for s7 of examples.Strings")
+	ErrStringRegexp_Strings_S8                = errors.New("invalid value for s8 of examples.Strings")
+	ErrEmail_Strings_S9                       = errors.New("invalid value for s9 of examples.Strings")
+	ErrURI_Strings_S10                        = errors.New("invalid value for s10 of examples.Strings")
+	ErrE164_Strings_S11                       = errors.New("invalid value for s11 of examples.Strings")
 	ErrInt32Cmp_Maps_Map1                     = errors.New("invalid value for map1 of examples.Maps")
 	ErrMinItems_Maps_Map1                     = errors.New("too few items in map1 of Maps")
 	ErrMessageRequiredField_Maps_Map2         = errors.New("required field map2 of examples.Maps is missing")

@@ -95,14 +95,16 @@ func TestValidation(t *testing.T) {
 		{name: "strings/s5/invalid", message: NewStrings().S5("ABC def").Value(), expErr: examples.ErrPRECISUsernameCasePreserved_Strings_S5},
 		{name: "strings/s6/invalid/1", message: NewStrings().S6("abc\ndef").Value(), expErr: examples.ErrPRECISOpaqueString_Strings_S6},
 		{name: "strings/s6/invalid/2", message: NewStrings().S6("").Value(), expErr: examples.ErrPRECISOpaqueString_Strings_S6},
-		{name: "strings/s7/invalid", message: NewStrings().S7("def").Value(), expErr: examples.ErrStringRegexp_Strings_S7},
-		{name: "strings/s8/invalid/1", message: NewStrings().S8("foo").Value(), expErr: examples.ErrEmail_Strings_S8},
-		{name: "strings/s8/invalid/2", message: NewStrings().S8("").Value(), expErr: examples.ErrEmail_Strings_S8},
-		{name: "strings/s9/invalid/1", message: NewStrings().S9("/abc/def").Value(), expErr: examples.ErrURI_Strings_S9},
-		{name: "strings/s9/invalid/2", message: NewStrings().S9("").Value(), expErr: examples.ErrURI_Strings_S9},
-		{name: "strings/s10/invalid/1", message: NewStrings().S10("123456789").Value(), expErr: examples.ErrE164_Strings_S10},
-		{name: "strings/s10/invalid/2", message: NewStrings().S10("+1234567890123456789").Value(), expErr: examples.ErrE164_Strings_S10},
-		{name: "strings/s10/invalid/3", message: NewStrings().S10("").Value(), expErr: examples.ErrE164_Strings_S10},
+		{name: "strings/s7/valid", valid: true, message: NewStrings().S7("Hirotaka Yamamoto").Value()},
+		{name: "strings/s7/invalid", message: NewStrings().S7("Hirotaka\nYamamoto").Value(), expErr: examples.ErrPRECISNickname_Strings_S7},
+		{name: "strings/s8/invalid", message: NewStrings().S8("def").Value(), expErr: examples.ErrStringRegexp_Strings_S8},
+		{name: "strings/s9/invalid/1", message: NewStrings().S9("foo").Value(), expErr: examples.ErrEmail_Strings_S9},
+		{name: "strings/s9/invalid/2", message: NewStrings().S9("").Value(), expErr: examples.ErrEmail_Strings_S9},
+		{name: "strings/s10/invalid/1", message: NewStrings().S10("/abc/def").Value(), expErr: examples.ErrURI_Strings_S10},
+		{name: "strings/s10/invalid/2", message: NewStrings().S10("").Value(), expErr: examples.ErrURI_Strings_S10},
+		{name: "strings/s11/invalid/1", message: NewStrings().S11("123456789").Value(), expErr: examples.ErrE164_Strings_S11},
+		{name: "strings/s11/invalid/2", message: NewStrings().S11("+1234567890123456789").Value(), expErr: examples.ErrE164_Strings_S11},
+		{name: "strings/s11/invalid/3", message: NewStrings().S11("").Value(), expErr: examples.ErrE164_Strings_S11},
 		{name: "maps/valid", valid: true, message: &examples.Maps{Map1: map[string]int32{"a": 4}}},
 		{name: "maps/map1/invalid/1", message: &examples.Maps{Map1: map[string]int32{"a": 3}}, expErr: examples.ErrInt32Cmp_Maps_Map1},
 		{name: "maps/map1/invalid/2", message: &examples.Maps{Map1: map[string]int32{}}, expErr: examples.ErrMinItems_Maps_Map1},
@@ -356,3 +358,4 @@ func (s *strs) S7(v string) *strs  { s.v.S7 = v; return s }
 func (s *strs) S8(v string) *strs  { s.v.S8 = v; return s }
 func (s *strs) S9(v string) *strs  { s.v.S9 = v; return s }
 func (s *strs) S10(v string) *strs { s.v.S10 = v; return s }
+func (s *strs) S11(v string) *strs { s.v.S11 = v; return s }

@@ -770,6 +770,13 @@ func (r *Renderer) renderString(f *protogen.Field) error {
 			r.PL(`} else {`)
 			r.PL(`v = v2`)
 			r.PL(`}`)
+		case validate.StringRules_PRECIS_NICKNAME:
+			ei := r.addError(f, "PRECISNickname", fmt.Sprintf("invalid value for %s of %s", fd.Name(), fd.Parent().FullName()))
+			r.FL(`if v2, err := %s.String(v); err != nil {`, identPRECISNickname)
+			r.FL(`el = append(el, %s("%%w: %%v, %%w", Err%s, v, err))`, identErrorf, ei.name)
+			r.PL(`} else {`)
+			r.PL(`v = v2`)
+			r.PL(`}`)
 		default:
 			return fmt.Errorf("unknown normalization type: %v", int32(rule.Norm))
 		}
