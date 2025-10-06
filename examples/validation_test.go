@@ -96,7 +96,8 @@ func TestValidation(t *testing.T) {
 		{name: "strings/s6/invalid/1", message: NewStrings().S6("abc\ndef").Value(), expErr: examples.ErrPRECISOpaqueString_Strings_S6},
 		{name: "strings/s6/invalid/2", message: NewStrings().S6("").Value(), expErr: examples.ErrPRECISOpaqueString_Strings_S6},
 		{name: "strings/s7/valid", valid: true, message: NewStrings().S7("Hirotaka Yamamoto").Value()},
-		{name: "strings/s7/invalid", message: NewStrings().S7("Hirotaka\nYamamoto").Value(), expErr: examples.ErrPRECISNickname_Strings_S7},
+		{name: "strings/s7/invalid/1", message: NewStrings().S7("").Value(), expErr: examples.ErrPRECISNickname_Strings_S7},
+		{name: "strings/s7/invalid/2", message: NewStrings().S7("Hirotaka\nYamamoto").Value(), expErr: examples.ErrPRECISNickname_Strings_S7},
 		{name: "strings/s8/invalid", message: NewStrings().S8("def").Value(), expErr: examples.ErrStringRegexp_Strings_S8},
 		{name: "strings/s9/invalid/1", message: NewStrings().S9("foo").Value(), expErr: examples.ErrEmail_Strings_S9},
 		{name: "strings/s9/invalid/2", message: NewStrings().S9("").Value(), expErr: examples.ErrEmail_Strings_S9},
@@ -190,10 +191,10 @@ func testNormalizationStrings(t *testing.T) {
 	r.NoError(err)
 	a.Equal("ABCdef"+nfkcKaGa, v.S5)
 
-	v = NewStrings().S9("HTTPS://foo.bar.com/").Value()
+	v = NewStrings().S10("HTTPS://foo.bar.com/").Value()
 	err = validate.CallValidate(v)
 	r.NoError(err)
-	a.Equal("https://foo.bar.com/", v.S9)
+	a.Equal("https://foo.bar.com/", v.S10)
 }
 
 func testNormalizationMaps(t *testing.T) {
@@ -336,10 +337,11 @@ func NewStrings() *strs {
 	return &strs{
 		v: &examples.Strings{
 			S6:  "password",
-			S7:  "abcde",
-			S8:  "foo@example.com",
-			S9:  "http://example.org/",
-			S10: "+81-80-0000-0000",
+			S7:  "ymmt",
+			S8:  "abcde",
+			S9:  "foo@example.com",
+			S10: "http://example.org/",
+			S11: "+81-80-0000-0000",
 		},
 	}
 }
