@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+// Custom options to declare the stability of API elements.
+//
+// The custom options defined here are:
+// - `cybozu.stability.service` service option.
+// - `cybozu.stability.method` method option.
+// - `cybozu.stability.message` message option.
+// - `cybozu.stability.field` field option.
+// - `cybozu.stability.enum` enum option.
+// - `cybozu.stability.enum_value` enum value option.
+//
+// An element without the option is stable (generally available), and the
+// standard `deprecated` option marks an element deprecated. An option on a
+// service, message or enum also covers every element inside it, so a new
+// preview method can be added to a stable service, or a new preview field to
+// a stable message.
+//
+// Tools read the options from the descriptors. For example, a breaking change
+// checker can leave preview elements out, and a documentation generator can
+// label them.
+package cybozu.stability;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/cybozu/protobuf/cybozu/stability";
+
+// Stage is the launch stage of an element. It follows the stages of
+// `google.api.LaunchStage`.
+enum Stage {
+  // Not used. Leave the option out for a stable element.
+  STAGE_UNSPECIFIED = 0;
+
+  // The element may still change in a backward-incompatible way, or be
+  // removed. Clients must not depend on it in production.
+  STAGE_PREVIEW = 1;
+}
+
+// Stability declares the stability of an element.
+message Stability {
+  // The launch stage of the element.
+  Stage stage = 1;
+
+  // The name of the feature flag that gates the element, if any. Its format
+  // is up to the API owner; tools may check it against the flags they know.
+  string release_flag = 2;
+}
+
+// 1392 is registered for Cybozu in the Protobuf Global Extension Registry
+// (https://github.com/protocolbuffers/protobuf/blob/main/docs/options.md).
+
+extend google.protobuf.ServiceOptions {
+  // `service` declares the stability of a service and its methods.
+  Stability service = 1392;
+}
+
+extend google.protobuf.MethodOptions {
+  // `method` declares the stability of a method.
+  Stability method = 1392;
+}
+
+extend google.protobuf.MessageOptions {
+  // `message` declares the stability of a message and everything inside it.
+  Stability message = 1392;
+}
+
+extend google.protobuf.FieldOptions {
+  // `field` declares the stability of a field.
+  Stability field = 1392;
+}
+
+extend google.protobuf.EnumOptions {
+  // `enum` declares the stability of an enum and its values.
+  Stability enum = 1392;
+}
+
+extend google.protobuf.EnumValueOptions {
+  // `enum_value` declares the stability of an enum value.
+  Stability enum_value = 1392;
+}
