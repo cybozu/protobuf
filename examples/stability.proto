@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package examples;
+
+import "cybozu/stability/options.proto";
+
+option go_package = "github.com/cybozu/proto/examples";
+
+// BookService is stable, and so is every method without the option.
+service BookService {
+  // GetBook is stable.
+  rpc GetBook(GetBookRequest) returns (GetBookResponse);
+
+  // SearchBooks is new, and may still change.
+  rpc SearchBooks(SearchBooksRequest) returns (SearchBooksResponse) {
+    option (cybozu.stability.method) = {
+      stage: STAGE_PREVIEW
+      release_flag: "book-search"
+    };
+  }
+}
+
+message GetBookRequest {
+  string id = 1;
+
+  // include_reviews is a preview field of a stable message.
+  bool include_reviews = 2 [(cybozu.stability.field) = {stage: STAGE_PREVIEW}];
+}
+
+message GetBookResponse {
+  string title = 1;
+}
+
+// SearchBooksRequest is preview, and so is everything inside it.
+message SearchBooksRequest {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+  string query = 1;
+}
+
+message SearchBooksResponse {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+  repeated string ids = 1;
+}
