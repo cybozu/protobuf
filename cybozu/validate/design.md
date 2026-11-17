@@ -73,7 +73,6 @@ functions that are not available for all languages.
 We create a code generator for each target language.
 
 For Go, we create `protoc-gen-go-cybozu-validate`.
-For ECMAScript/TypeScript, we create `protoc-gen-es-cybozu-validate`.
 
 This is because generating code for a target language is generally easy
 when the same language is used.
