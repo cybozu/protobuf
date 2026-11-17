@@ -26,6 +26,14 @@ syntax = "proto3";
 // still change or be removed, and the element with it. To make part of a
 // preview service stable, move it to a stable service.
 //
+// The options are never inferred from how an element is used. A message used
+// only by preview methods is stable unless it has its own option. So a stable
+// element must not refer to a preview type: a stable field must not have a
+// preview message or enum type, and a stable method must not take or return a
+// preview message. A linter should report such a reference, because a breaking
+// change checker that leaves preview elements out would miss changes the
+// stable element depends on.
+//
 // Tools read the options from the descriptors. For example, a breaking change
 // checker can leave preview elements out, and a documentation generator can
 // label them.

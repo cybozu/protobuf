@@ -86,11 +86,19 @@ message SearchBooksResponse {
   repeated string ids = 1;
 }
 
+// ListReviewsRequest is preview with its own option. The option on
+// BookReviewService does not cover the messages its methods use.
 message ListReviewsRequest {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
   string book_id = 1;
+
+  // order may have a preview type because its message is preview.
   ReviewOrder order = 2;
 }
 
 message ListReviewsResponse {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
   repeated string reviews = 1;
 }

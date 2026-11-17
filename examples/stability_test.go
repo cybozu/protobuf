@@ -34,7 +34,10 @@ func TestStability(t *testing.T) {
 
 		review := file.Services().ByName("BookReviewService")
 		assertPreview(t, review, stability.E_Service)
-		assert.Nil(t, stabilityOf(review.Methods().ByName("ListReviews"), stability.E_Method))
+		list := review.Methods().ByName("ListReviews")
+		assert.Nil(t, stabilityOf(list, stability.E_Method))
+		assertPreview(t, list.Input(), stability.E_Message)
+		assertPreview(t, list.Output(), stability.E_Message)
 	})
 
 	t.Run("message and field", func(t *testing.T) {

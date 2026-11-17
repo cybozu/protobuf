@@ -377,10 +377,13 @@ func (x *SearchBooksResponse) GetIds() []string {
 	return nil
 }
 
+// ListReviewsRequest is preview with its own option. The option on
+// BookReviewService does not cover the messages its methods use.
 type ListReviewsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	BookId        string                 `protobuf:"bytes,1,opt,name=book_id,json=bookId,proto3" json:"book_id,omitempty"`
-	Order         ReviewOrder            `protobuf:"varint,2,opt,name=order,proto3,enum=examples.ReviewOrder" json:"order,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	BookId string                 `protobuf:"bytes,1,opt,name=book_id,json=bookId,proto3" json:"book_id,omitempty"`
+	// order may have a preview type because its message is preview.
+	Order         ReviewOrder `protobuf:"varint,2,opt,name=order,proto3,enum=examples.ReviewOrder" json:"order,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -539,12 +542,12 @@ const file_examples_stability_proto_rawDesc = "" +
 	"\x12SearchBooksRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query:\x05\x82W\x02\b\x01\".\n" +
 	"\x13SearchBooksResponse\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\tR\x03ids:\x05\x82W\x02\b\x01\"Z\n" +
+	"\x03ids\x18\x01 \x03(\tR\x03ids:\x05\x82W\x02\b\x01\"a\n" +
 	"\x12ListReviewsRequest\x12\x17\n" +
 	"\abook_id\x18\x01 \x01(\tR\x06bookId\x12+\n" +
-	"\x05order\x18\x02 \x01(\x0e2\x15.examples.ReviewOrderR\x05order\"/\n" +
+	"\x05order\x18\x02 \x01(\x0e2\x15.examples.ReviewOrderR\x05order:\x05\x82W\x02\b\x01\"6\n" +
 	"\x13ListReviewsResponse\x12\x18\n" +
-	"\areviews\x18\x01 \x03(\tR\areviews*^\n" +
+	"\areviews\x18\x01 \x03(\tR\areviews:\x05\x82W\x02\b\x01*^\n" +
 	"\n" +
 	"BookFormat\x12\x1b\n" +
 	"\x17BOOK_FORMAT_UNSPECIFIED\x10\x00\x12\x15\n" +
