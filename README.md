@@ -43,8 +43,9 @@ plugins:
 
 This protobuf package provides custom options to declare the stability of API
 elements: services, methods, messages, fields, enums and enum values.
-An element without the option is stable, and an option on a service, message
-or enum also covers every element inside it.
+An element without the option, or with `STAGE_UNSPECIFIED`, is stable.
+An option on a service, message or enum also covers every element inside it,
+so an element inside a preview container is always preview.
 Read [examples/stability.proto](examples/stability.proto) for example usage.
 
 The options generate no code. Tools read them from the descriptors, for

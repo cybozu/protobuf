@@ -22,6 +22,150 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// BookFormat is stable, but one of its values is preview.
+type BookFormat int32
+
+const (
+	BookFormat_BOOK_FORMAT_UNSPECIFIED BookFormat = 0
+	BookFormat_BOOK_FORMAT_PAPER       BookFormat = 1
+	BookFormat_BOOK_FORMAT_AUDIO       BookFormat = 2
+)
+
+// Enum value maps for BookFormat.
+var (
+	BookFormat_name = map[int32]string{
+		0: "BOOK_FORMAT_UNSPECIFIED",
+		1: "BOOK_FORMAT_PAPER",
+		2: "BOOK_FORMAT_AUDIO",
+	}
+	BookFormat_value = map[string]int32{
+		"BOOK_FORMAT_UNSPECIFIED": 0,
+		"BOOK_FORMAT_PAPER":       1,
+		"BOOK_FORMAT_AUDIO":       2,
+	}
+)
+
+func (x BookFormat) Enum() *BookFormat {
+	p := new(BookFormat)
+	*p = x
+	return p
+}
+
+func (x BookFormat) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BookFormat) Descriptor() protoreflect.EnumDescriptor {
+	return file_examples_stability_proto_enumTypes[0].Descriptor()
+}
+
+func (BookFormat) Type() protoreflect.EnumType {
+	return &file_examples_stability_proto_enumTypes[0]
+}
+
+func (x BookFormat) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BookFormat.Descriptor instead.
+func (BookFormat) EnumDescriptor() ([]byte, []int) {
+	return file_examples_stability_proto_rawDescGZIP(), []int{0}
+}
+
+// ReviewOrder is preview, and so are all its values.
+type ReviewOrder int32
+
+const (
+	ReviewOrder_REVIEW_ORDER_UNSPECIFIED ReviewOrder = 0
+	ReviewOrder_REVIEW_ORDER_NEWEST      ReviewOrder = 1
+)
+
+// Enum value maps for ReviewOrder.
+var (
+	ReviewOrder_name = map[int32]string{
+		0: "REVIEW_ORDER_UNSPECIFIED",
+		1: "REVIEW_ORDER_NEWEST",
+	}
+	ReviewOrder_value = map[string]int32{
+		"REVIEW_ORDER_UNSPECIFIED": 0,
+		"REVIEW_ORDER_NEWEST":      1,
+	}
+)
+
+func (x ReviewOrder) Enum() *ReviewOrder {
+	p := new(ReviewOrder)
+	*p = x
+	return p
+}
+
+func (x ReviewOrder) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ReviewOrder) Descriptor() protoreflect.EnumDescriptor {
+	return file_examples_stability_proto_enumTypes[1].Descriptor()
+}
+
+func (ReviewOrder) Type() protoreflect.EnumType {
+	return &file_examples_stability_proto_enumTypes[1]
+}
+
+func (x ReviewOrder) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ReviewOrder.Descriptor instead.
+func (ReviewOrder) EnumDescriptor() ([]byte, []int) {
+	return file_examples_stability_proto_rawDescGZIP(), []int{1}
+}
+
+// Binding is a preview enum nested in a stable message.
+type GetBookResponse_Binding int32
+
+const (
+	GetBookResponse_BINDING_UNSPECIFIED GetBookResponse_Binding = 0
+	GetBookResponse_BINDING_HARDCOVER   GetBookResponse_Binding = 1
+)
+
+// Enum value maps for GetBookResponse_Binding.
+var (
+	GetBookResponse_Binding_name = map[int32]string{
+		0: "BINDING_UNSPECIFIED",
+		1: "BINDING_HARDCOVER",
+	}
+	GetBookResponse_Binding_value = map[string]int32{
+		"BINDING_UNSPECIFIED": 0,
+		"BINDING_HARDCOVER":   1,
+	}
+)
+
+func (x GetBookResponse_Binding) Enum() *GetBookResponse_Binding {
+	p := new(GetBookResponse_Binding)
+	*p = x
+	return p
+}
+
+func (x GetBookResponse_Binding) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GetBookResponse_Binding) Descriptor() protoreflect.EnumDescriptor {
+	return file_examples_stability_proto_enumTypes[2].Descriptor()
+}
+
+func (GetBookResponse_Binding) Type() protoreflect.EnumType {
+	return &file_examples_stability_proto_enumTypes[2]
+}
+
+func (x GetBookResponse_Binding) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GetBookResponse_Binding.Descriptor instead.
+func (GetBookResponse_Binding) EnumDescriptor() ([]byte, []int) {
+	return file_examples_stability_proto_rawDescGZIP(), []int{1, 0}
+}
+
 type GetBookRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -76,8 +220,12 @@ func (x *GetBookRequest) GetIncludeReviews() bool {
 }
 
 type GetBookResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Title  string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Format BookFormat             `protobuf:"varint,2,opt,name=format,proto3,enum=examples.BookFormat" json:"format,omitempty"`
+	// edition is a preview field nested in a stable message.
+	Edition       *GetBookResponse_Edition `protobuf:"bytes,3,opt,name=edition,proto3" json:"edition,omitempty"`
+	Binding       GetBookResponse_Binding  `protobuf:"varint,4,opt,name=binding,proto3,enum=examples.GetBookResponse_Binding" json:"binding,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -117,6 +265,27 @@ func (x *GetBookResponse) GetTitle() string {
 		return x.Title
 	}
 	return ""
+}
+
+func (x *GetBookResponse) GetFormat() BookFormat {
+	if x != nil {
+		return x.Format
+	}
+	return BookFormat_BOOK_FORMAT_UNSPECIFIED
+}
+
+func (x *GetBookResponse) GetEdition() *GetBookResponse_Edition {
+	if x != nil {
+		return x.Edition
+	}
+	return nil
+}
+
+func (x *GetBookResponse) GetBinding() GetBookResponse_Binding {
+	if x != nil {
+		return x.Binding
+	}
+	return GetBookResponse_BINDING_UNSPECIFIED
 }
 
 // SearchBooksRequest is preview, and so is everything inside it.
@@ -208,6 +377,147 @@ func (x *SearchBooksResponse) GetIds() []string {
 	return nil
 }
 
+type ListReviewsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BookId        string                 `protobuf:"bytes,1,opt,name=book_id,json=bookId,proto3" json:"book_id,omitempty"`
+	Order         ReviewOrder            `protobuf:"varint,2,opt,name=order,proto3,enum=examples.ReviewOrder" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListReviewsRequest) Reset() {
+	*x = ListReviewsRequest{}
+	mi := &file_examples_stability_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListReviewsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListReviewsRequest) ProtoMessage() {}
+
+func (x *ListReviewsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_examples_stability_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListReviewsRequest.ProtoReflect.Descriptor instead.
+func (*ListReviewsRequest) Descriptor() ([]byte, []int) {
+	return file_examples_stability_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListReviewsRequest) GetBookId() string {
+	if x != nil {
+		return x.BookId
+	}
+	return ""
+}
+
+func (x *ListReviewsRequest) GetOrder() ReviewOrder {
+	if x != nil {
+		return x.Order
+	}
+	return ReviewOrder_REVIEW_ORDER_UNSPECIFIED
+}
+
+type ListReviewsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Reviews       []string               `protobuf:"bytes,1,rep,name=reviews,proto3" json:"reviews,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListReviewsResponse) Reset() {
+	*x = ListReviewsResponse{}
+	mi := &file_examples_stability_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListReviewsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListReviewsResponse) ProtoMessage() {}
+
+func (x *ListReviewsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_examples_stability_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListReviewsResponse.ProtoReflect.Descriptor instead.
+func (*ListReviewsResponse) Descriptor() ([]byte, []int) {
+	return file_examples_stability_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListReviewsResponse) GetReviews() []string {
+	if x != nil {
+		return x.Reviews
+	}
+	return nil
+}
+
+// Edition is a preview message nested in a stable message.
+type GetBookResponse_Edition struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Number        int32                  `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBookResponse_Edition) Reset() {
+	*x = GetBookResponse_Edition{}
+	mi := &file_examples_stability_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBookResponse_Edition) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBookResponse_Edition) ProtoMessage() {}
+
+func (x *GetBookResponse_Edition) ProtoReflect() protoreflect.Message {
+	mi := &file_examples_stability_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBookResponse_Edition.ProtoReflect.Descriptor instead.
+func (*GetBookResponse_Edition) Descriptor() ([]byte, []int) {
+	return file_examples_stability_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *GetBookResponse_Edition) GetNumber() int32 {
+	if x != nil {
+		return x.Number
+	}
+	return 0
+}
+
 var File_examples_stability_proto protoreflect.FileDescriptor
 
 const file_examples_stability_proto_rawDesc = "" +
@@ -215,16 +525,39 @@ const file_examples_stability_proto_rawDesc = "" +
 	"\x18examples/stability.proto\x12\bexamples\x1a\x1ecybozu/stability/options.proto\"P\n" +
 	"\x0eGetBookRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12.\n" +
-	"\x0finclude_reviews\x18\x02 \x01(\bB\x05\x82W\x02\b\x01R\x0eincludeReviews\"'\n" +
+	"\x0finclude_reviews\x18\x02 \x01(\bB\x05\x82W\x02\b\x01R\x0eincludeReviews\"\xc9\x02\n" +
 	"\x0fGetBookResponse\x12\x14\n" +
-	"\x05title\x18\x01 \x01(\tR\x05title\"1\n" +
+	"\x05title\x18\x01 \x01(\tR\x05title\x12,\n" +
+	"\x06format\x18\x02 \x01(\x0e2\x14.examples.BookFormatR\x06format\x12B\n" +
+	"\aedition\x18\x03 \x01(\v2!.examples.GetBookResponse.EditionB\x05\x82W\x02\b\x01R\aedition\x12B\n" +
+	"\abinding\x18\x04 \x01(\x0e2!.examples.GetBookResponse.BindingB\x05\x82W\x02\b\x01R\abinding\x1a(\n" +
+	"\aEdition\x12\x16\n" +
+	"\x06number\x18\x01 \x01(\x05R\x06number:\x05\x82W\x02\b\x01\"@\n" +
+	"\aBinding\x12\x17\n" +
+	"\x13BINDING_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11BINDING_HARDCOVER\x10\x01\x1a\x05\x82W\x02\b\x01\"1\n" +
 	"\x12SearchBooksRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query:\x05\x82W\x02\b\x01\".\n" +
 	"\x13SearchBooksResponse\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\tR\x03ids:\x05\x82W\x02\b\x012\xad\x01\n" +
+	"\x03ids\x18\x01 \x03(\tR\x03ids:\x05\x82W\x02\b\x01\"Z\n" +
+	"\x12ListReviewsRequest\x12\x17\n" +
+	"\abook_id\x18\x01 \x01(\tR\x06bookId\x12+\n" +
+	"\x05order\x18\x02 \x01(\x0e2\x15.examples.ReviewOrderR\x05order\"/\n" +
+	"\x13ListReviewsResponse\x12\x18\n" +
+	"\areviews\x18\x01 \x03(\tR\areviews*^\n" +
+	"\n" +
+	"BookFormat\x12\x1b\n" +
+	"\x17BOOK_FORMAT_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11BOOK_FORMAT_PAPER\x10\x01\x12\x1c\n" +
+	"\x11BOOK_FORMAT_AUDIO\x10\x02\x1a\x05\x82W\x02\b\x01*K\n" +
+	"\vReviewOrder\x12\x1c\n" +
+	"\x18REVIEW_ORDER_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13REVIEW_ORDER_NEWEST\x10\x01\x1a\x05\x82W\x02\b\x012\xad\x01\n" +
 	"\vBookService\x12>\n" +
 	"\aGetBook\x12\x18.examples.GetBookRequest\x1a\x19.examples.GetBookResponse\x12^\n" +
-	"\vSearchBooks\x12\x1c.examples.SearchBooksRequest\x1a\x1d.examples.SearchBooksResponse\"\x12\x82W\x0f\b\x01\x12\vbook-searchB\"Z github.com/cybozu/proto/examplesb\x06proto3"
+	"\vSearchBooks\x12\x1c.examples.SearchBooksRequest\x1a\x1d.examples.SearchBooksResponse\"\x12\x82W\x0f\b\x01\x12\vbook-search2f\n" +
+	"\x11BookReviewService\x12J\n" +
+	"\vListReviews\x12\x1c.examples.ListReviewsRequest\x1a\x1d.examples.ListReviewsResponse\x1a\x05\x82W\x02\b\x01B%Z#github.com/cybozu/protobuf/examplesb\x06proto3"
 
 var (
 	file_examples_stability_proto_rawDescOnce sync.Once
@@ -238,23 +571,36 @@ func file_examples_stability_proto_rawDescGZIP() []byte {
 	return file_examples_stability_proto_rawDescData
 }
 
-var file_examples_stability_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_examples_stability_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_examples_stability_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_examples_stability_proto_goTypes = []any{
-	(*GetBookRequest)(nil),      // 0: examples.GetBookRequest
-	(*GetBookResponse)(nil),     // 1: examples.GetBookResponse
-	(*SearchBooksRequest)(nil),  // 2: examples.SearchBooksRequest
-	(*SearchBooksResponse)(nil), // 3: examples.SearchBooksResponse
+	(BookFormat)(0),                 // 0: examples.BookFormat
+	(ReviewOrder)(0),                // 1: examples.ReviewOrder
+	(GetBookResponse_Binding)(0),    // 2: examples.GetBookResponse.Binding
+	(*GetBookRequest)(nil),          // 3: examples.GetBookRequest
+	(*GetBookResponse)(nil),         // 4: examples.GetBookResponse
+	(*SearchBooksRequest)(nil),      // 5: examples.SearchBooksRequest
+	(*SearchBooksResponse)(nil),     // 6: examples.SearchBooksResponse
+	(*ListReviewsRequest)(nil),      // 7: examples.ListReviewsRequest
+	(*ListReviewsResponse)(nil),     // 8: examples.ListReviewsResponse
+	(*GetBookResponse_Edition)(nil), // 9: examples.GetBookResponse.Edition
 }
 var file_examples_stability_proto_depIdxs = []int32{
-	0, // 0: examples.BookService.GetBook:input_type -> examples.GetBookRequest
-	2, // 1: examples.BookService.SearchBooks:input_type -> examples.SearchBooksRequest
-	1, // 2: examples.BookService.GetBook:output_type -> examples.GetBookResponse
-	3, // 3: examples.BookService.SearchBooks:output_type -> examples.SearchBooksResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: examples.GetBookResponse.format:type_name -> examples.BookFormat
+	9, // 1: examples.GetBookResponse.edition:type_name -> examples.GetBookResponse.Edition
+	2, // 2: examples.GetBookResponse.binding:type_name -> examples.GetBookResponse.Binding
+	1, // 3: examples.ListReviewsRequest.order:type_name -> examples.ReviewOrder
+	3, // 4: examples.BookService.GetBook:input_type -> examples.GetBookRequest
+	5, // 5: examples.BookService.SearchBooks:input_type -> examples.SearchBooksRequest
+	7, // 6: examples.BookReviewService.ListReviews:input_type -> examples.ListReviewsRequest
+	4, // 7: examples.BookService.GetBook:output_type -> examples.GetBookResponse
+	6, // 8: examples.BookService.SearchBooks:output_type -> examples.SearchBooksResponse
+	8, // 9: examples.BookReviewService.ListReviews:output_type -> examples.ListReviewsResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_examples_stability_proto_init() }
@@ -267,13 +613,14 @@ func file_examples_stability_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_examples_stability_proto_rawDesc), len(file_examples_stability_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   4,
+			NumEnums:      3,
+			NumMessages:   7,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_examples_stability_proto_goTypes,
 		DependencyIndexes: file_examples_stability_proto_depIdxs,
+		EnumInfos:         file_examples_stability_proto_enumTypes,
 		MessageInfos:      file_examples_stability_proto_msgTypes,
 	}.Build()
 	File_examples_stability_proto = out.File

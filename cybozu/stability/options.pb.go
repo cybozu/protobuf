@@ -15,10 +15,20 @@
 // - `cybozu.stability.enum_value` enum value option.
 //
 // An element without the option is stable (generally available), and the
-// standard `deprecated` option marks an element deprecated. An option on a
-// service, message or enum also covers every element inside it, so a new
-// preview method can be added to a stable service, or a new preview field to
-// a stable message.
+// standard `deprecated` option marks an element deprecated.
+//
+// Tools must classify an element by `stage`, not by whether the option is
+// present. An option whose `stage` is `STAGE_UNSPECIFIED` means the same as no
+// option, so the element is stable; a linter should report such an option as
+// a mistake.
+//
+// An option on a service, message or enum also covers every element inside
+// it, including nested messages and enums. So an element is preview when it
+// or any element that contains it is preview. A new preview method can be
+// added to a stable service, or a new preview field to a stable message, but
+// an element inside a preview container cannot be stable: the container may
+// still change or be removed, and the element with it. To make part of a
+// preview service stable, move it to a stable service.
 //
 // Tools read the options from the descriptors. For example, a breaking change
 // checker can leave preview elements out, and a documentation generator can
@@ -47,7 +57,8 @@ const (
 type Stage int32
 
 const (
-	// Not used. Leave the option out for a stable element.
+	// The same as no option: the element is stable. Leave the option out for a
+	// stable element instead of setting this.
 	Stage_STAGE_UNSPECIFIED Stage = 0
 	// The element may still change in a backward-incompatible way, or be
 	// removed. Clients must not depend on it in production.
@@ -100,6 +111,7 @@ type Stability struct {
 	Stage Stage `protobuf:"varint,1,opt,name=stage,proto3,enum=cybozu.stability.Stage" json:"stage,omitempty"`
 	// The name of the feature flag that gates the element, if any. Its format
 	// is up to the API owner; tools may check it against the flags they know.
+	// It is meaningful only with `STAGE_PREVIEW`.
 	ReleaseFlag   string `protobuf:"bytes,2,opt,name=release_flag,json=releaseFlag,proto3" json:"release_flag,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

@@ -4,7 +4,7 @@ package examples;
 
 import "cybozu/stability/options.proto";
 
-option go_package = "github.com/cybozu/proto/examples";
+option go_package = "github.com/cybozu/protobuf/examples";
 
 // BookService is stable, and so is every method without the option.
 service BookService {
@@ -20,6 +20,28 @@ service BookService {
   }
 }
 
+// BookReviewService is preview, and so are all its methods.
+service BookReviewService {
+  option (cybozu.stability.service) = {stage: STAGE_PREVIEW};
+
+  rpc ListReviews(ListReviewsRequest) returns (ListReviewsResponse);
+}
+
+// BookFormat is stable, but one of its values is preview.
+enum BookFormat {
+  BOOK_FORMAT_UNSPECIFIED = 0;
+  BOOK_FORMAT_PAPER = 1;
+  BOOK_FORMAT_AUDIO = 2 [(cybozu.stability.enum_value) = {stage: STAGE_PREVIEW}];
+}
+
+// ReviewOrder is preview, and so are all its values.
+enum ReviewOrder {
+  option (cybozu.stability.enum) = {stage: STAGE_PREVIEW};
+
+  REVIEW_ORDER_UNSPECIFIED = 0;
+  REVIEW_ORDER_NEWEST = 1;
+}
+
 message GetBookRequest {
   string id = 1;
 
@@ -29,6 +51,26 @@ message GetBookRequest {
 
 message GetBookResponse {
   string title = 1;
+  BookFormat format = 2;
+
+  // Edition is a preview message nested in a stable message.
+  message Edition {
+    option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+    int32 number = 1;
+  }
+
+  // Binding is a preview enum nested in a stable message.
+  enum Binding {
+    option (cybozu.stability.enum) = {stage: STAGE_PREVIEW};
+
+    BINDING_UNSPECIFIED = 0;
+    BINDING_HARDCOVER = 1;
+  }
+
+  // edition is a preview field nested in a stable message.
+  Edition edition = 3 [(cybozu.stability.field) = {stage: STAGE_PREVIEW}];
+  Binding binding = 4 [(cybozu.stability.field) = {stage: STAGE_PREVIEW}];
 }
 
 // SearchBooksRequest is preview, and so is everything inside it.
@@ -42,4 +84,13 @@ message SearchBooksResponse {
   option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
 
   repeated string ids = 1;
+}
+
+message ListReviewsRequest {
+  string book_id = 1;
+  ReviewOrder order = 2;
+}
+
+message ListReviewsResponse {
+  repeated string reviews = 1;
 }

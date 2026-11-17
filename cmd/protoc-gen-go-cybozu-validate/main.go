@@ -7,8 +7,17 @@ import (
 	"path/filepath"
 
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/pluginpb"
 )
+
+// skipPackages are the packages of the custom options. Their messages are
+// option values, not API messages, so they need no validation code, and their
+// Go packages must not depend on cybozu/validate.
+var skipPackages = map[protoreflect.FullName]struct{}{
+	"cybozu.validate":  {},
+	"cybozu.stability": {},
+}
 
 func main() {
 	opts := protogen.Options{}
@@ -30,7 +39,7 @@ func pluginMain(p *protogen.Plugin) error {
 			// nothing to generate
 			continue
 		}
-		if f.Desc.Package() == "cybozu.validate" {
+		if _, ok := skipPackages[f.Desc.Package()]; ok {
 			continue
 		}
 		filename := fmt.Sprintf("%s_cybozu_validate.pb.go", f.GeneratedFilenamePrefix)

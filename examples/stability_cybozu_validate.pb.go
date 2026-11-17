@@ -34,6 +34,34 @@ func (x *GetBookResponse) Validate() error {
 		v = norm.NFC.String(v)
 		x.Title = v
 	}
+	if v := x.Edition; true {
+		if v != nil {
+			if err := validate.CallValidate(v); err != nil {
+				if v, ok := err.(interface{ Unwrap() []error }); ok {
+					el = append(el, v.Unwrap()...)
+				} else {
+					el = append(el, err)
+				}
+			}
+		}
+	}
+
+	if err := validate.CallValidateCustom(x); err != nil {
+		if v, ok := err.(interface{ Unwrap() []error }); ok {
+			el = append(el, v.Unwrap()...)
+		} else {
+			el = append(el, err)
+		}
+	}
+
+	if len(el) == 0 {
+		return nil
+	}
+	return errors.Join(el...)
+}
+
+func (x *GetBookResponse_Edition) Validate() error {
+	var el []error
 
 	if err := validate.CallValidateCustom(x); err != nil {
 		if v, ok := err.(interface{ Unwrap() []error }); ok {
@@ -75,6 +103,48 @@ func (x *SearchBooksResponse) Validate() error {
 	for i, v := range x.Ids {
 		v = norm.NFC.String(v)
 		x.Ids[i] = v
+	}
+
+	if err := validate.CallValidateCustom(x); err != nil {
+		if v, ok := err.(interface{ Unwrap() []error }); ok {
+			el = append(el, v.Unwrap()...)
+		} else {
+			el = append(el, err)
+		}
+	}
+
+	if len(el) == 0 {
+		return nil
+	}
+	return errors.Join(el...)
+}
+
+func (x *ListReviewsRequest) Validate() error {
+	var el []error
+	if v := x.BookId; true {
+		v = norm.NFC.String(v)
+		x.BookId = v
+	}
+
+	if err := validate.CallValidateCustom(x); err != nil {
+		if v, ok := err.(interface{ Unwrap() []error }); ok {
+			el = append(el, v.Unwrap()...)
+		} else {
+			el = append(el, err)
+		}
+	}
+
+	if len(el) == 0 {
+		return nil
+	}
+	return errors.Join(el...)
+}
+
+func (x *ListReviewsResponse) Validate() error {
+	var el []error
+	for i, v := range x.Reviews {
+		v = norm.NFC.String(v)
+		x.Reviews[i] = v
 	}
 
 	if err := validate.CallValidateCustom(x); err != nil {
