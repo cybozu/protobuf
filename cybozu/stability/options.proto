@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+// Custom options to declare the stability of API elements.
+//
+// The custom options defined here are:
+// - `cybozu.stability.service` service option.
+// - `cybozu.stability.method` method option.
+// - `cybozu.stability.message` message option.
+// - `cybozu.stability.field` field option.
+// - `cybozu.stability.enum` enum option.
+// - `cybozu.stability.enum_value` enum value option.
+//
+// An element without the option is stable (generally available), and the
+// standard `deprecated` option marks an element deprecated.
+//
+// Tools must classify an element by `stage`, not by whether the option is
+// present. An option whose `stage` is `STAGE_UNSPECIFIED` means the same as no
+// option, so the element is stable; a linter should report such an option as
+// a mistake.
+//
+// An option on a service, message or enum also covers every element inside
+// it, including nested messages and enums. So an element is preview when it
+// or any element that contains it is preview. A new preview method can be
+// added to a stable service, or a new preview field to a stable message, but
+// an element inside a preview container cannot be stable: the container may
+// still change or be removed, and the element with it. To make part of a
+// preview service stable, move it to a stable service.
+//
+// The options are never inferred from how an element is used. A message used
+// only by preview methods is stable unless it has its own option. So a stable
+// element must not refer to a preview type: a stable field must not have a
+// preview message or enum type, and a stable method must not take or return a
+// preview message. A linter should report such a reference, because a breaking
+// change checker that leaves preview elements out would miss changes the
+// stable element depends on.
+//
+// Tools read the options from the descriptors. For example, a breaking change
+// checker can leave preview elements out, and a documentation generator can
+// label them.
+package cybozu.stability;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/cybozu/protobuf/cybozu/stability";
+
+// Stage is the launch stage of an element. It follows the stages of
+// `google.api.LaunchStage`.
+enum Stage {
+  // The same as no option: the element is stable. Leave the option out for a
+  // stable element instead of setting this.
+  STAGE_UNSPECIFIED = 0;
+
+  // The element may still change in a backward-incompatible way, or be
+  // removed. Clients must not depend on it in production.
+  STAGE_PREVIEW = 1;
+}
+
+// Stability declares the stability of an element.
+message Stability {
+  // The launch stage of the element.
+  Stage stage = 1;
+
+  // The name of the feature flag that gates the element, if any. Its format
+  // is up to the API owner; tools may check it against the flags they know.
+  // It is meaningful only with `STAGE_PREVIEW`.
+  string release_flag = 2;
+}
+
+// 1392 is registered for Cybozu in the Protobuf Global Extension Registry
+// (https://github.com/protocolbuffers/protobuf/blob/main/docs/options.md).
+
+extend google.protobuf.ServiceOptions {
+  // `service` declares the stability of a service and its methods.
+  Stability service = 1392;
+}
+
+extend google.protobuf.MethodOptions {
+  // `method` declares the stability of a method.
+  Stability method = 1392;
+}
+
+extend google.protobuf.MessageOptions {
+  // `message` declares the stability of a message and everything inside it.
+  Stability message = 1392;
+}
+
+extend google.protobuf.FieldOptions {
+  // `field` declares the stability of a field.
+  Stability field = 1392;
+}
+
+extend google.protobuf.EnumOptions {
+  // `enum` declares the stability of an enum and its values.
+  Stability enum = 1392;
+}
+
+extend google.protobuf.EnumValueOptions {
+  // `enum_value` declares the stability of an enum value.
+  Stability enum_value = 1392;
+}

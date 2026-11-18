@@ -1208,7 +1208,7 @@ const file_examples_validation_proto_rawDesc = "" +
 	"\x06Nested\x126\n" +
 	"\x05inner\x18\x01 \x01(\v2\x16.examples.Nested.InnerB\b\xdaI\x05\x8a\x01\x02\b\x01R\x05inner\x1a&\n" +
 	"\x05Inner\x12\x1d\n" +
-	"\x05int32\x18\x01 \x01(\x05B\a\xdaI\x04\x1a\x02\x18\x03R\x05int32B\"Z github.com/cybozu/proto/examplesb\x06proto3"
+	"\x05int32\x18\x01 \x01(\x05B\a\xdaI\x04\x1a\x02\x18\x03R\x05int32B%Z#github.com/cybozu/protobuf/examplesb\x06proto3"
 
 var (
 	file_examples_validation_proto_rawDescOnce sync.Once

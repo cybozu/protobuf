@@ -39,6 +39,20 @@ plugins:
     opt: paths=source_relative
 ```
 
+## `cybozu.stability`
+
+This protobuf package provides custom options to declare the stability of API
+elements: services, methods, messages, fields, enums and enum values.
+An element without the option, or with `STAGE_UNSPECIFIED`, is stable.
+An option on a service, message or enum also covers every element inside it,
+so an element inside a preview container is always preview.
+Nothing is inferred from use: a stable element must not refer to a preview
+message or enum.
+Read [examples/stability.proto](examples/stability.proto) for example usage.
+
+The options generate no code. Tools read them from the descriptors, for
+example to leave preview elements out of a breaking change check.
+
 ## API documentation
 
 Visit https://buf.build/cybozu/protobuf

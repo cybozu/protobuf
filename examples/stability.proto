@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package examples;
+
+import "cybozu/stability/options.proto";
+
+option go_package = "github.com/cybozu/protobuf/examples";
+
+// BookService is stable, and so is every method without the option.
+service BookService {
+  // GetBook is stable.
+  rpc GetBook(GetBookRequest) returns (GetBookResponse);
+
+  // SearchBooks is new, and may still change.
+  rpc SearchBooks(SearchBooksRequest) returns (SearchBooksResponse) {
+    option (cybozu.stability.method) = {
+      stage: STAGE_PREVIEW
+      release_flag: "book-search"
+    };
+  }
+}
+
+// BookReviewService is preview, and so are all its methods.
+service BookReviewService {
+  option (cybozu.stability.service) = {stage: STAGE_PREVIEW};
+
+  rpc ListReviews(ListReviewsRequest) returns (ListReviewsResponse);
+}
+
+// BookFormat is stable, but one of its values is preview.
+enum BookFormat {
+  BOOK_FORMAT_UNSPECIFIED = 0;
+  BOOK_FORMAT_PAPER = 1;
+  BOOK_FORMAT_AUDIO = 2 [(cybozu.stability.enum_value) = {stage: STAGE_PREVIEW}];
+}
+
+// ReviewOrder is preview, and so are all its values.
+enum ReviewOrder {
+  option (cybozu.stability.enum) = {stage: STAGE_PREVIEW};
+
+  REVIEW_ORDER_UNSPECIFIED = 0;
+  REVIEW_ORDER_NEWEST = 1;
+}
+
+message GetBookRequest {
+  string id = 1;
+
+  // include_reviews is a preview field of a stable message.
+  bool include_reviews = 2 [(cybozu.stability.field) = {stage: STAGE_PREVIEW}];
+}
+
+message GetBookResponse {
+  string title = 1;
+  BookFormat format = 2;
+
+  // Edition is a preview message nested in a stable message.
+  message Edition {
+    option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+    int32 number = 1;
+  }
+
+  // Binding is a preview enum nested in a stable message.
+  enum Binding {
+    option (cybozu.stability.enum) = {stage: STAGE_PREVIEW};
+
+    BINDING_UNSPECIFIED = 0;
+    BINDING_HARDCOVER = 1;
+  }
+
+  // edition is a preview field nested in a stable message.
+  Edition edition = 3 [(cybozu.stability.field) = {stage: STAGE_PREVIEW}];
+  Binding binding = 4 [(cybozu.stability.field) = {stage: STAGE_PREVIEW}];
+}
+
+// SearchBooksRequest is preview, and so is everything inside it.
+message SearchBooksRequest {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+  string query = 1;
+}
+
+message SearchBooksResponse {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+  repeated string ids = 1;
+}
+
+// ListReviewsRequest is preview with its own option. The option on
+// BookReviewService does not cover the messages its methods use.
+message ListReviewsRequest {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+  string book_id = 1;
+
+  // order may have a preview type because its message is preview.
+  ReviewOrder order = 2;
+}
+
+message ListReviewsResponse {
+  option (cybozu.stability.message) = {stage: STAGE_PREVIEW};
+
+  repeated string reviews = 1;
+}
