@@ -15,21 +15,24 @@ import "google/protobuf/descriptor.proto";
 
 option go_package = "github.com/cybozu/protobuf/cybozu/validate";
 
+// 1393 is registered for Cybozu in the Protobuf Global Extension Registry
+// (https://github.com/protocolbuffers/protobuf/blob/main/docs/options.md).
+
 extend google.protobuf.MessageOptions {
   // `ignored` stops generating `Validate()` method for this message.
-  bool ignored = 1179;
+  bool ignored = 1393;
 }
 
 extend google.protobuf.OneofOptions {
   // `required` ensures that a field in this oneof is set.
-  bool required = 1179;
+  bool required = 1393;
 }
 
 extend google.protobuf.FieldOptions {
   // `rules` specify the validations/normalizations to be performed on this field.
   // Note that a string field will always be normalized to the UNICODE NFC form
   // even if there is no rule specified.
-  FieldRules rules = 1179;
+  FieldRules rules = 1393;
 }
 
 // FieldRules encapsulates the rules for each type of field.
