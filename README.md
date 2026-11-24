@@ -26,6 +26,9 @@ $ go install github.com/cybozu/protobuf/cmd/protoc-gen-go-cybozu-validate@latest
 
 or download prebuilt binaries from [Releases](https://github.com/cybozu/protobuf/releases/latest).
 
+Use the same version of this repository for the protos and the code generator.
+The generator fails when they disagree on the extension numbers of the options.
+
 The following is an example `buf.gen.yaml` to generate validation code:
 
 ```yaml

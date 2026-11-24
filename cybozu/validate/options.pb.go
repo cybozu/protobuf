@@ -1356,25 +1356,25 @@ var file_cybozu_validate_options_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.MessageOptions)(nil),
 		ExtensionType: (*bool)(nil),
-		Field:         1179,
+		Field:         1393,
 		Name:          "cybozu.validate.ignored",
-		Tag:           "varint,1179,opt,name=ignored",
+		Tag:           "varint,1393,opt,name=ignored",
 		Filename:      "cybozu/validate/options.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.OneofOptions)(nil),
 		ExtensionType: (*bool)(nil),
-		Field:         1179,
+		Field:         1393,
 		Name:          "cybozu.validate.required",
-		Tag:           "varint,1179,opt,name=required",
+		Tag:           "varint,1393,opt,name=required",
 		Filename:      "cybozu/validate/options.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
 		ExtensionType: (*FieldRules)(nil),
-		Field:         1179,
+		Field:         1393,
 		Name:          "cybozu.validate.rules",
-		Tag:           "bytes,1179,opt,name=rules",
+		Tag:           "bytes,1393,opt,name=rules",
 		Filename:      "cybozu/validate/options.proto",
 	},
 }
@@ -1383,7 +1383,7 @@ var file_cybozu_validate_options_proto_extTypes = []protoimpl.ExtensionInfo{
 var (
 	// `ignored` stops generating `Validate()` method for this message.
 	//
-	// optional bool ignored = 1179;
+	// optional bool ignored = 1393;
 	E_Ignored = &file_cybozu_validate_options_proto_extTypes[0]
 )
 
@@ -1391,7 +1391,7 @@ var (
 var (
 	// `required` ensures that a field in this oneof is set.
 	//
-	// optional bool required = 1179;
+	// optional bool required = 1393;
 	E_Required = &file_cybozu_validate_options_proto_extTypes[1]
 )
 
@@ -1401,7 +1401,7 @@ var (
 	// Note that a string field will always be normalized to the UNICODE NFC form
 	// even if there is no rule specified.
 	//
-	// optional cybozu.validate.FieldRules rules = 1179;
+	// optional cybozu.validate.FieldRules rules = 1393;
 	E_Rules = &file_cybozu_validate_options_proto_extTypes[2]
 )
 
@@ -1538,9 +1538,12 @@ const file_cybozu_validate_options_proto_rawDesc = "" +
 	"\fdefined_only\x18\x02 \x01(\bR\vdefinedOnly\"*\n" +
 	"\fMessageRules\x12\x1a\n" +
 	"\brequired\x18\x01 \x01(\bR\brequired::\n" +
-	"\aignored\x12\x1f.google.protobuf.MessageOptions\x18\x9b\t \x01(\bR\aignored::\n" +
-	"\brequired\x12\x1d.google.protobuf.OneofOptions\x18\x9b\t \x01(\bR\brequired:Q\n" +
-	"\x05rules\x12\x1d.google.protobuf.FieldOptions\x18\x9b\t \x01(\v2\x1b.cybozu.validate.FieldRulesR\x05rulesB,Z*github.com/cybozu/protobuf/cybozu/validateb\x06proto3"
+	"\aignored\x12\x1f.google.protobuf.MessageOptions\x18\xf1\n" +
+	" \x01(\bR\aignored::\n" +
+	"\brequired\x12\x1d.google.protobuf.OneofOptions\x18\xf1\n" +
+	" \x01(\bR\brequired:Q\n" +
+	"\x05rules\x12\x1d.google.protobuf.FieldOptions\x18\xf1\n" +
+	" \x01(\v2\x1b.cybozu.validate.FieldRulesR\x05rulesB,Z*github.com/cybozu/protobuf/cybozu/validateb\x06proto3"
 
 var (
 	file_cybozu_validate_options_proto_rawDescOnce sync.Once
